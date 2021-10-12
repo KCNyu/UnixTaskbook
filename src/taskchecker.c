@@ -110,22 +110,22 @@ int fileexists(char *name)
 
 void printTask(char *name, char *language)
 {
-	char taskname[100];
-	char c;
-	sprintf(taskname, "./task/%s/%s.txt", language, name);
-	int f = open(taskname, O_RDONLY);
-	if (f == -1)
-	{
-		printf("open failed\n");
-		return;
-	}
 	printf("%sTASK INFO:%s\n", BLUE, RESET);
-	int n;
-	while ((n = read(f, &c, 1)) != 0)
+	char taskgroup = toupper(name[0]);
+	int tasknum = atoi(name + 1);
+	switch (taskgroup)
 	{
-		printf("%c", c);
+	case 'B':
+		if (strcmp(language, "ch") == 0)
+			printf("%s", BTaskInfoChinese[tasknum - 1]);
+		else
+			printf("%s", BTaskInfoRussian[tasknum - 1]);
+		break;
+	case 'C':
+		if (strcmp(language, "ch") == 0)
+			printf("%s", CTaskInfoChinese[tasknum - 1]);
+		else
+			printf("%s", CTaskInfoRussian[tasknum - 1]);
+		break;
 	}
-	close(f);
-	printf("\n");
-	getchar();
 }

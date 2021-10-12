@@ -1,5 +1,12 @@
 #include "taskC.h"
 #include "variable.h"
+
+const char *CTaskInfoRussian[] = {
+
+};
+const char *CTaskInfoChinese[] = {
+
+};
 char *textdata[] = {
     "Winnie-the-Pooh sat down at the foot of the tree,\nput his head between his paws and began to think.\n\nFirst of all he said to himself: \"That\nbuzzing-noise means something. You don't get a\nbuzzing-noise like that, just buzzing and buzzing,\nwithout its meaning something. If there's a\nbuzzing-noise, somebody's making a buzzing-noise,\nand the only reason for making a buzzing-noise\nthat I know of is because you're a bee.\"\n\nThen he thought another long time, and said: \"And\nthe only reason for being a bee that I know of is\nmaking honey.\"\n\nAnd then he got up, and said: \"And the only reason\nfor making honey is so as I can eat it.\" So he\nbegan to climb the tree.\n",
     "\"Oh, help!\" said Pooh, as he dropped ten feet on\nthe branch below him.\n\n\"If only I hadn't -\" he said, as he bounced twenty\nfeet on to the next branch.\n\n\"You see, what I meant to do,\" he explained, as he\nturned head-over-heels, and crashed on to another\nbranch thirty feet below, \"what I meant to do -\"\n\n\"Of course, it was rather -\" he admitted, as he\nslithered very quickly through the next six\nbranches.\n\n\"It all comes, I suppose,\" he decided, as he said\ngood-bye to the last branch, spun round three\ntimes, and flew gracefully into a gorse-bush, \"it\nall comes of liking honey so much. Oh, help!\"\n",
@@ -86,7 +93,6 @@ char *textdata[] = {
     "\"Now then, Eeyore,\" he said.\n\n\"Don't Bustle me,\" said Eeyore, getting up slowly.\n\"Don't now-then me.\" He took a piece of paper from\nbehind his ear, and unfolded it. \"Nobody knows\nanything about this,\" he went on. \"This is a\nSurprise.\" He coughed in an important way, and\nbegan again: \"What-nots and Etceteras, before I\nbegin, or perhaps I should say, before I end, I\nhave a piece of Poetry to read to you. Hitherto -\nhitherto - a long word meaning - well, you'll see\nwhat it means directly - hitherto, as I was\nsaying, all the Poetry in the Forest has been\nwritten by Pooh, a Bear with a Pleasing Manner but\na Positively Startling Lack of Brain. The Poem\nwhich I am now about to read to you was written by\nEeyore, or Myself, in a Quiet Moment. If somebody\nwill take Roo's bull's eye away from him, and wake\nup Owl, we shall all be able to enjoy it. I call\nit - POEM.\"\n",
     "\"Is it a very Grand thing to be an Afternoon, what\nyou said?\"\n\n\"A what?\" said Christopher Robin lazily, as he\nlistened to something else.\n\n\"On a horse,\" explained Pooh.\n\n\"A Knight?\"\n\n\"Oh, was that it?\" said Pooh. \"I thought it was a\n- Is it as Grand as a King and Factors and all the\nother things you said?\"\n\n\"Well, it's not as grand as a King,\" said\nChristopher Robin, and then, as Pooh seemed\ndisappointed, he added quickly, \"but it's grander\nthan Factors.\"\n\n\"Could a Bear be one?\"\n\n\"Of course he could!\" said Christopher Robin.\n\"I'll make you one.\" And he took a stick and\ntouched Pooh on the shoulder, and said, \"Rise, Sir\nPooh de Bear, most faithful of all my Knights.\"\n\nSo Pooh rose and sat down and said \"Thank you,\"\nwhich is a proper thing to say when you have been\nmade a Knight.\n",
     "\"Pooh, when I'm - you know - when I'm not doing\nNothing, will you come up here sometimes?\"\n\n\"Just Me?\"\n\n\"Yes, Pooh.\"\n\n\"Will you be here too?\"\n\n\"Yes, Pooh, I will be really. I promise I will be,\nPooh.\"\n\n\"That's good,\" said Pooh.\n\n\"Pooh, promise you won't forget about me, ever.\nNot even when I'm a hundred.\"\n\nPooh thought for a little.\n\n\"How old shall I be then?\"\n\n\"Ninety-nine.\"\n\nPooh nodded.\n\n\"I promise,\" he said.\n"};
-
 void dataC(char *filename, char *filename2, int *nargs, int tasknum, int testnum)
 {
 	for (int i = 0; i < 8; i++)

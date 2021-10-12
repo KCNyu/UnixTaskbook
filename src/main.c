@@ -6,13 +6,22 @@ int main(int argc, char *argv[])
 	removetstfiles();
 	if (argc < 2)
 	{
-		printf("Format: TaskChecker <task name> <checking program>(optional) [<number of file lines>]\n");
+		printf("Format: TaskChecker <task name[.language]> [<checking program>] [<number of file lines>]\n");
+		printf("language options: %s.ru .ch .en\n%s", GREEN, RESET);
 		exit(2);
 	}
 	if (argc > 2 && !fileexists(argv[2]))
 	{
 		printf("Error: Checked program %s not found\n", argv[2]);
 		exit(3);
+	}
+	char language[10];
+	strcpy(language, argv[1]);
+	char *p = strrchr(language, '.');
+	if (p != NULL)
+	{
+		strcpy(language, p + 1);
+		*p = '\0';
 	}
 	char taskgroup = toupper(argv[1][0]);
 	int tasknum = atoi(argv[1] + 1);
@@ -41,27 +50,16 @@ int main(int argc, char *argv[])
 		flines = 5;
 	if (argc >= 2)
 	{
-		printf("%sChoose the number to represent the language\n1-Russian\n2-Chinese\n%s(default-Russian)\n%s", BLUE, GREEN, RESET);
-		char tmp = getchar();
-		if (tmp == '2')
-		{
-			printTask(argv[1], "Chinese");
-		}
-		else
-		{
-			printTask(argv[1], "Russian");
-		}
+		printTask(argv[1], language);
 		if (argc == 2)
-		{
 			exit(0);
-		}
 	}
 	char logfilename[150];
 	strcpy(logfilename, argv[2]);
 	strcat(logfilename, ".gcclog");
 	char outfilename[300];
 	strcpy(outfilename, argv[2]);
-	char *p = strrchr(outfilename, '.');
+	p = strrchr(outfilename, '.');
 	if (p != NULL)
 		*p = '\0';
 	strcat(outfilename, ".out");
