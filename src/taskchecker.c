@@ -108,7 +108,7 @@ int fileexists(char *name)
 	return 1;
 }
 
-void PrintTask(char *name, char *language)
+void printTask(char *name, char *language)
 {
 	char taskname[100];
 	char c;

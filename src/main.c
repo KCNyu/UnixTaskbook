@@ -4,12 +4,12 @@ int main(int argc, char *argv[])
 {
 	srand((unsigned)time(0));
 	removetstfiles();
-	if (argc < 3)
+	if (argc < 2)
 	{
-		printf("Format: TaskChecker <task name> <checking program> [<number of file lines>]\n");
+		printf("Format: TaskChecker <task name> <checking program>(optional) [<number of file lines>]\n");
 		exit(2);
 	}
-	if (!fileexists(argv[2]))
+	if (argc > 2 && !fileexists(argv[2]))
 	{
 		printf("Error: Checked program %s not found\n", argv[2]);
 		exit(3);
@@ -39,7 +39,23 @@ int main(int argc, char *argv[])
 		flines = atoi(argv[3]);
 	if (flines <= 0)
 		flines = 5;
-	PrintTask(argv[1],"Russian");
+	if (argc >= 2)
+	{
+		printf("%sChoose the number to represent the language\n1-Russian\n2-Chinese\n%s(default-Russian)\n%s", BLUE, GREEN, RESET);
+		char tmp = getchar();
+		if (tmp == '2')
+		{
+			printTask(argv[1], "Chinese");
+		}
+		else
+		{
+			printTask(argv[1], "Russian");
+		}
+		if (argc == 2)
+		{
+			exit(0);
+		}
+	}
 	char logfilename[150];
 	strcpy(logfilename, argv[2]);
 	strcat(logfilename, ".gcclog");
