@@ -38,6 +38,9 @@ int main(int argc, char *argv[])
 	case 'C':
 		maxtasknum = 16;
 		break;
+	case 'D':
+		maxtasknum = 9;
+		break;
 	}
 	if (tasknum < 1 || tasknum > maxtasknum)
 	{
@@ -136,8 +139,19 @@ int main(int argc, char *argv[])
 				showfile(filename2, "Input file2: ", 2);
 			}
 			break;
+		case 'D':
+			dataD(filename, &nargs, tasknum, tt); 
+			sprintf(cmd, "%s ", outfilename);
+			for (int i = 1; i <= nargs; i++)
+			{
+				strcat(cmd, args[i]);
+				strcat(cmd, " ");
+			}
+			puts(cmd);
+			break;
 		}
 		printf("Program output:\n%s\n", hline);
+		int f;
 		pid = fork();
 		if (pid == 0)
 		{
@@ -151,6 +165,14 @@ int main(int argc, char *argv[])
 					execl(outfilename, outfilename, args[1], (char *)0);
 				else if (nargs == 2)
 					execl(outfilename, outfilename, args[1], args[2], (char *)0);
+				break;
+			case 'D':
+				f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+				dup2(f,STDOUT_FILENO);
+				close(f);
+				args[0] = (char*)malloc(50);
+				args[0] = outfilename;
+				execv(outfilename, args);
 				break;
 			}
 			printf("%sError when running program %s\n%s.", RED, outfilename, RESET);
@@ -174,6 +196,9 @@ int main(int argc, char *argv[])
 			break;
 		case 'C':
 			rescomp = filecompareC(filename, controlfilename);
+			break;
+		case 'D':
+			rescomp = filecompareD(filename, controlfilename);
 			break;
 		}
 		switch (rescomp)

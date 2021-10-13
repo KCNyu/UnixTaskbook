@@ -99,6 +99,24 @@ int filecompareC(char *name1, char *name2)
 	return res;
 }
 
+int filecompareD(char *name1, char *name2)
+{
+	int f1 = open(name1, O_RDONLY);
+	int f2 = open(name2, O_RDONLY);
+	char buf1[200];
+	char buf2[200];
+	int n1 = read(f1, buf1, sizeof(buf1));
+	int n2 = read(f2, buf2, sizeof(buf2));
+	close(f1);
+	close(f2);
+	if (n1 != n2)
+		return 1;
+	for (int i = 0; i < n1; i++)
+		if (buf1[i] != buf2[i])
+			return 2;
+	return 0;
+}
+
 int fileexists(char *name)
 {
 	int f = open(name, O_RDONLY);
@@ -126,6 +144,12 @@ void printTask(char *name, char *language)
 			printf("%s", CTaskInfoChinese[tasknum - 1]);
 		else
 			printf("%s", CTaskInfoRussian[tasknum - 1]);
+		break;
+	case 'D':
+		if (strcmp(language, "ch") == 0)
+			printf("%s", DTaskInfoChinese[tasknum - 1]);
+		else
+			printf("%s", DTaskInfoRussian[tasknum - 1]);
 		break;
 	}
 }
