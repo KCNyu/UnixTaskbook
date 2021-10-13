@@ -1,4 +1,4 @@
-#ifndef TASKB_H 
+#ifndef TASKB_H
 #define TASKB_H
 
 #include "utilities.h"
