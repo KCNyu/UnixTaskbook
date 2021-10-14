@@ -6,7 +6,7 @@ const char *DTaskInfoRussian[] = {
 };
 const char *DTaskInfoChinese[] = {
 	"一"
-};	
+};
 void dataD(char *filename, int *nargs, int tasknum, int testnum)
 {
 	for (int i = 0; i < 8; i++)

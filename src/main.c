@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 			}
 			break;
 		case 'D':
-			dataD(filename, &nargs, tasknum, tt); 
+			dataD(filename, &nargs, tasknum, tt);
 			sprintf(cmd, "%s ", outfilename);
 			for (int i = 1; i <= nargs; i++)
 			{
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 				dup2(f,STDOUT_FILENO);
 				close(f);
 				args[0] = (char*)malloc(50);
-				args[0] = outfilename;
+                strcpy(args[0],filename);
 				execv(outfilename, args);
 				break;
 			}
