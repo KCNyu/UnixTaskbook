@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 void err_sys(const char *info);
 ssize_t readline(int fd, void *sbuf, size_t sbufsize);

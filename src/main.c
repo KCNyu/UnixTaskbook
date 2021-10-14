@@ -6,29 +6,74 @@ int main(int argc, char *argv[])
 	removetstfiles();
 	if (argc < 2)
 	{
-		printf("Format: TaskChecker <task name[.language]> [<checking program>] [<number of file lines>]\n");
-		printf("language options: %s.ru .ch .en\n%s", GREEN, RESET);
+		printHelp();
 		exit(2);
 	}
-	if (argc > 2 && !fileexists(argv[2]))
+	bool flag = false;
+	char taskgroup;
+	int tasknum;
+	char *program = NULL;
+	char language[10] = "ru";
+	for (int i = 1; i < argc; i++)
 	{
-		printf("Error: Checked program %s not found\n", argv[2]);
-		exit(3);
+		if (flag)
+		{
+			flag = false;
+			continue;
+		}
+		if (VALID_ARG("-t", "--taskname"))
+		{
+			if (VALID_I(i))
+			{
+				taskgroup = toupper(argv[i + 1][0]);
+				tasknum = atoi(argv[i + 1] + 1);
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-l", "--language"))
+		{
+			if (VALID_I(i))
+			{
+				strcpy(language, argv[i + 1]);
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-p", "--program"))
+		{
+			if (VALID_I(i))
+			{
+				program = argv[i + 1];
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-d", "--directory"))
+		{
+		}
+		else if (VALID_ARG("-n", "--number"))
+		{
+			if (VALID_I(i))
+			{
+				flines = atoi(argv[i + 1]);
+				if (flines <= 0)
+					flines = 5;
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-h", "--help"))
+		{
+			printHelp();
+			exit(2);
+		}
+		else
+		{
+			printf("Error: invalid option '%s'\n", argv[i]);
+			exit(2);
+		}
 	}
-	char language[10];
-	strcpy(language, argv[1]);
-	char *p = strrchr(language, '.');
-	if (p != NULL)
-	{
-		strcpy(language, p + 1);
-		*p = '\0';
-	}
-	char taskgroup = toupper(argv[1][0]);
-	int tasknum = atoi(argv[1] + 1);
 	if (taskgroup < firsttaskgroup || taskgroup > lasttaskgroup)
 	{
 		printf("Error: Wrong task group: %c\n", taskgroup);
-		exit(4);
+		exit(3);
 	}
 	switch (taskgroup)
 	{
@@ -45,24 +90,25 @@ int main(int argc, char *argv[])
 	if (tasknum < 1 || tasknum > maxtasknum)
 	{
 		printf("Error: Wrong task number: %d\n", tasknum);
-		exit(5);
+		exit(4);
 	}
-	if (argc > 3)
-		flines = atoi(argv[3]);
-	if (flines <= 0)
-		flines = 5;
 	if (argc >= 2)
 	{
-		printTask(argv[1], language);
-		if (argc == 2)
+		printTask(taskgroup, tasknum, language);
+		if (argc == 2 || program == NULL)
 			exit(0);
 	}
+	if (!fileexists(program))
+	{
+		printf("Error: Checked program %s not found\n", argv[2]);
+		exit(5);
+	}
 	char logfilename[150];
-	strcpy(logfilename, argv[2]);
+	strcpy(logfilename, program);
 	strcat(logfilename, ".gcclog");
 	char outfilename[300];
-	strcpy(outfilename, argv[2]);
-	p = strrchr(outfilename, '.');
+	strcpy(outfilename, program);
+	char *p = strrchr(outfilename, '.');
 	if (p != NULL)
 		*p = '\0';
 	strcat(outfilename, ".out");
@@ -76,7 +122,7 @@ int main(int argc, char *argv[])
 	{
 		dup2(flog, 2);
 		close(flog);
-		execlp("gcc", "gcc", "-Wall", argv[2], "-o", outfilename, (char *)0);
+		execlp("gcc", "gcc", "-Wall", program, "-o", outfilename, (char *)0);
 		err_sys("Error when running gcc: ");
 	}
 
@@ -89,7 +135,7 @@ int main(int argc, char *argv[])
 	{
 		printf("%sError: Compiler outputs some error messages (see file %s):%s\n", RED, logfilename, RESET);
 		showfile(logfilename, "", 0);
-		exit(5);
+		exit(6);
 	}
 	struct stat statbuf;
 	stat(logfilename, &statbuf);
@@ -168,10 +214,10 @@ int main(int argc, char *argv[])
 				break;
 			case 'D':
 				f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-				dup2(f,STDOUT_FILENO);
+				dup2(f, STDOUT_FILENO);
 				close(f);
-				args[0] = (char*)malloc(50);
-                strcpy(args[0],filename);
+				args[0] = (char *)malloc(50);
+				strcpy(args[0], filename);
 				execv(outfilename, args);
 				break;
 			}
@@ -182,7 +228,7 @@ int main(int argc, char *argv[])
 		printf("\n%s\n", hline);
 		if (pid < 0)
 			err_sys("Error during running: ");
-		//puts("Program successfully finished.");
+		// puts("Program successfully finished.");
 		for (int i = 0; i < 10; i++)
 			free(args[i]);
 

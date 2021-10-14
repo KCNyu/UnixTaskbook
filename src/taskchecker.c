@@ -126,11 +126,9 @@ int fileexists(char *name)
 	return 1;
 }
 
-void printTask(char *name, char *language)
+void printTask(char taskgroup, int tasknum, char *language)
 {
 	printf("%sTASK INFO:%s\n", BLUE, RESET);
-	char taskgroup = toupper(name[0]);
-	int tasknum = atoi(name + 1);
 	switch (taskgroup)
 	{
 	case 'B':
@@ -152,4 +150,16 @@ void printTask(char *name, char *language)
 			printf("%s", DTaskInfoRussian[tasknum - 1]);
 		break;
 	}
+}
+
+void printHelp()
+{
+	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n",BLUE,RESET);
+	printf("Development of a system for automatic verification of educational tasks in Linux.\nMandatory arguments to long options are mandatory for short options too.\n");
+	printf("-t, --taskname		  display the taskInfo\n");
+	printf("-l, --language		  language be displayed  <default Russian> <support [ru] [en] [ch]>\n");
+	printf("-p, --program		  check single program\n");
+	printf("-d, --directory		  check all programs in the directory\n");
+	printf("-n, --number		  number of file lines\n");
+	printf("-h, --help		  display this help and exit\n");
 }
