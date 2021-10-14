@@ -103,8 +103,8 @@ int filecompareD(char *name1, char *name2)
 {
 	int f1 = open(name1, O_RDONLY);
 	int f2 = open(name2, O_RDONLY);
-	char buf1[200];
-	char buf2[200];
+	char buf1[50000];
+	char buf2[50000];
 	int n1 = read(f1, buf1, sizeof(buf1));
 	int n2 = read(f2, buf2, sizeof(buf2));
 	close(f1);

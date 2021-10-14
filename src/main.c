@@ -188,12 +188,13 @@ int main(int argc, char *argv[])
 		case 'D':
 			dataD(filename, &nargs, tasknum, tt);
 			sprintf(cmd, "%s ", outfilename);
-			for (int i = 1; i <= nargs; i++)
+			for (int i = 1; i < nargs; i++)
 			{
 				strcat(cmd, args[i]);
 				strcat(cmd, " ");
 			}
 			puts(cmd);
+			//showfile(filename, "Input file: ", 0);
 			break;
 		}
 		printf("Program output:\n%s\n", hline);
@@ -222,16 +223,18 @@ int main(int argc, char *argv[])
 				break;
 			}
 			printf("%sError when running program %s\n%s.", RED, outfilename, RESET);
-			exit(6);
+			exit(7);
 		}
 		pid = waitpid(pid, &status, 0);
 		printf("\n%s\n", hline);
 		if (pid < 0)
 			err_sys("Error during running: ");
 		// puts("Program successfully finished.");
-		for (int i = 0; i < 10; i++)
-			free(args[i]);
 
+		for (int i = 0; i < 10; i++)
+		{
+			free(args[i]);
+		}
 		printf("%sChecking results...\n%s", BLUE, RESET);
 		showfile(filename, "Result file: ", 2);
 		int rescomp;
