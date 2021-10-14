@@ -1,4 +1,4 @@
 #!/bin/bash
 
 make
-./TaskChecker B14 ./test/B14.c
+./TaskChecker -t B14 -l ch -p ./test/B14.c
