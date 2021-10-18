@@ -154,7 +154,7 @@ void printTask(char taskgroup, int tasknum, char *language)
 
 void printHelp()
 {
-	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n",BLUE,RESET);
+	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n", BLUE, RESET);
 	printf("Development of a system for automatic verification of educational tasks in Linux.\nMandatory arguments to long options are mandatory for short options too.\n");
 	printf("-t, --taskname		  display the taskInfo\n");
 	printf("-l, --language		  language be displayed  <default Russian> <support [ru] [en] [ch]>\n");
