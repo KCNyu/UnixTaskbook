@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 				strcat(cmd, " ");
 			}
 			puts(cmd);
-			//showfile(filename, "Input file: ", 0);
+			// showfile(filename, "Input file: ", 0);
 			break;
 		}
 		printf("Program output:\n%s\n", hline);

@@ -34,29 +34,29 @@ void dataD(char *filename, int *nargs, int tasknum, int testnum)
 			if (i != 2)
 			{
 				strcat(sys_cmd, args[i]);
-				strcat(sys_cmd," ");
+				strcat(sys_cmd, " ");
 				if (i == size_cmd1)
-					strcat(sys_cmd,";");
+					strcat(sys_cmd, ";");
 			}
 		}
 		else
 		{
 			strcpy(args[i], cmd2[i - size_cmd1 - 1]);
-			if (i != size_cmd1+2)
+			if (i != size_cmd1 + 2)
 			{
 				strcat(sys_cmd, args[i]);
-				strcat(sys_cmd," ");
+				strcat(sys_cmd, " ");
 			}
 		}
 	}
 	// end
 	f = open(controlfilename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	int backup = dup(STDOUT_FILENO);
-	dup2(f, STDOUT_FILENO);
-	close(f);
 	switch (tasknum)
 	{
 	case 1:
+        dup2(f, STDOUT_FILENO);
+        close(f);
 		system(sys_cmd);
 		break;
 	default:
