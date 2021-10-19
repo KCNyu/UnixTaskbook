@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 				strcat(cmd, " ");
 			}
 			puts(cmd);
-			//showfile(filename, "Input file: ", 0);
+			// showfile(filename, "Input file: ", 0);
 			break;
 		}
 		printf("Program output:\n%s\n", hline);
@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
 					execl(outfilename, outfilename, args[1], args[2], (char *)0);
 				break;
 			case 'D':
-				f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+				f = open(filename, O_WRONLY , 0777);
 				dup2(f, STDOUT_FILENO);
 				close(f);
 				args[0] = (char *)malloc(50);
