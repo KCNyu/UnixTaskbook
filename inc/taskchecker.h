@@ -9,9 +9,8 @@
 
 void removetstfiles();
 void showfile(char *name, char *comment, int filetype);
-int filecompareB(char *name1, char *name2);
-int filecompareC(char *name1, char *name2);
-int filecompareD(char *name1, char *name2);
+int (*filecompare)(int count, ...);
+void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language);
 int fileexists(char *name);
 void printTask(char taskgroup, int tasknum, char *language);
 void printHelp();

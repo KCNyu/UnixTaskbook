@@ -151,10 +151,69 @@ void printTask(char taskgroup, int tasknum, char *language)
 		break;
 	}
 }
-
+void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language)
+{
+	bool flag = false;
+	for (int i = 1; i < argc; i++)
+	{
+		if (flag)
+		{
+			flag = false;
+			continue;
+		}
+		if (VALID_ARG("-t", "--taskname"))
+		{
+			if (VALID_I(i))
+			{
+				*taskgroup = toupper(argv[i + 1][0]);
+				*tasknum = atoi(argv[i + 1] + 1);
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-l", "--language"))
+		{
+			if (VALID_I(i))
+			{
+				strcpy(language, argv[i + 1]);
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-p", "--program"))
+		{
+			if (VALID_I(i))
+			{
+				strcpy(program, argv[i + 1]);
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-d", "--directory"))
+		{
+		}
+		else if (VALID_ARG("-n", "--number"))
+		{
+			if (VALID_I(i))
+			{
+				flines = atoi(argv[i + 1]);
+				if (flines <= 0)
+					flines = 5;
+				flag = true;
+			}
+		}
+		else if (VALID_ARG("-h", "--help"))
+		{
+			printHelp();
+			exit(2);
+		}
+		else
+		{
+			printf("Error: invalid option '%s'\n", argv[i]);
+			exit(2);
+		}
+	}
+}
 void printHelp()
 {
-	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n",BLUE,RESET);
+	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n", BLUE, RESET);
 	printf("Development of a system for automatic verification of educational tasks in Linux.\nMandatory arguments to long options are mandatory for short options too.\n");
 	printf("-t, --taskname		  display the taskInfo\n");
 	printf("-l, --language		  language be displayed  <default Russian> <support [ru] [en] [ch]>\n");

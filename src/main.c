@@ -1,5 +1,5 @@
 #include "taskchecker.h"
-
+#include <dlfcn.h>
 int main(int argc, char *argv[])
 {
 	srand((unsigned)time(0));
@@ -9,72 +9,27 @@ int main(int argc, char *argv[])
 		printHelp();
 		exit(2);
 	}
-	bool flag = false;
 	char taskgroup;
 	int tasknum;
-	char *program = NULL;
+	char program[10];
 	char language[10] = "ru";
-	for (int i = 1; i < argc; i++)
-	{
-		if (flag)
-		{
-			flag = false;
-			continue;
-		}
-		if (VALID_ARG("-t", "--taskname"))
-		{
-			if (VALID_I(i))
-			{
-				taskgroup = toupper(argv[i + 1][0]);
-				tasknum = atoi(argv[i + 1] + 1);
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-l", "--language"))
-		{
-			if (VALID_I(i))
-			{
-				strcpy(language, argv[i + 1]);
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-p", "--program"))
-		{
-			if (VALID_I(i))
-			{
-				program = argv[i + 1];
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-d", "--directory"))
-		{
-		}
-		else if (VALID_ARG("-n", "--number"))
-		{
-			if (VALID_I(i))
-			{
-				flines = atoi(argv[i + 1]);
-				if (flines <= 0)
-					flines = 5;
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-h", "--help"))
-		{
-			printHelp();
-			exit(2);
-		}
-		else
-		{
-			printf("Error: invalid option '%s'\n", argv[i]);
-			exit(2);
-		}
-	}
+	analyseCmd(argc, argv, &taskgroup, &tasknum, program, language);	
+	
 	if (taskgroup < firsttaskgroup || taskgroup > lasttaskgroup)
 	{
 		printf("Error: Wrong task group: %c\n", taskgroup);
 		exit(3);
 	}
+	
+	char tasklib[20];
+	sprintf(tasklib,"./lib/libtask%c.so",taskgroup);
+	/*
+	if(fileexists(tasklib))
+	{
+		printf("Error: Wrong task group: %c\n", taskgroup);
+		exit(3);
+	}
+	*/
 	switch (taskgroup)
 	{
 	case 'B':
