@@ -8,8 +8,6 @@ extern char *hline;
 extern int totaltests;
 extern int maxtasknum;
 extern int flines;
-extern char firsttaskgroup;
-extern char lasttaskgroup;
 extern char cmd[1000];
 extern char *args[10];
 extern int textdatasize;

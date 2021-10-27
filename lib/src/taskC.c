@@ -1,10 +1,11 @@
 #include "taskC.h"
-#include "variable.h"
-
-const char *CTaskInfoRussian[] = {
+char *testfileext = ".tst";
+char *controlfilename = "_control.tst";
+int textdatasize = 85;
+const char *TaskInfoRussian[] = {
 
 };
-const char *CTaskInfoChinese[] = {
+const char *TaskInfoChinese[] = {
 
 };
 char *textdata[] = {
@@ -93,7 +94,41 @@ char *textdata[] = {
     "\"Now then, Eeyore,\" he said.\n\n\"Don't Bustle me,\" said Eeyore, getting up slowly.\n\"Don't now-then me.\" He took a piece of paper from\nbehind his ear, and unfolded it. \"Nobody knows\nanything about this,\" he went on. \"This is a\nSurprise.\" He coughed in an important way, and\nbegan again: \"What-nots and Etceteras, before I\nbegin, or perhaps I should say, before I end, I\nhave a piece of Poetry to read to you. Hitherto -\nhitherto - a long word meaning - well, you'll see\nwhat it means directly - hitherto, as I was\nsaying, all the Poetry in the Forest has been\nwritten by Pooh, a Bear with a Pleasing Manner but\na Positively Startling Lack of Brain. The Poem\nwhich I am now about to read to you was written by\nEeyore, or Myself, in a Quiet Moment. If somebody\nwill take Roo's bull's eye away from him, and wake\nup Owl, we shall all be able to enjoy it. I call\nit - POEM.\"\n",
     "\"Is it a very Grand thing to be an Afternoon, what\nyou said?\"\n\n\"A what?\" said Christopher Robin lazily, as he\nlistened to something else.\n\n\"On a horse,\" explained Pooh.\n\n\"A Knight?\"\n\n\"Oh, was that it?\" said Pooh. \"I thought it was a\n- Is it as Grand as a King and Factors and all the\nother things you said?\"\n\n\"Well, it's not as grand as a King,\" said\nChristopher Robin, and then, as Pooh seemed\ndisappointed, he added quickly, \"but it's grander\nthan Factors.\"\n\n\"Could a Bear be one?\"\n\n\"Of course he could!\" said Christopher Robin.\n\"I'll make you one.\" And he took a stick and\ntouched Pooh on the shoulder, and said, \"Rise, Sir\nPooh de Bear, most faithful of all my Knights.\"\n\nSo Pooh rose and sat down and said \"Thank you,\"\nwhich is a proper thing to say when you have been\nmade a Knight.\n",
     "\"Pooh, when I'm - you know - when I'm not doing\nNothing, will you come up here sometimes?\"\n\n\"Just Me?\"\n\n\"Yes, Pooh.\"\n\n\"Will you be here too?\"\n\n\"Yes, Pooh, I will be really. I promise I will be,\nPooh.\"\n\n\"That's good,\" said Pooh.\n\n\"Pooh, promise you won't forget about me, ever.\nNot even when I'm a hundred.\"\n\nPooh thought for a little.\n\n\"How old shall I be then?\"\n\n\"Ninety-nine.\"\n\nPooh nodded.\n\n\"I promise,\" he said.\n"};
-void dataC(char *filename, char *filename2, int *nargs, int tasknum, int testnum)
+// readline implementation=====================================
+
+ssize_t readline(int fd, void *sbuf, size_t sbufsize)
+{
+	ssize_t n, rc;
+	char c, *ptr;
+	ptr = sbuf;
+	for (n = 1; n < sbufsize; n++)
+	{
+		if ((rc = read(fd, &c, 1)) == 1)
+		{
+			if (c == '\r')
+			{
+				n--;
+				continue;
+			}
+			*ptr++ = c;
+			if (c == '\n')
+			{
+				*ptr = 0;
+				return n;
+			}
+		}
+		else if (rc == 0)
+		{
+			*ptr = 0;
+			return n - 1;
+		}
+		else
+			return -1;
+	}
+	*ptr = 0;
+	return n - 1;
+}
+void data(char** args, char *filename, char *filename2, int *nargs, int tasknum, int testnum)
 {
 	for (int i = 0; i < 8; i++)
 		filename[i] = (char)(rand() % 26 + 97);
@@ -371,4 +406,44 @@ void dataC(char *filename, char *filename2, int *nargs, int tasknum, int testnum
 	close(f1);
 	if (usef2)
 		close(f2);
+}
+int filecompare(char *name1, char *name2)
+{
+	int f1 = open(name1, O_RDONLY);
+	int f2 = open(name2, O_RDONLY);
+	char buf1[100];
+	char buf2[100];
+	int res = 0;
+	int n1, n2;
+	while (1)
+	{
+		n1 = readline(f1, buf1, 100);
+		n2 = readline(f2, buf2, 100);
+		if (n1 != n2)
+		{
+			res = 1;
+			break;
+		}
+		if (n1 == 0)
+			break;
+		else if (strcmp(buf1, buf2) != 0)
+		{
+			res = 2;
+			break;
+		}
+	}
+	close(f1);
+	close(f2);
+	return res;
+}
+void printTaskInfo(int tasknum, char *language)
+{
+	if (strcmp(language, "ch") == 0)
+		printf("%s", TaskInfoChinese[tasknum - 1]);
+	else
+		printf("%s", TaskInfoRussian[tasknum - 1]);
+}
+int getMaxtasknum()
+{
+	return 16;
 }

@@ -5,8 +5,6 @@ void err_sys(const char *info)
 	perror(info);
 	exit(1);
 }
-// readline implementation=====================================
-
 ssize_t readline(int fd, void *sbuf, size_t sbufsize)
 {
 	ssize_t n, rc;

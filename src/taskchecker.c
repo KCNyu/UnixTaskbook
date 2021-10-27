@@ -50,73 +50,6 @@ void showfile(char *name, char *comment, int filetype)
 			printf("%s===%d initial lines of file are shown===%s\n", CYAN, flines, RESET);
 	}
 }
-
-int filecompareB(char *name1, char *name2)
-{
-	int f1 = open(name1, O_RDONLY);
-	int f2 = open(name2, O_RDONLY);
-	char buf1[100];
-	char buf2[100];
-	int n1 = read(f1, buf1, sizeof(buf1));
-	int n2 = read(f2, buf2, sizeof(buf2));
-	close(f1);
-	close(f2);
-	if (n1 != n2)
-		return 1;
-	for (int i = 0; i < n1; i++)
-		if (buf1[i] != buf2[i])
-			return 2;
-	return 0;
-}
-
-int filecompareC(char *name1, char *name2)
-{
-	int f1 = open(name1, O_RDONLY);
-	int f2 = open(name2, O_RDONLY);
-	char buf1[100];
-	char buf2[100];
-	int res = 0;
-	int n1, n2;
-	while (1)
-	{
-		n1 = readline(f1, buf1, 100);
-		n2 = readline(f2, buf2, 100);
-		if (n1 != n2)
-		{
-			res = 1;
-			break;
-		}
-		if (n1 == 0)
-			break;
-		else if (strcmp(buf1, buf2) != 0)
-		{
-			res = 2;
-			break;
-		}
-	}
-	close(f1);
-	close(f2);
-	return res;
-}
-
-int filecompareD(char *name1, char *name2)
-{
-	int f1 = open(name1, O_RDONLY);
-	int f2 = open(name2, O_RDONLY);
-	char buf1[50000];
-	char buf2[50000];
-	int n1 = read(f1, buf1, sizeof(buf1));
-	int n2 = read(f2, buf2, sizeof(buf2));
-	close(f1);
-	close(f2);
-	if (n1 != n2)
-		return 1;
-	for (int i = 0; i < n1; i++)
-		if (buf1[i] != buf2[i])
-			return 2;
-	return 0;
-}
-
 int fileexists(char *name)
 {
 	int f = open(name, O_RDONLY);
@@ -125,31 +58,191 @@ int fileexists(char *name)
 	close(f);
 	return 1;
 }
+void checkTasklib(char *tasklib, char taskgroup)
+{
+	sprintf(tasklib, "./lib/libtask%c.so", taskgroup);
+	if (!fileexists(tasklib))
+	{
+		printf("Error: Wrong task group: %c\n", taskgroup);
+		exit(3);
+	}
+	handler = dlopen(tasklib, RTLD_NOW);
+	if (handler == NULL)
+	{
+		printf("%s\n", dlerror());
+		exit(-1);
+	}
+}
+void checkTasknum(int tasknum)
+{
+	int (*getMaxtasknum)() = dlsym(handler, "getMaxtasknum");
+	int maxtasknum = getMaxtasknum();
+	if (tasknum < 1 || tasknum > maxtasknum)
+	{
+		printf("Error: Wrong task number: %d\n", tasknum);
+		exit(4);
+	}
+}
+void checkTaskresult(char *filename, char *controlfilename, int tt)
+{
+	printf("%sChecking results...\n%s", BLUE, RESET);
+	showfile(filename, "Result file: ", 2);
 
-void printTask(char taskgroup, int tasknum, char *language)
+	int (*filecompare)(char *, char *) = dlsym(handler, "filecompare");
+	int rescomp = filecompare(filename, controlfilename);
+	switch (rescomp)
+	{
+	case 0:
+		printf("%sCorrect!\n%s", GREEN, RESET);
+		break;
+	default:
+		printf("%sWrong result.\n%s", RED, RESET);
+		showfile(controlfilename, "Correct results must be as follows:", 1);
+		printf("%sTest %d failed.\n%s", RED, tt, RESET);
+		exit(7);
+	}
+}
+void complieProgram(char *program, char *outfilename)
+{
+	if (!fileexists(program))
+	{
+		printf("Error: Checked program %s not found\n", program);
+		exit(5);
+	}
+	char logfilename[150];
+	strcpy(logfilename, program);
+	strcat(logfilename, ".gcclog");
+	strcpy(outfilename, program);
+	char *p = strrchr(outfilename, '.');
+	if (p != NULL)
+		*p = '\0';
+	strcat(outfilename, ".out");
+	int flog = open(logfilename, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	if (flog == -1)
+		err_sys("Error during creation log-file: ");
+	printf("%s-1-Compilation... %s", BLUE, RESET);
+	unlink(outfilename);
+	int pid = fork();
+	if (pid == 0)
+	{
+		dup2(flog, 2);
+		close(flog);
+		execlp("gcc", "gcc", "-Wall", program, "-o", outfilename, (char *)0);
+		err_sys("Error when running gcc: ");
+	}
+
+	close(flog);
+	int status;
+	pid = waitpid(pid, &status, 0);
+	if (pid < 0)
+		err_sys("Error during compilation: ");
+	if (!fileexists(outfilename))
+	{
+		printf("%sError: Compiler outputs some error messages (see file %s):%s\n", RED, logfilename, RESET);
+		showfile(logfilename, "", 0);
+		exit(6);
+	}
+	struct stat statbuf;
+	stat(logfilename, &statbuf);
+	if (statbuf.st_size > 0)
+	{
+		printf("%sCompiler outputs some warnings (see file %s):%s\n", MAGENTA, logfilename, RESET);
+		showfile(logfilename, "", 0);
+		printf("%sCompilation is partially successful.\n%s", MAGENTA, RESET);
+	}
+	else
+	{
+		unlink(logfilename);
+		printf("%sCompilation is successful.\n%s", GREEN, RESET);
+	}
+}
+void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename, int tt)
+{
+	int nargs = 1;
+	char filename2[20];
+	for (int i = 0; i < 10; i++)
+		args[i] = (char *)0;
+	printf("%sTest %d (of %d):\n%s", BLUE, tt, totaltests, RESET);
+	if (taskgroup == 'B')
+	{
+		void (*data)(char *, int, int) = dlsym(handler, "data");
+		data(filename, tasknum, tt);
+		sprintf(cmd, "%s ", outfilename);
+		strcat(cmd, filename);
+		puts(cmd);
+		showfile(filename, "Input file: ", 0);
+	}
+	else if (taskgroup == 'C')
+	{
+
+		void (*data)(char**, char *, char *, int *, int, int) = dlsym(handler, "data");
+		data(args, filename, filename2, &nargs, tasknum, tt);
+		sprintf(cmd, "%s ", outfilename);
+		for (int i = 1; i <= nargs; i++)
+		{
+			strcat(cmd, args[i]);
+			strcat(cmd, " ");
+		}
+		puts(cmd);
+		if (strlen(filename2) == 0)
+			showfile(filename, "Input file: ", 2);
+		else
+		{
+			showfile(filename, "Input file1: ", 2);
+			showfile(filename2, "Input file2: ", 2);
+		}
+	}
+	else if (taskgroup == 'D')
+	{
+		void (*data)(char**, char *, int *, int, int) = dlsym(handler, "data");
+		data(args, filename, &nargs, tasknum, tt);
+		sprintf(cmd, "%s ", outfilename);
+		for (int i = 1; i < nargs; i++)
+		{
+			strcat(cmd, args[i]);
+			strcat(cmd, " ");
+		}
+		puts(cmd);
+		// showfile(filename, "Input file: ", 0);
+	}
+	printf("Program output:\n%s\n", hline);
+	int f, status;
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		switch (taskgroup)
+		{
+		case 'B':
+			execl(outfilename, outfilename, filename, (char *)0);
+			break;
+		case 'C':
+			if (nargs == 1)
+				execl(outfilename, outfilename, args[1], (char *)0);
+			else if (nargs == 2)
+				execl(outfilename, outfilename, args[1], args[2], (char *)0);
+			break;
+		case 'D':
+			f = open(filename, O_WRONLY, 0777);
+			dup2(f, STDOUT_FILENO);
+			close(f);
+			args[0] = (char *)malloc(50);
+			strcpy(args[0], filename);
+			execv(outfilename, args);
+			break;
+		}
+		printf("%sError when running program %s\n%s.", RED, outfilename, RESET);
+		exit(7);
+	}
+	pid = waitpid(pid, &status, 0);
+	printf("\n%s\n", hline);
+	if (pid < 0)
+		err_sys("Error during running: ");
+}
+void printTask(int tasknum, char *language)
 {
 	printf("%sTASK INFO:%s\n", BLUE, RESET);
-	switch (taskgroup)
-	{
-	case 'B':
-		if (strcmp(language, "ch") == 0)
-			printf("%s", BTaskInfoChinese[tasknum - 1]);
-		else
-			printf("%s", BTaskInfoRussian[tasknum - 1]);
-		break;
-	case 'C':
-		if (strcmp(language, "ch") == 0)
-			printf("%s", CTaskInfoChinese[tasknum - 1]);
-		else
-			printf("%s", CTaskInfoRussian[tasknum - 1]);
-		break;
-	case 'D':
-		if (strcmp(language, "ch") == 0)
-			printf("%s", DTaskInfoChinese[tasknum - 1]);
-		else
-			printf("%s", DTaskInfoRussian[tasknum - 1]);
-		break;
-	}
+	void (*printTaskInfo)(int, char *) = dlsym(handler, "printTaskInfo");
+	printTaskInfo(tasknum, language);
 }
 void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language)
 {
@@ -211,6 +304,7 @@ void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *prog
 		}
 	}
 }
+
 void printHelp()
 {
 	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n", BLUE, RESET);

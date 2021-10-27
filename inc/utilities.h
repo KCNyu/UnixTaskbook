@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <ctype.h>
+#include <dlfcn.h>
 #include <stdbool.h>
 
 void err_sys(const char *info);
