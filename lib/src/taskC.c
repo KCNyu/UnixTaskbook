@@ -129,7 +129,7 @@ ssize_t readline(int fd, void *sbuf, size_t sbufsize)
 	*ptr = 0;
 	return n - 1;
 }
-void data(char** args, char *filename, char *filename2, int *nargs, int tasknum, int testnum)
+void data(int *nargs, char **args, char *filename, char *filename2, int tasknum, int testnum)
 {
 	for (int i = 0; i < 8; i++)
 		filename[i] = (char)(rand() % 26 + 97);
@@ -436,6 +436,23 @@ int filecompare(char *name1, char *name2)
 	close(f1);
 	close(f2);
 	return res;
+}
+void printData(char *cmd, int nargs, char **args, char *outfilename, char *filename, char *filename2)
+{
+	sprintf(cmd, "%s ", outfilename);
+	for (int i = 1; i <= nargs; i++)
+	{
+		strcat(cmd, args[i]);
+		strcat(cmd, " ");
+	}
+	puts(cmd);
+}
+void execData(char *outfilename, char *filename, int nargs, char **args)
+{
+	if (nargs == 1)
+		execl(outfilename, outfilename, args[1], (char *)0);
+	else if (nargs == 2)
+		execl(outfilename, outfilename, args[1], args[2], (char *)0);
 }
 void printTaskInfo(int tasknum, char *language)
 {

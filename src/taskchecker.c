@@ -156,27 +156,16 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 	for (int i = 0; i < 10; i++)
 		args[i] = (char *)0;
 	printf("%sTest %d (of %d):\n%s", BLUE, tt, totaltests, RESET);
+	void (*data)(int *, char **, char *, char *, int, int) = dlsym(handler, "data");
+	data(&nargs, args, filename, filename2, tasknum, tt);
+	void (*printData)(char *, int, char **, char *, char *, char *) = dlsym(handler, "printData");
+	printData(cmd, nargs, args, outfilename, filename, filename2);
 	if (taskgroup == 'B')
 	{
-		void (*data)(char *, int, int) = dlsym(handler, "data");
-		data(filename, tasknum, tt);
-		sprintf(cmd, "%s ", outfilename);
-		strcat(cmd, filename);
-		puts(cmd);
 		showfile(filename, "Input file: ", 0);
 	}
 	else if (taskgroup == 'C')
 	{
-
-		void (*data)(char **, char *, char *, int *, int, int) = dlsym(handler, "data");
-		data(args, filename, filename2, &nargs, tasknum, tt);
-		sprintf(cmd, "%s ", outfilename);
-		for (int i = 1; i <= nargs; i++)
-		{
-			strcat(cmd, args[i]);
-			strcat(cmd, " ");
-		}
-		puts(cmd);
 		if (strlen(filename2) == 0)
 			showfile(filename, "Input file: ", 2);
 		else
@@ -187,42 +176,16 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 	}
 	else if (taskgroup == 'D')
 	{
-		void (*data)(char **, char *, int *, int, int) = dlsym(handler, "data");
-		data(args, filename, &nargs, tasknum, tt);
-		sprintf(cmd, "%s ", outfilename);
-		for (int i = 1; i < nargs; i++)
-		{
-			strcat(cmd, args[i]);
-			strcat(cmd, " ");
-		}
-		puts(cmd);
 		// showfile(filename, "Input file: ", 0);
 	}
 	printf("Program output:\n%s\n", hline);
+	void (*execData)(char *, char *, int, char **) = dlsym(handler, "execData");
+
 	int f, status;
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		switch (taskgroup)
-		{
-		case 'B':
-			execl(outfilename, outfilename, filename, (char *)0);
-			break;
-		case 'C':
-			if (nargs == 1)
-				execl(outfilename, outfilename, args[1], (char *)0);
-			else if (nargs == 2)
-				execl(outfilename, outfilename, args[1], args[2], (char *)0);
-			break;
-		case 'D':
-			f = open(filename, O_WRONLY, 0777);
-			dup2(f, STDOUT_FILENO);
-			close(f);
-			args[0] = (char *)malloc(50);
-			strcpy(args[0], filename);
-			execv(outfilename, args);
-			break;
-		}
+		execData(outfilename, filename, nargs, args);
 		printf("%sError when running program %s\n%s.", RED, outfilename, RESET);
 		exit(7);
 	}

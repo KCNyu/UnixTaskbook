@@ -41,7 +41,7 @@ const char *TaskInfoChinese[] = {
     "十六\n",
     "十七\n",
 };
-void data(char *filename, int tasknum, int testnum)
+void data(int *nargs, char **args, char *filename, char *filename2, int tasknum, int testnum)
 {
 	for (int i = 0; i < 8; i++)
 		filename[i] = (char)(rand() % 26 + 97);
@@ -194,6 +194,16 @@ void data(char *filename, int tasknum, int testnum)
 		break;
 	}
 	close(f);
+}
+void printData(char *cmd, int nargs, char **args, char *outfilename, char *filename, char *filename2)
+{
+	sprintf(cmd, "%s ", outfilename);
+	strcat(cmd, filename);
+	puts(cmd);
+}
+void execData(char* outfilename,char* filename,int nargs,char** args)
+{
+	execl(outfilename, outfilename, filename, (char *)0);
 }
 int filecompare(char *name1, char *name2)
 {

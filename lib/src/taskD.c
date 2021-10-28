@@ -75,7 +75,7 @@ char *initCmd2(char **args, int *nargs, const char *conjunctions)
     }
     return sys_cmd;
 }
-void data(char **args, char *filename, int *nargs, int tasknum, int testnum)
+void data(int *nargs, char **args, char *filename, char *filename2, int tasknum, int testnum)
 {
     for (int i = 0; i < 8; i++)
         filename[i] = (char)(rand() % 26 + 97);
@@ -93,30 +93,30 @@ void data(char **args, char *filename, int *nargs, int tasknum, int testnum)
     case 1:
         dup2(f, STDOUT_FILENO);
         close(f);
-        sys_cmd = initCmd2(args,nargs, ";");
+        sys_cmd = initCmd2(args, nargs, ";");
         system(sys_cmd);
         break;
     case 2:
         dup2(f, STDOUT_FILENO);
         close(f);
-        sys_cmd = initCmd2(args,nargs, "&&");
+        sys_cmd = initCmd2(args, nargs, "&&");
         system(sys_cmd);
         break;
     case 3:
         dup2(f, STDOUT_FILENO);
         close(f);
-        sys_cmd = initCmd2(args,nargs, "||");
+        sys_cmd = initCmd2(args, nargs, "||");
         system(sys_cmd);
         break;
     case 4:
         dup2(f, STDOUT_FILENO);
         close(f);
-        sys_cmd = initCmd2(args,nargs, "|");
+        sys_cmd = initCmd2(args, nargs, "|");
         system(sys_cmd);
         break;
     case 6:
         dup2(f, STDOUT_FILENO);
-        sys_cmd = initCmd1(args,nargs);
+        sys_cmd = initCmd1(args, nargs);
         args[1] = (char *)malloc(50);
         strcpy(args[1], filename);
         system(sys_cmd);
@@ -142,6 +142,25 @@ int filecompare(char *name1, char *name2)
         if (buf1[i] != buf2[i])
             return 2;
     return 0;
+}
+void printData(char *cmd, int nargs, char **args, char *outfilename, char *filename, char *filename2)
+{
+    sprintf(cmd, "%s ", outfilename);
+    for (int i = 1; i < nargs; i++)
+    {
+        strcat(cmd, args[i]);
+        strcat(cmd, " ");
+    }
+    puts(cmd);
+}
+void execData(char *outfilename, char *filename, int nargs, char **args)
+{
+    int f = open(filename, O_WRONLY, 0777);
+    dup2(f, STDOUT_FILENO);
+    close(f);
+    args[0] = (char *)malloc(50);
+    strcpy(args[0], filename);
+    execv(outfilename, args);
 }
 void printTaskInfo(int tasknum, char *language)
 {

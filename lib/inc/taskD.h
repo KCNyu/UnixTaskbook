@@ -25,7 +25,9 @@ extern const char **DTaskTestCmd[];
 
 char *initCmd1(char**args,int *nargs);
 char *initCmd2(char** args,int *nargs, const char* conjunctions);
-void data(char** args,char *filename, int *nargs, int tasknum, int testnum);
+void data(int *nargs, char** args, char *filename, char *filename2, int tasknum, int testnum);
+void printData(char* cmd, int nargs, char** args, char* outfilename, char* filename, char* filename2);
+void execData(char* outfilename,char* filename,int nargs,char** args);
 void printTaskInfo(int tasknum, char *language);
 int filecompare(char *name1, char *name2);
 int getMaxtasknum();
