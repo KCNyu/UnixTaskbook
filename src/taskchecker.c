@@ -53,13 +53,8 @@ void showfile(char *name, char *comment, int filetype)
 
 void checkTasklib(char *tasklib, char taskgroup)
 {
-	sprintf(tasklib, "./lib/libtask%c.so", taskgroup);
-	if (!fileexists(tasklib))
-	{
-		printf("Error: Wrong task group: %c\n", taskgroup);
-		exit(3);
-	}
-	handler = dlopen(tasklib, RTLD_NOW);
+	sprintf(tasklib, "libtask%c.so", taskgroup);
+	handler = dlopen(tasklib, RTLD_LAZY);
 	if (handler == NULL)
 	{
 		printf("%s\n", dlerror());
