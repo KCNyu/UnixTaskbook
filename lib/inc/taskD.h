@@ -16,14 +16,9 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-extern char testfilename[50];
 extern char *testfileext;
 extern char *controlfilename;
-extern char *hline;
-extern int totaltests;
 extern int maxtasknum;
-extern int flines;
-extern int textdatasize;
 extern const char *TaskInfoRussian[];
 extern const char *TaskInfoChinese[];
 extern const char **DTaskTestCmd[];

@@ -50,14 +50,7 @@ void showfile(char *name, char *comment, int filetype)
 			printf("%s===%d initial lines of file are shown===%s\n", CYAN, flines, RESET);
 	}
 }
-int fileexists(char *name)
-{
-	int f = open(name, O_RDONLY);
-	if (f == -1)
-		return 0;
-	close(f);
-	return 1;
-}
+
 void checkTasklib(char *tasklib, char taskgroup)
 {
 	sprintf(tasklib, "./lib/libtask%c.so", taskgroup);
@@ -175,7 +168,7 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 	else if (taskgroup == 'C')
 	{
 
-		void (*data)(char**, char *, char *, int *, int, int) = dlsym(handler, "data");
+		void (*data)(char **, char *, char *, int *, int, int) = dlsym(handler, "data");
 		data(args, filename, filename2, &nargs, tasknum, tt);
 		sprintf(cmd, "%s ", outfilename);
 		for (int i = 1; i <= nargs; i++)
@@ -194,7 +187,7 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 	}
 	else if (taskgroup == 'D')
 	{
-		void (*data)(char**, char *, int *, int, int) = dlsym(handler, "data");
+		void (*data)(char **, char *, int *, int, int) = dlsym(handler, "data");
 		data(args, filename, &nargs, tasknum, tt);
 		sprintf(cmd, "%s ", outfilename);
 		for (int i = 1; i < nargs; i++)

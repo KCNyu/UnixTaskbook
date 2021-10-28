@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
 
 	int tasknum;
 	char taskgroup, program[20], language[10], tasklib[30];
-	analyseCmd(argc, argv, &taskgroup, &tasknum, program, language);	
+	analyseCmd(argc, argv, &taskgroup, &tasknum, program, language);
 
-	checkTasklib(tasklib, taskgroup);	
+	checkTasklib(tasklib, taskgroup);
 	checkTasknum(tasknum);
 	if (argc >= 2)
 	{

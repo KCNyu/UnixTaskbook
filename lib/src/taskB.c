@@ -1,15 +1,9 @@
 #include "taskB.h"
 
-char testfilename[50];
 char *testfileext = ".tst";
 char *controlfilename = "_control.tst";
-char *hline = "------------------------------------------------------";
-int totaltests = 3;
-int maxtasknum = 0;
-int flines = 1000;
-char cmd[1000];
-char *args[10];
-int textdatasize = 85;
+int maxtasknum = 17;
+
 const char *TaskInfoRussian[] = {
     "Дан символьный файл. Изменить порядок следования его элементов на противоположный.\nНапример, файл с символами ABCDE должен измениться на EDCBA.\n",
     "Дан символьный файл. Заменить все входящие в него заглавные латинские буквы на маленькие и изменить порядок следования его элементов на противоположный.\nНапример, файл с символами A12BmnCD9E должен измениться на e9dcnmb21a\n",
@@ -227,5 +221,5 @@ void printTaskInfo(int tasknum, char *language)
 }
 int getMaxtasknum()
 {
-	return 17;
+	return maxtasknum;
 }

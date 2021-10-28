@@ -2,6 +2,7 @@
 char *testfileext = ".tst";
 char *controlfilename = "_control.tst";
 int textdatasize = 85;
+int maxtasknum = 16;
 const char *TaskInfoRussian[] = {
 
 };
@@ -445,5 +446,5 @@ void printTaskInfo(int tasknum, char *language)
 }
 int getMaxtasknum()
 {
-	return 16;
+	return maxtasknum;
 }

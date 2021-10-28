@@ -1,14 +1,9 @@
 #include "taskD.h"
-char testfilename[50];
+
 char *testfileext = ".tst";
 char *controlfilename = "_control.tst";
-char *hline = "------------------------------------------------------";
-int totaltests = 3;
-int maxtasknum = 0;
-int flines = 1000;
-char cmd[1000];
-char *args[10];
-int textdatasize = 85;
+int maxtasknum = 9;
+
 const char *TaskInfoRussian[] = {
     "Написать программу shellD1, моделирующую конструкцию командного интерпретатора:\ncmdA A1 A2 … AN ; cmdB B1 B2 … BM\nЭта конструкция обеспечивает последовательное выполнение команд cmdA и cmdB:вначале запускается команда cmdA с параметрами A1, A2, …, AN, затем запускается команда cmdB с параметрами B1, B2, …, BM. Каждая команда использует стандартный вывод на экран.\nФормат вызова программы shellD1:\nshellD1 cmdA N A1 A2 … AN cmdB M B1 B2 … BM\n",
     "Написать программу shellD2, моделирующую конструкцию командного интерпретатора:\ncmdA A1 A2 … AN && cmdB B1 B2 … BMЭта конструкция выполняет следующие действия. Вначале запускается команда cmdA с параметрами A1, A2, …, AN; если эта команда завершилась успешно (код выхода равен 0), то запускается команда cmdB с параметрами B1, B2, …, BM. Каждая команда использует стандартный вывод на экран.\nФормат вызова программы shellD2:\nshellD2 cmdA N A1 A2 … AN cmdB M B1 B2 … BM\n",
@@ -157,5 +152,5 @@ void printTaskInfo(int tasknum, char *language)
 }
 int getMaxtasknum()
 {
-    return 9;
+    return maxtasknum;
 }

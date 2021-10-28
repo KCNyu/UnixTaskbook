@@ -19,6 +19,7 @@
 char *testfileext;
 char *controlfilename;
 int textdatasize;
+int maxtasknum;
 const char *TaskInfoRussian[];
 const char *TaskInfoChinese[];
 char *textdata[];

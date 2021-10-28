@@ -37,3 +37,11 @@ ssize_t readline(int fd, void *sbuf, size_t sbufsize)
 	*ptr = 0;
 	return n - 1;
 }
+int fileexists(char *name)
+{
+	int f = open(name, O_RDONLY);
+	if (f == -1)
+		return 0;
+	close(f);
+	return 1;
+}
