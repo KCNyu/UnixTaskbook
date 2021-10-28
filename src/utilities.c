@@ -5,8 +5,6 @@ void err_sys(const char *info)
 	perror(info);
 	exit(1);
 }
-// readline implementation=====================================
-
 ssize_t readline(int fd, void *sbuf, size_t sbufsize)
 {
 	ssize_t n, rc;
@@ -38,4 +36,12 @@ ssize_t readline(int fd, void *sbuf, size_t sbufsize)
 	}
 	*ptr = 0;
 	return n - 1;
+}
+int fileexists(char *name)
+{
+	int f = open(name, O_RDONLY);
+	if (f == -1)
+		return 0;
+	close(f);
+	return 1;
 }

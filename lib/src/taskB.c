@@ -1,7 +1,10 @@
 #include "taskB.h"
-#include "variable.h"
 
-const char *BTaskInfoRussian[] = {
+char *testfileext = ".tst";
+char *controlfilename = "_control.tst";
+int maxtasknum = 17;
+
+const char *TaskInfoRussian[] = {
     "Дан символьный файл. Изменить порядок следования его элементов на противоположный.\nНапример, файл с символами ABCDE должен измениться на EDCBA.\n",
     "Дан символьный файл. Заменить все входящие в него заглавные латинские буквы на маленькие и изменить порядок следования его элементов на противоположный.\nНапример, файл с символами A12BmnCD9E должен измениться на e9dcnmb21a\n",
     "Дан символьный файл, содержащий более 10 элементов.\nУменьшить его размер до 10 элементов, удалив из файла необходимое количество конечных элементов.\n",
@@ -19,7 +22,7 @@ const char *BTaskInfoRussian[] = {
     "Дан символьный файл. Заменить в нем каждый элемент с четным номером на два символа «X» (элементы нумеруются от 1).\nНапример, файл с символами ABCDEFдолжен измениться на AXXCXXEXX.\n",
     "Дан символьный файл. Заменить в нем каждый цифровой символ на три символа «A».\nНапример, файл с символами A1B2C34 должен измениться на AAAABAAACAAAAAA.\n",
     "Дан символьный файл с элементами A1, A2, …, AN (N — количество элементов в файле). Заменить исходное расположение его элементов на следующее:\nA1, AN, A2, AN−1, A3, …\nНапример, файл с символами ABCDEFGHI должен измениться на AIBHCGDFE.\n"};
-const char *BTaskInfoChinese[] = {
+const char *TaskInfoChinese[] = {
     "一\n",
     "二\n",
     "三\n",
@@ -38,7 +41,7 @@ const char *BTaskInfoChinese[] = {
     "十六\n",
     "十七\n",
 };
-void dataB(char *filename, int tasknum, int testnum)
+void data(int *nargs, char **args, char *filename, char *filename2, int tasknum, int testnum)
 {
 	for (int i = 0; i < 8; i++)
 		filename[i] = (char)(rand() % 26 + 97);
@@ -191,4 +194,42 @@ void dataB(char *filename, int tasknum, int testnum)
 		break;
 	}
 	close(f);
+}
+void printData(char *cmd, int nargs, char **args, char *outfilename, char *filename, char *filename2)
+{
+	sprintf(cmd, "%s ", outfilename);
+	strcat(cmd, filename);
+	puts(cmd);
+}
+void execData(char* outfilename,char* filename,int nargs,char** args)
+{
+	execl(outfilename, outfilename, filename, (char *)0);
+}
+int filecompare(char *name1, char *name2)
+{
+	int f1 = open(name1, O_RDONLY);
+	int f2 = open(name2, O_RDONLY);
+	char buf1[100];
+	char buf2[100];
+	int n1 = read(f1, buf1, sizeof(buf1));
+	int n2 = read(f2, buf2, sizeof(buf2));
+	close(f1);
+	close(f2);
+	if (n1 != n2)
+		return 1;
+	for (int i = 0; i < n1; i++)
+		if (buf1[i] != buf2[i])
+			return 2;
+	return 0;
+}
+void printTaskInfo(int tasknum, char *language)
+{
+	if (strcmp(language, "ch") == 0)
+		printf("%s", TaskInfoChinese[tasknum - 1]);
+	else
+		printf("%s", TaskInfoRussian[tasknum - 1]);
+}
+int getMaxtasknum()
+{
+	return maxtasknum;
 }

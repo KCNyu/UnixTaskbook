@@ -2,15 +2,15 @@ src = $(wildcard ./src/*.c)
 obj = $(patsubst ./src/%.c, ./obj/%.o, $(src))
 
 inc_path = ./inc
-myArgs = -Wall -g
+myArgs = -Wall -g -ldl
 CXX = gcc
 
 ALL: TaskChecker 
 
 TaskChecker: $(obj)
-	$(CXX) $^ -o $@ $(myArgs)
+	$(CXX) $^ -o $@ $(myArgs) -Wall
 $(obj): ./obj/%.o: ./src/%.c
-	$(CXX) -c $< -o $@ $(myArgs) -I $(inc_path)
+	$(CXX) -c $< -o $@ -I $(inc_path)
 
 clean:
 	rm -rf $(obj) TaskChecker 

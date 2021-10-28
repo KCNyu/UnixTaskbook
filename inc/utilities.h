@@ -14,9 +14,11 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <ctype.h>
+#include <dlfcn.h>
 #include <stdbool.h>
 
 void err_sys(const char *info);
+int fileexists(char *name);
 ssize_t readline(int fd, void *sbuf, size_t sbufsize);
 
 #endif /* UTILITIES_H */
