@@ -8,7 +8,7 @@ CXX = gcc
 ALL: TaskChecker 
 
 TaskChecker: $(obj)
-	$(CXX) $^ -o $@ $(myArgs) -Wall
+	$(CXX) $^ -o $@ $(myArgs)
 $(obj): ./obj/%.o: ./src/%.c
 	$(CXX) -c $< -o $@ -I $(inc_path)
 
