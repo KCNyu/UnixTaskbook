@@ -1,6 +1,5 @@
 #!/bin/bash
 
-mkdir obj
 
 if [ -d lib ]
 then
@@ -13,6 +12,11 @@ WORKSPACE=$(pwd)
 echo -e "\e[1;34mWORKSPACE:${WORKSPACE}\e[0m"
 
 echo -e "\e[1;33mDynamic library file is being compiled\e[0m"
+
+if ! [ -d obj ]
+then 
+    mkdir obj
+fi
 
 if  ! make
 then
@@ -39,6 +43,10 @@ WORKSPACE=$(pwd)
 echo -e "\e[1;34mWORKSPACE:${WORKSPACE}\e[0m"
 
 echo -e "\e[1;33mCompile the project kernel\e[0m"
+if ! [ -d obj ]
+then 
+    mkdir obj
+fi
 if ! make
 then
     echo -e "\e[1;33m make failed! \e[0m"; exit 1;
