@@ -1,5 +1,6 @@
 #!/bin/bash
 
+FLINES="========================================="
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
 GREEN=$(
@@ -25,6 +26,13 @@ function blue() {
 	echo -e "$BLUE$*$NORMAL"
 }
 
+function printWorkSpace() {
+	echo $FLINES
+	WORKSPACE=$(pwd)
+	blue "WORKSPACE: ${WORKSPACE}"
+	echo $FLINES
+}
+
 if [ -d lib ]; then
 	cd lib
 else
@@ -32,8 +40,7 @@ else
 	exit 1
 fi
 
-WORKSPACE=$(pwd)
-blue "WORKSPACE: ${WORKSPACE}"
+printWorkSpace
 
 if ! make clean; then
 	red "make failed!"
@@ -41,21 +48,27 @@ if ! make clean; then
 fi
 
 cd ..
-WORKSPACE=$(pwd)
-blue "WORKSPACE: ${WORKSPACE}"
+printWorkSpace
 
 if ! make clean; then
-	red "make failed!"
+	red "make clean failed!"
 	exit 1
 fi
 
 if [ "$(uname)" == "Linux" ]; then
-	rm -rf /usr/local/lib/TaskChecker
-
-	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
+	if [ -d /usr/local/lib/TaskChecker]; then
+		rm -rf /usr/local/lib/TaskChecker
+	fi
+	if [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
 		rm /etc/ld.so.conf.d/taskchecker.conf
 	fi
 elif [ "$(uname)" == "Darwin" ]; then
-	echo "ababa"
+
+	files=$(ls *.so | wc -l)
+
+	if [ "$files" != "0" ]; then
+		rm /usr/local/lib/libtask*.so
+	fi
+
 fi
 green "Uninstall completed!"

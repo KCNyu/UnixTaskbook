@@ -1,5 +1,6 @@
 #!/bin/bash
 
+FLINES="========================================="
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
 GREEN=$(
@@ -25,15 +26,19 @@ function blue() {
 	echo -e "$BLUE$*$NORMAL"
 }
 
+function printWorkSpace() {
+	echo $FLINES
+	WORKSPACE=$(pwd)
+	blue "WORKSPACE: ${WORKSPACE}"
+	echo $FLINES
+}
 if [ -d lib ]; then
 	cd lib
 else
 	red "lib not exist!"
 	exit 1
 fi
-WORKSPACE=$(pwd)
-blue "WORKSPACE: ${WORKSPACE}"
-
+printWorkSpace
 yellow "Dynamic library file is being compiled"
 
 if ! [ -d obj ]; then mkdir obj; fi
@@ -54,22 +59,22 @@ if [ "$(uname)" == "Linux" ]; then
 		exit 1
 	fi
 
-	green "Dynamic library installation and configuration completed"
-
-	cd ..
-	WORKSPACE=$(pwd)
-	blue "WORKSPACE: ${WORKSPACE}"
-
-	yellow "Compile the project kernel"
-	if ! [ -d obj ]; then mkdir obj; fi
-	if ! make; then
-		red "make failed!"
-		exit 1
-	fi
-
-	green "Compiling the project kernel is complete"
-	green "Install completed!"
-
 elif [ "$(uname)" == "Darwin" ]; then
-	echo "abab"
+	cp ./*.so /usr/local/lib/
 fi
+
+green "Dynamic library installation and configuration completed"
+
+cd ..
+printWorkSpace
+
+yellow "Compile the project kernel"
+if ! [ -d obj ]; then mkdir obj; fi
+if ! make; then
+	red "make failed!"
+	exit 1
+fi
+
+green "Compiling the project kernel is complete"
+
+green "Install success!"
