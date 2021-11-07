@@ -56,7 +56,7 @@ if ! make clean; then
 fi
 
 if [ "$(uname)" == "Linux" ]; then
-	if [ -d /usr/local/lib/TaskChecker]; then
+	if [ -d /usr/local/lib/TaskChecker ]; then
 		rm -rf /usr/local/lib/TaskChecker
 	fi
 	if [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
