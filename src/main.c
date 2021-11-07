@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 	}
 
 	int tasknum;
-	char taskgroup, program[20], language[10], tasklib[30], outfilename[300], filename[20];
+	char taskgroup, program[20] = "\0", language[10], tasklib[30], outfilename[300], filename[20];
 
 	analyseCmd(argc, argv, &taskgroup, &tasknum, program, language);
 
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	if (argc >= 2)
 	{
 		printTask(tasknum, language);
-		if (argc == 2 || program == NULL)
+		if (argc == 2 || program[0] == '\0')
 			exit(0);
 	}
 

@@ -2,9 +2,9 @@
 
 ##### 0、Install \ Uninstall
 
-sudo sh install.sh
+sudo ./install.sh
 
-sudo sh uninstall.sh
+sudo ./uninstall.sh
 
 ##### 1、Usage
 
