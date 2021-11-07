@@ -1,5 +1,11 @@
 # TaskChecker
 
+##### 0、Install \ Uninstall
+
+sudo sh install.sh
+
+sudo sh uninstall.sh
+
 ##### 1、Usage
 
 Usage: TaskChecker [OPTION]... \[FILE]...
