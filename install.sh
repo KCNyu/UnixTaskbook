@@ -41,7 +41,7 @@ if ! make; then
 	red "make failed!"
 	exit 1
 fi
-if [ "$(uname)"=="Linux" ]; then
+if [ "$(uname)" == "Linux" ]; then
 
 	if ! [ -d /usr/local/lib/TaskChecker ]; then mkdir /usr/local/lib/TaskChecker; fi
 
@@ -70,5 +70,6 @@ if [ "$(uname)"=="Linux" ]; then
 	green "Compiling the project kernel is complete"
 	green "Install completed!"
 
-elif [ "$(uname)"=="Darwin" ]; then
+elif [ "$(uname)" == "Darwin" ]; then
+	echo "abab"
 fi

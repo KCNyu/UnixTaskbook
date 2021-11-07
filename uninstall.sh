@@ -49,12 +49,13 @@ if ! make clean; then
 	exit 1
 fi
 
-if [ "$(uname)"=="Linux" ]; then
+if [ "$(uname)" == "Linux" ]; then
 	rm -rf /usr/local/lib/TaskChecker
 
 	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
 		rm /etc/ld.so.conf.d/taskchecker.conf
 	fi
-elif [ "$(uname)"=="Darwin" ]; then
+elif [ "$(uname)" == "Darwin" ]; then
+	echo "ababa"
 fi
 green "Uninstall completed!"
