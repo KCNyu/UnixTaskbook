@@ -1,56 +1,74 @@
 #!/bin/bash
 
+NORMAL=$(tput sgr0)
+RED=$(tput setaf 1)
+GREEN=$(
+	tput setaf 2
+	tput bold
+)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
 
-if [ -d lib ]
-then
-    cd lib
+function red() {
+	echo -e "$RED$*$NORMAL"
+}
+
+function green() {
+	echo -e "$GREEN$*$NORMAL"
+}
+
+function yellow() {
+	echo -e "$YELLOW$*$NORMAL"
+}
+
+function blue() {
+	echo -e "$BLUE$*$NORMAL"
+}
+
+if [ -d lib ]; then
+	cd lib
 else
-    echo -e "\e[1;33mlib not exist! \e[0m"; exit 1;
+	red "lib not exist!"
+	exit 1
 fi
-
 WORKSPACE=$(pwd)
-echo -e "\e[1;34mWORKSPACE:${WORKSPACE}\e[0m"
+blue "WORKSPACE: ${WORKSPACE}"
 
-echo -e "\e[1;33mDynamic library file is being compiled\e[0m"
+yellow "Dynamic library file is being compiled"
 
-if ! [ -d obj ]
-then 
-    mkdir obj
+if ! [ -d obj ]; then mkdir obj; fi
+if ! make; then
+	red "make failed!"
+	exit 1
 fi
+if [ "$(uname)"=="Linux" ]; then
 
-if  ! make
-then
-    echo -e "\e[1;33m make failed! \e[0m"; exit 1;
-else
-    if ! [ -d /usr/local/lib/TaskChecker ]; then mkdir /usr/local/lib/TaskChecker; fi;\
-    cp ./*.so /usr/local/lib/TaskChecker;
+	if ! [ -d /usr/local/lib/TaskChecker ]; then mkdir /usr/local/lib/TaskChecker; fi
+
+	cp ./*.so /usr/local/lib/TaskChecker
+
+	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then cp ./taskchecker.conf /etc/ld.so.conf.d; fi
+
+	if ! ldconfig; then
+		echo "config error"
+		exit 1
+	fi
+
+	green "Dynamic library installation and configuration completed"
+
+	cd ..
+	WORKSPACE=$(pwd)
+	blue "WORKSPACE: ${WORKSPACE}"
+
+	yellow "Compile the project kernel"
+	if ! [ -d obj ]; then mkdir obj; fi
+	if ! make; then
+		red "make failed!"
+		exit 1
+	fi
+
+	green "Compiling the project kernel is complete"
+	green "Install completed!"
+
+elif [ "$(uname)"=="Darwin" ]; then
 fi
-
-if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]
-then
-    cp ./taskchecker.conf /etc/ld.so.conf.d;
-fi
-
-if ! ldconfig
-then
-    echo "config error"
-fi
-
-echo -e "\e[1;32mDynamic library installation and configuration completed\e[0m"
-
-cd ..
-WORKSPACE=$(pwd)
-echo -e "\e[1;34mWORKSPACE:${WORKSPACE}\e[0m"
-
-echo -e "\e[1;33mCompile the project kernel\e[0m"
-if ! [ -d obj ]
-then 
-    mkdir obj
-fi
-if ! make
-then
-    echo -e "\e[1;33m make failed! \e[0m"; exit 1;
-fi
-echo -e "\e[1;32mCompiling the project kernel is complete\e[0m"
-
-echo -e "\e[1;32mInstall completed!\e[0m"

@@ -1,27 +1,60 @@
 #!/bin/bash
 
-if [ -d lib ]
-then
-    cd lib
+NORMAL=$(tput sgr0)
+RED=$(tput setaf 1)
+GREEN=$(
+	tput setaf 2
+	tput bold
+)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+
+function red() {
+	echo -e "$RED$*$NORMAL"
+}
+
+function green() {
+	echo -e "$GREEN$*$NORMAL"
+}
+
+function yellow() {
+	echo -e "$YELLOW$*$NORMAL"
+}
+
+function blue() {
+	echo -e "$BLUE$*$NORMAL"
+}
+
+if [ -d lib ]; then
+	cd lib
 else
-    echo -e "\e[1;33mlib not exist! \e[0m"; exit 1;
+	red "lib not exist!"
+	exit 1
 fi
 
 WORKSPACE=$(pwd)
-echo -e "\e[1;34mWORKSPACE:${WORKSPACE}\e[0m"
+blue "WORKSPACE: ${WORKSPACE}"
 
-make clean
+if ! make clean; then
+	red "make failed!"
+	exit 1
+fi
 
 cd ..
 WORKSPACE=$(pwd)
-echo -e "\e[1;34mWORKSPACE:${WORKSPACE}\e[0m"
-make clean
+blue "WORKSPACE: ${WORKSPACE}"
 
-rm -rf /usr/local/lib/TaskChecker
-
-if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]
-then
-	rm /etc/ld.so.conf.d/taskchecker.conf
+if ! make clean; then
+	red "make failed!"
+	exit 1
 fi
 
-echo -e "\e[1;32mUninstall completed!\e[0m"
+if [ "$(uname)"=="Linux" ]; then
+	rm -rf /usr/local/lib/TaskChecker
+
+	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
+		rm /etc/ld.so.conf.d/taskchecker.conf
+	fi
+elif [ "$(uname)"=="Darwin" ]; then
+fi
+green "Uninstall completed!"
