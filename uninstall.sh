@@ -66,7 +66,7 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 	files=$(ls *.so | wc -l)
 
-	if [ "$files" != "0" ]; then
+	if (($files != 0)); then
 		rm /usr/local/lib/libtask*.so
 	fi
 
