@@ -9,6 +9,5 @@ extern int maxtasknum;
 extern int flines;
 extern char cmd[1000];
 extern char *args[10];
-extern void *handler;
 
 #endif /* VARIABLE_H */
