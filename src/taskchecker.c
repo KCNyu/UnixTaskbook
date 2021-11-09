@@ -188,7 +188,9 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 void printTask(int tasknum, char *language)
 {
 	printf("%sTASK INFO:%s\n", BLUE, RESET);
+	printf("\n%s%s\n\n", hline,hline);
 	taskchecker->printTaskInfo(tasknum, language);
+	printf("\n%s%s\n", hline,hline);
 }
 void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language)
 {
