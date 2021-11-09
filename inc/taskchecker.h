@@ -4,7 +4,22 @@
 #include "color.h"
 #include "variable.h"
 #include "utilities.h"
-
+typedef int GetMaxTasknum();
+typedef int FileCompare(char *, char *);
+typedef void GenerateData(int *, char **, char *, char *, int, int);
+typedef void PrintData(char *, int, char **, char *, char *, char *);
+typedef void ExecData(char *, char *, int, char **);
+typedef void PrintTaskInfo(int, char *);
+struct TaskChecker
+{
+	GetMaxTasknum *getMaxtasknum;
+	FileCompare *filecompare;
+	GenerateData *data;
+	PrintData *printData;
+	ExecData *execData;
+	PrintTaskInfo *printTaskInfo;
+};
+const struct TaskChecker *taskchecker;
 void removetstfiles();
 void showfile(char *name, char *comment, int filetype);
 void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language);

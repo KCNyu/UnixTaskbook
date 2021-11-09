@@ -54,17 +54,17 @@ void showfile(char *name, char *comment, int filetype)
 void checkTasklib(char *tasklib, char taskgroup)
 {
 	sprintf(tasklib, "libtask%c.so", taskgroup);
-	handler = dlopen(tasklib, RTLD_LAZY);
-	if (handler == NULL)
+	void* handle = dlopen(tasklib, RTLD_LAZY);
+	if (handle == NULL)
 	{
 		printf("%s\n", dlerror());
 		exit(-1);
 	}
+	taskchecker = dlsym(handle,"taskchecker");
 }
 void checkTasknum(int tasknum)
 {
-	int (*getMaxtasknum)() = dlsym(handler, "getMaxtasknum");
-	int maxtasknum = getMaxtasknum();
+	int maxtasknum = taskchecker->getMaxtasknum();
 	if (tasknum < 1 || tasknum > maxtasknum)
 	{
 		printf("Error: Wrong task number: %d\n", tasknum);
@@ -76,8 +76,7 @@ void checkTaskresult(char *filename, char *controlfilename, int tt)
 	printf("%sChecking results...\n%s", BLUE, RESET);
 	showfile(filename, "Result file: ", 2);
 
-	int (*filecompare)(char *, char *) = dlsym(handler, "filecompare");
-	int rescomp = filecompare(filename, controlfilename);
+	int rescomp = taskchecker->filecompare(filename, controlfilename);
 	switch (rescomp)
 	{
 	case 0:
@@ -151,10 +150,8 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 	for (int i = 0; i < 10; i++)
 		args[i] = (char *)0;
 	printf("%sTest %d (of %d):\n%s", BLUE, tt, totaltests, RESET);
-	void (*data)(int *, char **, char *, char *, int, int) = dlsym(handler, "data");
-	data(&nargs, args, filename, filename2, tasknum, tt);
-	void (*printData)(char *, int, char **, char *, char *, char *) = dlsym(handler, "printData");
-	printData(cmd, nargs, args, outfilename, filename, filename2);
+	taskchecker->data(&nargs, args, filename, filename2, tasknum, tt);
+	taskchecker->printData(cmd, nargs, args, outfilename, filename, filename2);
 	if (taskgroup == 'B')
 	{
 		showfile(filename, "Input file: ", 0);
@@ -174,13 +171,12 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 		// showfile(filename, "Input file: ", 0);
 	}
 	printf("Program output:\n%s\n", hline);
-	void (*execData)(char *, char *, int, char **) = dlsym(handler, "execData");
 
 	int f, status;
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		execData(outfilename, filename, nargs, args);
+		taskchecker->execData(outfilename, filename, nargs, args);
 		printf("%sError when running program %s\n%s.", RED, outfilename, RESET);
 		exit(7);
 	}
@@ -192,8 +188,7 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 void printTask(int tasknum, char *language)
 {
 	printf("%sTASK INFO:%s\n", BLUE, RESET);
-	void (*printTaskInfo)(int, char *) = dlsym(handler, "printTaskInfo");
-	printTaskInfo(tasknum, language);
+	taskchecker->printTaskInfo(tasknum, language);
 }
 void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language)
 {
