@@ -9,7 +9,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
-#include <sys/epoll.h>
 #include <sys/uio.h>
 #include <fcntl.h>
 #include <arpa/inet.h>
@@ -17,6 +16,9 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 #include <sys/mman.h>
+#if defined(_linux)
+#include <sys/epoll.h>
+#endif
 
 #define SERVER_IP "121.199.23.148"
 #define PORT 9999

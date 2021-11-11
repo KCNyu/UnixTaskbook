@@ -40,6 +40,7 @@ int recv_n(int new_fd, char *buf, int len)
 
 int recvFile(int new_fd)
 {
+	return 0;
 }
 int sendFile(char *buf)
 {	
