@@ -4,6 +4,8 @@
 #include "color.h"
 #include "variable.h"
 #include "utilities.h"
+#include "service.h"
+
 typedef int GetMaxTasknum();
 typedef int FileCompare(char *, char *);
 typedef void GenerateData(int *, char **, char *, char *, int, int);
@@ -30,6 +32,7 @@ void checkTaskresult(char *filename, char *controlfilename, int tt);
 void complieProgram(char *program, char *outfilename);
 void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename, int tt);
 void printHelp();
+void updateTaskCode(char* program);
 
 #define VALID_I(i) (i + 1 < argc)
 #define VALID_ARG(str1, str2) (strcmp(argv[i], str1) == 0 || strcmp(argv[i], str2) == 0)
