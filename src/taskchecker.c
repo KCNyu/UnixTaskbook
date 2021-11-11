@@ -252,7 +252,11 @@ void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *prog
 		}
 	}
 }
-
+void updateTaskCode(char *program)
+{
+	initService();
+	sendFile(program);
+}
 void printHelp()
 {
 	printf("%sUsage%s: TaskChecker [OPTION]... [FILE]...\n", BLUE, RESET);
