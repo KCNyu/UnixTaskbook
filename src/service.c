@@ -133,7 +133,7 @@ void initService()
 	struct sockaddr_in serv_addr;
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_port = htons(PORT);
-	inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr);
+	inet_pton(AF_INET, SERVER_IP, &serv_addr.sin_addr);
 
 	sfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sfd == -1)

@@ -18,7 +18,7 @@
 #include <sys/wait.h>
 #include <sys/mman.h>
 
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "121.199.23.148"
 #define PORT 9999
 #define MAXSIZE 10000
 extern int sfd;
