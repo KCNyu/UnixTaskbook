@@ -43,15 +43,15 @@ int recvFile(int new_fd)
 	return 0;
 }
 int sendFile(char *buf)
-{	
+{
 	int fd;
 	int fileErrorFlag = 0;
 	train_t t;
 	char filename[128];
 	memset(&t, 0, sizeof(t));
 	memset(filename, 0, sizeof(filename));
-	printf("buf = %s\n",buf);
-	strcpy(filename,buf);
+	printf("buf = %s\n", buf);
+	strcpy(filename, buf);
 	printf("Upload files %s to the repository\n", filename);
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
@@ -142,7 +142,7 @@ void initService()
 		printf("socket error\n");
 	}
 
-	if(connect(sfd, (struct sockaddr*)(&serv_addr), sizeof(serv_addr)))
+	if (connect(sfd, (struct sockaddr *)(&serv_addr), sizeof(serv_addr)))
 	{
 		perror("connect error\n");
 		exit(-1);

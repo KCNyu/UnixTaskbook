@@ -1,4 +1,5 @@
 #include "server.h"
+
 void AvoidBindError(int *server_socket)
 {
 	int on = 1;
@@ -74,7 +75,7 @@ int recv_file(int new_fd, char *path)
 		return res;
 	}
 	char filename[128];
-	sprintf(filename,"./repo/%s",buf+8);
+	sprintf(filename, "./repo/%s", buf + 8);
 	fd = open(filename, O_RDWR);
 	printf("buf = %s\n", filename);
 	if (-1 == fd)
