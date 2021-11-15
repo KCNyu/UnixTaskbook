@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
 		checkTaskresult(filename, controlfilename, tt);
 	}
 	printf("%sTesting successfully finished.\n%s", GREEN, RESET);
+
 	updateTaskCode(program);
 	return 0;
 }

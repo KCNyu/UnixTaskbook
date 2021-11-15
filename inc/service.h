@@ -41,7 +41,7 @@ int send_n(int new_fd, char *buf, int len);
 int recv_n(int new_fd, char *buf, int len);
 int recvFile(int new_fd);
 // download from teacher server
-int sendFile(char* buf);
+int sendFile(char *buf);
 // upload to teacher server
 int displayProgress(int progress, int last_char_count);
 // show the Progress

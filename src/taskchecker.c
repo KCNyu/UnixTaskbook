@@ -54,13 +54,13 @@ void showfile(char *name, char *comment, int filetype)
 void checkTasklib(char *tasklib, char taskgroup)
 {
 	sprintf(tasklib, "libtask%c.so", taskgroup);
-	void* handle = dlopen(tasklib, RTLD_LAZY);
+	void *handle = dlopen(tasklib, RTLD_LAZY);
 	if (handle == NULL)
 	{
 		printf("%s\n", dlerror());
 		exit(-1);
 	}
-	taskchecker = dlsym(handle,"taskchecker");
+	taskchecker = dlsym(handle, "taskchecker");
 }
 void checkTasknum(int tasknum)
 {
@@ -188,9 +188,9 @@ void runTasktest(char taskgroup, int tasknum, char *filename, char *outfilename,
 void printTask(int tasknum, char *language)
 {
 	printf("%sTASK INFO:%s\n", BLUE, RESET);
-	printf("\n%s%s\n\n", hline,hline);
+	printf("\n%s%s\n\n", hline, hline);
 	taskchecker->printTaskInfo(tasknum, language);
-	printf("\n%s%s\n", hline,hline);
+	printf("\n%s%s\n", hline, hline);
 }
 void analyseCmd(int argc, char **argv, char *taskgroup, int *tasknum, char *program, char *language)
 {

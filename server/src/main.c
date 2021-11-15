@@ -1,107 +1,69 @@
 #include "server.h"
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-	int server_socket = socket(PF_INET, SOCK_STREAM, 0);
-	if (server_socket == -1)
-	{
-		perror("socket() error!\n");
-		exit(-1);
-	}
-	struct sockaddr_in server_addr, client_addr;
-	InitServerSocket(&server_socket, &server_addr);
-	AvoidBindError(&server_socket);
-	// avoid Bind error
+    unsigned short port = SERV_PORT;
 
-	////////////////////////////////////////////////////////////////////
+    if (argc == 2)
+        port = atoi(argv[1]); //使用用户指定端口.如未指定,用默认端口
 
-	int num = 0;
-	char str[INET_ADDRSTRLEN];
-	ssize_t efd = epoll_create(OPEN_MAX);
-	struct epoll_event tep, ep[OPEN_MAX];
-	if (efd == -1)
-	{
-		perror("epoll_create error\n");
-		exit(1);
-	}
-	tep.events = EPOLLIN;
-	tep.data.fd = server_socket;
-	ssize_t res = epoll_ctl(efd, EPOLL_CTL_ADD, server_socket, &tep);
-	if (res == -1)
-	{
-		perror("epoll_ctl error\n");
-		exit(1);
-	}
-	char message[MAX_MSG];
-	ssize_t nready;
-	printf("Accepting client connect\n");
-	while (1)
-	{
-		nready = epoll_wait(efd, ep, OPEN_MAX, -1);
-		if (nready < 0)
-		{
-			perror("select error\n");
-			exit(1);
-		}
-		for (int i = 0; i < nready; i++)
-		{
-			if (!(ep[i].events & EPOLLIN))
-			{
-				continue;
-			}
+    g_efd = epoll_create(MAX_EVENTS + 1); //创建红黑树,返回给全局 g_efd
+    if (g_efd <= 0)
+        printf("create efd in %s err %s\n", __func__, strerror(errno));
 
-			if (ep[i].data.fd == server_socket)
-			{
-				socklen_t clt_addr_len = sizeof(client_addr);
-				int connfd = accept(server_socket, (struct sockaddr *)(&client_addr), &clt_addr_len);
-				printf("received from %s at PORT %d\n",
-				       inet_ntop(AF_INET, &client_addr.sin_addr, str, sizeof(str)),
-				       ntohs(client_addr.sin_port));
-				printf("cfd %d---client %d\n", connfd, ++num);
+    initlistensocket(g_efd, port); //初始化监听socket
 
-				tep.events = EPOLLIN;
-				tep.data.fd = connfd;
-				res = epoll_ctl(efd, EPOLL_CTL_ADD, connfd, &tep);
-				if (res == -1)
-				{
-					perror("epoll_ctl error\n");
-					exit(1);
-				}
-			}
-			else
-			{
-				bzero(message, sizeof(message));
-				int sockfd = ep[i].data.fd;
-				int n = recv_file(sockfd, "./");
+    struct epoll_event events[MAX_EVENTS + 1]; //保存已经满足就绪事件的文件描述符数组
+    printf("server running:port[%d]\n", port);
 
-				if (n == 0)
-				{
-					res = epoll_ctl(efd, EPOLL_CTL_DEL, sockfd, NULL);
-					if (res == -1)
-					{
-						perror("epoll_ctl error\n");
-						exit(1);
-					}
-					close(sockfd);
-					printf("client[%d] closed connection\n", sockfd);
-				}
-				else if (n < 0)
-				{
-					res = epoll_ctl(efd, EPOLL_CTL_DEL, sockfd, NULL);
-					if (res == -1)
-					{
-						perror("epoll_ctl error\n");
-						exit(1);
-					}
-					if (errno == ECONNRESET)
-					{
-						printf("client[%d] aborted connection\n", i);
-						close(sockfd);
-					}
-				}
-			}
-		}
-	}
-	close(server_socket);
-	return 0;
+    int checkpos = 0, i;
+    while (1)
+    {
+        /* 超时验证，每次测试100个链接，不测试listenfd 当客户端60秒内没有和服务器通信，则关闭此客户端链接 */
+
+        long now = time(NULL); //当前时间
+        for (i = 0; i < 100; i++, checkpos++)
+        { //一次循环检测100个。 使用checkpos控制检测对象
+            if (checkpos == MAX_EVENTS)
+                checkpos = 0;
+            if (g_events[checkpos].status != 1) //不在红黑树 g_efd 上
+                continue;
+
+            long duration = now - g_events[checkpos].last_active; //客户端不活跃的世间
+
+            if (duration >= 60)
+            {
+                close(g_events[checkpos].fd); //关闭与该客户端链接
+                printf("[fd=%d] timeout\n", g_events[checkpos].fd);
+                eventdel(g_efd, &g_events[checkpos]); //将该客户端 从红黑树 g_efd移除
+            }
+        }
+
+        /*监听红黑树g_efd, 将满足的事件的文件描述符加至events数组中, 1秒没有事件满足, 返回 0*/
+        int nfd = epoll_wait(g_efd, events, MAX_EVENTS + 1, 1000); // 若返回0 则意味着继续循环，而非阻塞
+        if (nfd < 0)
+        {
+            printf("epoll_wait error, exit\n");
+            break;
+        }
+
+        for (i = 0; i < nfd; i++)
+        {
+            /*使用自定义结构体myevent_s类型指针, 接收 联合体data的void *ptr成员*/
+            struct myevent_s *ev = (struct myevent_s *)events[i].data.ptr; // 此时之所以有数据是因为发生在eventadd时将void * events[i].data.ptr接收了ev
+
+            if ((events[i].events & EPOLLIN) && (ev->events & EPOLLIN))
+            { //读就绪事件
+                ev->call_back(ev->fd, events[i].events, ev->arg);
+                // 此时为设置回调函数参数，而非调用回调函数
+            }
+            if ((events[i].events & EPOLLOUT) && (ev->events & EPOLLOUT))
+            { //写就绪事件
+                ev->call_back(ev->fd, events[i].events, ev->arg);
+            }
+        }
+    }
+
+    /* 退出前释放所有资源 */
+    return 0;
 }

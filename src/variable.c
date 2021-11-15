@@ -8,4 +8,4 @@ int maxtasknum = 0;
 int flines = 1000;
 char cmd[1000];
 char *args[10];
-void *handler = (void*)0;
+void *handler = (void *)0;
