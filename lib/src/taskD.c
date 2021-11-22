@@ -24,7 +24,7 @@ const char *TaskInfoChinese[] = {
     "编写一个模拟shell结构的shellD6程序：\ncmdA A1 A2…AN>文件\n这个结构提供了cmdA命令的执行，参数为A1，A2，…，AN，这个命令的输出被重定向到一个文件命名文件。如果指定的文件不存在，则创建，如果存在，则删除其先前的内容。\n调用shellD6程序的格式：\nshellD6文件cmdA N A1 A2 ... AN\n",
     "编写一个模拟shell结构的shellD7程序：\ncmdA A1 A2 ... AN >> file\n这个结构保证cmdA命令执行时带有参数A1，A2，...，AN，以及这个命令的输出重定向到名为 file 的文件。如果指定的文件不存在，则创建它，如果存在，则将新内容附加到其末尾。\nshellD7 程序的调用格式：\nshellD7 file cmdA N A1 A2 。 .. AN\n",
     "编写一个模拟shell结构的shellD8程序：\n(cmdA A1 A2 ... AN; cmdB B1 B2 ... BM)> file \n这个结构保证了cmdA和cmdB命令的顺序执行：首先, cmdA 命令以参数 A1, A2, ..., AN 运行，然后 cmdB 命令以参数 B1, B2, ..., BM 运行。在这种情况下，每个命令的输出都被重定向到一个文件名为file。如果指定的文件不存在，则创建，如果存在，则删除其先前的内容。\nshellD8程序调用格式：\nshellD8文件cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM\n",
-    "编写一个程序 shellD9 来模拟 shell 构造：\n(cmdA A1 A2 ... AN || cmdB B1 B2 ... BM) | cmdC C1 C2 ... CP >> file\n此构造执行以下操作。命令带有参数 A1, A2, ..., AN 的 cmdA；如果此程序因错误而终止（退出代码不为 0），则使用参数 B1, B2, ..., BM 运行 cmdB 命令。处理成功的命令重定向到cmdC命令的标准输入，参数为C1,C2,...,CP，cmdC命令的标准输出重定向到文件file，如果文件不存在，则\nshellD9 程序调用格式：\nshellD9 文件 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM cmdC P C1 C2 ... CP\n"
+    "编写一个模拟shell结构的shellD9程序：\n(cmdA A1 A2 ... AN || cmdB B1 B2 ... BM) | cmdC C1 C2 ... CP >> file\n此构造执行以下操作。命令带有参数 A1, A2, ..., AN 的 cmdA；如果此程序因错误而终止（退出代码不为 0），则使用参数 B1, B2, ..., BM 运行 cmdB 命令。处理成功的命令重定向到cmdC命令的标准输入，参数为C1,C2,...,CP，cmdC命令的标准输出重定向到文件file，如果文件不存在，则\nshellD9 程序调用格式：\nshellD9 文件 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM cmdC P C1 C2 ... CP\n"
 };
 
 const char *c1[] = {"ls", "1", "-r"};
