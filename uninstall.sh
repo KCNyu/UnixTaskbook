@@ -63,8 +63,14 @@ if [ "$(uname)" == "Linux" ]; then
 		rm /etc/ld.so.conf.d/taskchecker.conf
 	fi
 elif [ "$(uname)" == "Darwin" ]; then
+    if [ -d /usr/local/lib ]; then
+        cd /usr/local/lib
+    else
+        exit 1
+    fi
+    printWorkSpace
 
-	files=$(ls *.so | wc -l)
+	files=$(ls libtask*.so | wc -l)
 
 	if (($files != 0)); then
 		rm /usr/local/lib/libtask*.so
