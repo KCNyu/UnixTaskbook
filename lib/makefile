@@ -1,15 +1,15 @@
-src = $(wildcard ./src/*.c)
-obj = $(patsubst ./src/%.c, ./obj/%.o, $(src))
-lib = $(patsubst ./src/%.c, ./lib%.so, $(src))
+src = $(wildcard ./src/*.cpp)
+obj = $(patsubst ./src/%.cpp, ./obj/%.o, $(src))
+lib = $(patsubst ./src/%.cpp, ./lib%.so, $(src))
 
-inc_path = ./inc
-CXX = gcc
+INC = -I../inc -I./inc
+CXX = g++
 
 ALL: $(lib)
 
 $(lib): ./lib%.so: ./obj/%.o
 	$(CXX) -shared $< -o $@ -fPIC
-$(obj): ./obj/%.o: ./src/%.c
-	$(CXX) -c $< -o $@ -I ./inc -fPIC
+$(obj): ./obj/%.o: ./src/%.cpp
+	$(CXX) -c $< -o $@ $(INC) -fPIC
 clean:
 	rm -rf $(obj) $(lib)

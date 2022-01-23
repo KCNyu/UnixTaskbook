@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef COLOR_HPP
+#define COLOR_HPP
 
 #define RESET "\033[0m"
 #define RED "\033[1;31m"
@@ -10,4 +10,4 @@
 #define CYAN "\033[1;36m"
 #define WHITE "\033[1;37m"
 
-#endif /* COLOR_H */
+#endif /* COLOR_HPP */
