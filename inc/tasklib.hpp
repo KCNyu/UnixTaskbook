@@ -23,6 +23,7 @@ public:
 	virtual ~TaskLib() {}
 	int get_task_count() const;
 	std::string get_task_info(int task_num, int language_option) const;
+	//virtual void generate_task_test(int task_num) const;
 	friend class TaskChecker;
 };
 

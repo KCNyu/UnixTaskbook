@@ -2,7 +2,9 @@
 
 TaskChecker::TaskChecker(int argc, char *argv[])
 {
+	// parse
 	parse_command(argc, argv);
+	parse_task_name();
 
 	// load the task library
 	handle = dlopen(tasklib_name.c_str(), RTLD_LAZY);
@@ -36,9 +38,6 @@ void TaskChecker::check_task_lib()
 	assert(tasklib->get_task_count() == tasklib->task_text_russian.size());
 	assert(tasklib->get_task_count() == tasklib->task_text_chinese.size());
 
-	// check task num
-	assert(task_num < tasklib->get_task_count());
-
 	// check tasklib name
 	assert(tasklib->library_name.find("libtask") == 0);
 	assert(tasklib->library_name.substr(tasklib->library_name.size() - 3) == ".so");
@@ -46,8 +45,15 @@ void TaskChecker::check_task_lib()
 	// check complier
 	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
 }
-void TaskChecker::print_task_info()
+void TaskChecker::print_task_info(int task_num, std::string language_option)
 {
+	if (task_num >= tasklib->get_task_count())
+	{
+		std::cout << RED << "Exceeds the number of tasks!" << std::endl;
+		std::cout << "The maximum number of " << tasklib_name.substr(0, tasklib->library_name.size() - 3) << " is " << tasklib->get_task_count() << RESET << std::endl;
+		exit(1);
+	}
+
 	std::cout << "============================================" << std::endl;
 	std::cout << BLUE << "TASK INFO:" << RESET << std::endl;
 
@@ -80,7 +86,19 @@ void TaskChecker::print_default_help()
 	std::cout << "-d, --directory		  check all programs in the directory" << std::endl;
 	std::cout << "-h, --help		  display this help and exit" << std::endl;
 }
+void TaskChecker::parse_task_name()
+{
+	if (task_name.size() == 0)
+	{
+		LOG_ERROR("Input the taskname");
+	}
+	std::string numerics("0123456789");
+	std::string::size_type pos = task_name.find_first_of(numerics);
 
+	tasklib_name = std::string("libtask") + task_name.substr(0, pos) + ".so";
+
+	task_num = atoi(task_name.substr(pos).c_str()) - 1;
+}
 void TaskChecker::parse_command(int argc, char *argv[])
 {
 	if (argc == 1)
@@ -100,8 +118,7 @@ void TaskChecker::parse_command(int argc, char *argv[])
 		{
 			if (VALID_I(i))
 			{
-				tasklib_name = std::string("libtask") + "B" + ".so";
-				task_num = atoi(argv[i + 1] + 1) - 1;
+				task_name = argv[i + 1];
 				flag = true;
 			}
 		}
@@ -131,10 +148,22 @@ void TaskChecker::parse_command(int argc, char *argv[])
 		}
 		else
 		{
-			std::cout << "Error: invalid option "
-				  << "'" << RED << argv[i] << "'" << std::endl;
-			print_default_help();
-			exit(1);
+			LOG_ERROR("Error: invalid option '%s'", argv[i]);
 		}
+	}
+}
+void TaskChecker::complie_program(std::string program)
+{
+	if (!fileexists(program))
+	{
+		LOG_ERROR("file %s not found", program.c_str());
+	}
+}
+void TaskChecker::run()
+{
+	print_task_info(task_num, language_option);
+	if (program.size() != 0)
+	{
+		complie_program(program);
 	}
 }

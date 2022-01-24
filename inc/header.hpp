@@ -6,6 +6,9 @@
 #include <vector>
 #include <algorithm>
 
+#include <fcntl.h>
+#include <unistd.h>
+
 #include <cassert>
 #include <cstring>
 
