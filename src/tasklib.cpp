@@ -5,7 +5,7 @@ int TaskLib::get_task_count() const
 	return task_count;
 }
 
-std::string TaskLib::get_task_text(int task_num, int language_option) const
+std::string TaskLib::get_task_info(int task_num, int language_option) const
 {
 	switch (language_option)
 	{

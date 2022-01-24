@@ -11,7 +11,7 @@ protected:
 	std::vector<std::string> task_argv;
 	std::string control_file = "_control.tst";
 	std::string result_file;
-	std::string complier = "gcc";
+	std::string complier;
 	std::string library_name;
 	int task_argc;
 	int task_count;
@@ -22,7 +22,8 @@ public:
 	TaskLib() {}
 	virtual ~TaskLib() {}
 	int get_task_count() const;
-	std::string get_task_text(int task_num, int language_option) const;
+	std::string get_task_info(int task_num, int language_option) const;
+	friend class TaskChecker;
 };
 
 // the types of the class factories
