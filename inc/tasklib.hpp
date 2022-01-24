@@ -12,6 +12,7 @@ protected:
 	std::string control_file = "_control.tst";
 	std::string result_file;
 	std::string complier;
+	std::vector<std::string> complie_argv;
 	std::string library_name;
 	int task_argc;
 	int task_count;

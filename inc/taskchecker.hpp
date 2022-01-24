@@ -20,6 +20,8 @@ private:
 	int task_num;
 	std::string language_option;
 	std::string program;
+	std::string complie_out;
+	std::string complie_log;
 
 public:
 	TaskChecker(int argc, char *argv[]);
@@ -28,6 +30,7 @@ public:
 	void print_default_help();
 	void parse_command(int argc, char *argv[]);
 	void parse_task_name();
+	void parse_complie_argv(char **&complie_argv);
 	void complie_program(std::string program);
 	void run();
 	~TaskChecker();

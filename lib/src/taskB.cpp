@@ -4,6 +4,7 @@ TaskB::TaskB()
 {
 	library_name = "libtaskB.so";
 	complier = "gcc";
+	complie_argv = {complier, "-Wall", "", "-o"};
 	task_count = 17;
 	task_text_russian = {
 	    "Дан символьный файл. Изменить порядок следования его элементов на противоположный.\nНапример, файл с символами ABCDE должен измениться на EDCBA.\n",

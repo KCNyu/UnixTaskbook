@@ -152,11 +152,82 @@ void TaskChecker::parse_command(int argc, char *argv[])
 		}
 	}
 }
+void TaskChecker::parse_complie_argv(char **&complie_argv)
+{
+	size_t complie_argc = tasklib->complie_argv.size();
+	complie_argv = new char *[complie_argc + 2];
+	for (size_t i = 0; i < complie_argc; i++)
+	{
+		complie_argv[i] = new char[100];
+		if (tasklib->complie_argv[i].size() == 0)
+		{
+			strcpy(complie_argv[i], program.c_str());
+			continue;
+		}
+		strcpy(complie_argv[i], tasklib->complie_argv[i].c_str());
+	}
+	complie_argv[complie_argc] = new char[100];
+	strcpy(complie_argv[complie_argc], complie_out.c_str());
+	complie_argv[complie_argc + 1] = NULL;
+}
 void TaskChecker::complie_program(std::string program)
 {
 	if (!fileexists(program))
 	{
-		LOG_ERROR("file %s not found", program.c_str());
+		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
+	}
+
+	complie_log = std::string(program.substr(0, strrchr(program.c_str(), '.') - program.c_str()));
+	complie_out = complie_log;
+	complie_log += "." + tasklib->complier + "log";
+	complie_out += ".out";
+
+	int file_log = open(complie_log.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (!file_log)
+	{
+		LOG_ERROR("Error during creation log-file: ");
+	}
+
+	std::cout << BLUE << "-1-Compilation..." << RESET << std::endl;
+	unlink(complie_out.c_str());
+
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		dup2(file_log, 2);
+		close(file_log);
+
+		char **complie_argv;
+		parse_complie_argv(complie_argv);
+
+		execvp(tasklib->complier.c_str(), complie_argv);
+		LOG_ERROR("Error when running %s: ", tasklib->complier.c_str());
+	}
+	close(file_log);
+	int status;
+	pid = waitpid(pid, &status, 0);
+	if (pid < 0)
+	{
+		LOG_ERROR("Error during compilation: ");
+	}
+	if (!fileexists(complie_out))
+	{
+		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
+		show_file(complie_log.c_str(), "", 0);
+		exit(1);
+	}
+	struct stat statbuf;
+	stat(complie_log.c_str(), &statbuf);
+	if (statbuf.st_size > 0)
+	{
+		LOG_WARN("Compiler outputs some warnings (see file %s):", complie_log.c_str());
+		show_file(complie_log.c_str(), "", 0);
+		LOG_WARN("Compilation is partially successful.");
+	}
+	else
+	{
+		unlink(complie_log.c_str());
+		LOG_SUCCESS("Compilation is successful.");
 	}
 }
 void TaskChecker::run()
