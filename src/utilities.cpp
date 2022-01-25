@@ -10,7 +10,7 @@ bool fileexists(std::string filename)
 	close(f);
 	return true;
 }
-void show_file(const char *name, char *comment, int filetype)
+void show_file(const char *name, const char *comment, int filetype)
 // filetype == 0 for binary and .gcclog files,
 //             1 for _control.tst file,
 //             2 for other .tst files
@@ -18,14 +18,18 @@ void show_file(const char *name, char *comment, int filetype)
 	int flines = 1000;
 	char cmd[200];
 	if (filetype != 1)
-		printf("%s===%s%s===%s\n", CYAN, comment, name, BROWN);
+	{
+		std::cout << CYAN << "===" << comment << name << "===" << BROWN << std::endl;
+	}
 	else
-		printf("%s===%s===%s\n", CYAN, comment, BROWN);
+	{
+		std::cout << CYAN << "===" << comment << BROWN << std::endl;
+	}
 	if (filetype == 0 || flines >= 1000)
 	{
 		sprintf(cmd, "cat %s", name);
 		system(cmd);
-		printf("%s===End Of File===%s\n", CYAN, RESET);
+		LOG_FILE("===End Of File===");
 	}
 	else
 	{
@@ -36,7 +40,9 @@ void show_file(const char *name, char *comment, int filetype)
 		{
 			cnt++;
 			if (cnt <= flines)
-				printf("%s", cmd);
+			{
+				std::cout << cmd;
+			}
 			else
 			{
 				break;
@@ -44,16 +50,20 @@ void show_file(const char *name, char *comment, int filetype)
 		}
 		close(f);
 		if (cnt <= flines)
-			printf("%s===End of file===%s\n", CYAN, RESET);
+		{
+			LOG_FILE("===End of file===");
+		}
 		else
-			printf("%s===%d initial lines of file are shown===%s\n", CYAN, flines, RESET);
+		{
+			LOG_FILE("===%d initial lines of file are shown===", flines);
+		}
 	}
 }
 ssize_t read_line(int fd, void *sbuf, size_t sbufsize)
 {
 	ssize_t n, rc;
 	char c, *ptr;
-	ptr = (char*)sbuf;
+	ptr = (char *)sbuf;
 	for (n = 1; n < sbufsize; n++)
 	{
 		if ((rc = read(fd, &c, 1)) == 1)

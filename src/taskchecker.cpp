@@ -75,17 +75,6 @@ void TaskChecker::print_task_info(int task_num, std::string language_option)
 	std::cout << "============================================" << std::endl;
 }
 
-void TaskChecker::print_default_help()
-{
-	std::cout << BLUE << "Usage: TaskChecker [OPTION]... [FILE]..." << RESET << std::endl;
-	std::cout << "Development of a system for automatic verification of educational tasks in Linux." << std::endl;
-	std::cout << "Mandatory arguments to long options are mandatory for short options too." << std::endl;
-	std::cout << "-t, --taskname		  display the taskInfo" << std::endl;
-	std::cout << "-l, --language		  language be displayed  <default Russian> <support [ru] [ch]>" << std::endl;
-	std::cout << "-p, --program		  check single program" << std::endl;
-	std::cout << "-d, --directory		  check all programs in the directory" << std::endl;
-	std::cout << "-h, --help		  display this help and exit" << std::endl;
-}
 void TaskChecker::parse_task_name()
 {
 	if (task_name.size() == 0)
@@ -101,61 +90,31 @@ void TaskChecker::parse_task_name()
 }
 void TaskChecker::parse_command(int argc, char *argv[])
 {
+	command_parser.add<std::string>("taskname", 't', "display the taskInfo", false, "");
+	command_parser.add<std::string>("language", 'l', "language be displayed <support [ru] [ch]>", false, "ru");
+	command_parser.add<std::string>("program", 'p', "check single program", false, "");
+	command_parser.add<std::string>("directory", 'd', "check all programs in the directory", false, "");
+	command_parser.add("help", 'h', "display this help and exit");
+
+	command_parser.footer("Development of a system for automatic verification of educational tasks in Linux.\nMandatory arguments to long options are mandatory for short options too.");
+
 	if (argc == 1)
 	{
-		print_default_help();
-		exit(0);
+		std::cerr << command_parser.usage();
+		exit(1);
 	}
-	bool flag = false;
-	for (int i = 1; i < argc; i++)
-	{
-		if (flag)
-		{
-			flag = false;
-			continue;
-		}
-		if (VALID_ARG("-t", "--taskname"))
-		{
-			if (VALID_I(i))
-			{
-				task_name = argv[i + 1];
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-l", "--language"))
-		{
-			if (VALID_I(i))
-			{
-				language_option = argv[i + 1];
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-p", "--program"))
-		{
-			if (VALID_I(i))
-			{
-				program = argv[i + 1];
-				flag = true;
-			}
-		}
-		else if (VALID_ARG("-d", "--directory"))
-		{
-		}
-		else if (VALID_ARG("-h", "--help"))
-		{
-			print_default_help();
-			exit(0);
-		}
-		else
-		{
-			LOG_ERROR("Error: invalid option '%s'", argv[i]);
-		}
-	}
+
+	command_parser.parse_check(argc, argv);
+	task_name = command_parser.get<std::string>("taskname");
+	language_option = command_parser.get<std::string>("language");
+	program = command_parser.get<std::string>("program");
 }
 void TaskChecker::parse_complie_argv(char **&complie_argv)
 {
 	size_t complie_argc = tasklib->complie_argv.size();
+
 	complie_argv = new char *[complie_argc + 2];
+
 	for (size_t i = 0; i < complie_argc; i++)
 	{
 		complie_argv[i] = new char[100];
@@ -166,8 +125,10 @@ void TaskChecker::parse_complie_argv(char **&complie_argv)
 		}
 		strcpy(complie_argv[i], tasklib->complie_argv[i].c_str());
 	}
+
 	complie_argv[complie_argc] = new char[100];
 	strcpy(complie_argv[complie_argc], complie_out.c_str());
+
 	complie_argv[complie_argc + 1] = NULL;
 }
 void TaskChecker::complie_program(std::string program)
@@ -204,18 +165,21 @@ void TaskChecker::complie_program(std::string program)
 		LOG_ERROR("Error when running %s: ", tasklib->complier.c_str());
 	}
 	close(file_log);
+
 	int status;
 	pid = waitpid(pid, &status, 0);
 	if (pid < 0)
 	{
 		LOG_ERROR("Error during compilation: ");
 	}
+
 	if (!fileexists(complie_out))
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
 		show_file(complie_log.c_str(), "", 0);
 		exit(1);
 	}
+
 	struct stat statbuf;
 	stat(complie_log.c_str(), &statbuf);
 	if (statbuf.st_size > 0)

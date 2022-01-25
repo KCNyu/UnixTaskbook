@@ -16,5 +16,6 @@
 #include <cstring>
 
 #include "error.hpp"
+#include "cmdline.hpp"
 
 #endif
