@@ -55,7 +55,7 @@ if [ "$(uname)" == "Linux" ]; then
 	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then cp ./taskchecker.conf /etc/ld.so.conf.d; fi
 
 	if ! ldconfig; then
-		echo "config error"
+		red "config error"
 		exit 1
 	fi
 

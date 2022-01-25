@@ -1,15 +1,15 @@
-src = $(wildcard ./src/*.c)
-obj = $(patsubst ./src/%.c, ./obj/%.o, $(src))
+src = $(wildcard ./src/*.cpp)
+obj = $(patsubst ./src/%.cpp, ./obj/%.o, $(src))
 
 inc_path = ./inc
-myArgs = -Wall -g -ldl
-CXX = gcc
+myArgs = -Wall -ldl
+CXX = g++
 
 ALL: TaskChecker 
 
 TaskChecker: $(obj)
 	$(CXX) $^ -o $@ $(myArgs)
-$(obj): ./obj/%.o: ./src/%.c
+$(obj): ./obj/%.o: ./src/%.cpp
 	$(CXX) -c $< -o $@ -I $(inc_path)
 
 clean:
