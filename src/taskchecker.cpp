@@ -83,7 +83,7 @@ void TaskChecker::parse_task_name()
 
 	tasklib_name = std::string("libtask") + task_name.substr(0, pos) + ".so";
 
-	task_num = atoi(task_name.substr(pos).c_str()) - 1;
+	task_num = atoi(task_name.substr(pos).c_str());
 }
 void TaskChecker::parse_command(int argc, char *argv[])
 {
@@ -130,7 +130,7 @@ void TaskChecker::parse_complie_argv(char **&complie_argv)
 }
 void TaskChecker::complie_program(std::string program)
 {
-	if (!fileexists(program))
+	if (!file_exists(program))
 	{
 		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
 	}
@@ -170,7 +170,7 @@ void TaskChecker::complie_program(std::string program)
 		LOG_ERROR("Error during compilation: ");
 	}
 
-	if (!fileexists(complie_out))
+	if (!file_exists(complie_out))
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
 		show_file(complie_log.c_str(), "", 0);
@@ -191,17 +191,67 @@ void TaskChecker::complie_program(std::string program)
 		LOG_SUCCESS("Compilation is successful.");
 	}
 }
-void TaskChecker::execute_program(std::string program)
+void TaskChecker::create_test(std::string program)
 {
 	tasklib->generate_task_test(task_num);
 	tasklib->generate_task_control(task_num);
+	tasklib->set_execute_argv(task_num);
+}
+void TaskChecker::parse_execute_argv(char **&execute_argv)
+{
+	size_t execute_argc = tasklib->get_execute_argv().size();
+	execute_argv = new char *[execute_argc + 2];
+
+	execute_argv[0] = new char[100];
+	strcpy(execute_argv[0], complie_out.c_str());
+
+	for (size_t i = 1; i < execute_argc + 1; i++)
+	{
+		execute_argv[i] = new char[100];
+		strcpy(execute_argv[i], tasklib->execute_argv[i - 1].c_str());
+	}
+	execute_argv[execute_argc + 1] = NULL;
+}
+void TaskChecker::execute_program(std::string program)
+{
+	std::cout << "Program output:\n"
+		  << "-------------------------------------------" << std::endl;
+
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		char **execute_argv;
+		parse_execute_argv(execute_argv);
+		execvp(complie_out.c_str(), execute_argv);
+		LOG_ERROR("Error when running program %s", complie_out.c_str());
+	}
+	int status;
+	pid = waitpid(pid, &status, 0);
+
+	std::cout << "\n-------------------------------------------" << std::endl;
+	if (pid < 0)
+	{
+		LOG_ERROR("Error during running: %s", complie_out.c_str());
+	}
 }
 void TaskChecker::run()
 {
+
+	system("rm *.tst");
+
 	print_task_info(task_num, language_option);
-	if (program.size() != 0)
+
+	if (program.size() == 0)
 	{
-		complie_program(program);
+		LOG_ERROR("Need to be checked program name or directory");
+	}
+
+	complie_program(program);
+
+	for (int i = 0; i < tasklib->get_total_test_count(task_num); i++)
+	{
+		create_test(program);
+		tasklib->print_extral_info(task_num);
 		execute_program(program);
 	}
 }

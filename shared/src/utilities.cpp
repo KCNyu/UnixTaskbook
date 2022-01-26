@@ -1,6 +1,6 @@
 #include "utilities.hpp"
 
-bool fileexists(std::string filename)
+bool file_exists(std::string filename)
 {
 	int f = open(filename.c_str(), O_RDONLY);
 	if (f == -1)
@@ -29,7 +29,7 @@ void show_file(const char *name, const char *comment, int filetype)
 	{
 		sprintf(cmd, "cat %s", name);
 		system(cmd);
-		LOG_FILE("===End Of File===");
+		LOG_FILE("\n===End Of File===");
 	}
 	else
 	{

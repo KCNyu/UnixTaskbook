@@ -10,6 +10,8 @@ TaskB::TaskB()
 
 	task_count = 17;
 
+	total_test_count = 3;
+
 	task_text_russian = {
 	    "Дан символьный файл. Изменить порядок следования его элементов на противоположный.\nНапример, файл с символами ABCDE должен измениться на EDCBA.\n",
 	    "Дан символьный файл. Заменить все входящие в него заглавные латинские буквы на маленькие и изменить порядок следования его элементов на противоположный.\nНапример, файл с символами A12BmnCD9E должен измениться на e9dcnmb21a\n",
@@ -224,6 +226,8 @@ void TaskB::init_random_test_files_name(size_t test_file_count)
 
 	for (auto &tf : test_files)
 	{
+		tf.clear();
+
 		for (size_t i = 0; i < 8; i++)
 		{
 			tf.push_back((char)(rand() % 26 + 97));
@@ -233,7 +237,6 @@ void TaskB::init_random_test_files_name(size_t test_file_count)
 }
 void TaskB::generate_task_test(int task_num)
 {
-	total_test_count = 3;
 
 	init_random_test_files_name(1);
 
@@ -345,4 +348,9 @@ int TaskB::get_total_test_count(int task_num) const
 }
 void TaskB::print_extral_info(int task_num)
 {
-}	
+	show_file(test_files[0].c_str(), "Input file: ", 0);
+}
+void TaskB::set_execute_argv(int task_num)
+{
+	execute_argv = test_files;
+}

@@ -11,7 +11,7 @@ protected:
 
 	std::vector<std::string> complie_argv;
 
-	std::vector<std::string> task_argv;
+	std::vector<std::string> execute_argv;
 
 	std::vector<std::string> test_files;
 	std::string control_file = "_control.tst";
@@ -30,13 +30,14 @@ public:
 	// Implemented by tasklib itself
 	TaskLib() {}
 	int get_task_count() const;
+	std::vector<std::string> get_execute_argv() const;
 	std::string get_task_info(int task_num, int language_option) const;
-	std::vector<std::string> get_task_argv(int task_num) const;
 
 	// The virtual function (interface)
 	// Implemented by each tasklib itself
 	virtual void generate_task_test(int task_num) = 0;
 	virtual void generate_task_control(int task_num) = 0;
+	virtual void set_execute_argv(int task_num) = 0;
 	virtual void print_extral_info(int task_num) = 0;
 	virtual int get_total_test_count(int task_num) const = 0;
 	virtual ~TaskLib() {}
