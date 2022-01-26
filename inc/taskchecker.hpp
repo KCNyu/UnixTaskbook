@@ -21,14 +21,17 @@ private:
 	std::string complie_log;
 	cmdline::parser command_parser;
 
-public:
-	TaskChecker(int argc, char *argv[]);
+protected:
 	void check_task_lib();
-	void print_task_info(int task_num, std::string language_option);
 	void parse_command(int argc, char *argv[]);
 	void parse_task_name();
 	void parse_complie_argv(char **&complie_argv);
+
+public:
+	TaskChecker(int argc, char *argv[]);
+	void print_task_info(int task_num, std::string language_option);
 	void complie_program(std::string program);
+	void execute_program(std::string program);
 	void run();
 	~TaskChecker();
 };

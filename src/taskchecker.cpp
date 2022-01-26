@@ -39,8 +39,7 @@ void TaskChecker::check_task_lib()
 	assert(tasklib->get_task_count() == tasklib->task_text_chinese.size());
 
 	// check tasklib name
-	assert(tasklib->library_name.find("libtask") == 0);
-	assert(tasklib->library_name.substr(tasklib->library_name.size() - 3) == ".so");
+	assert(tasklib->library_name == tasklib_name);
 
 	// check complier
 	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
@@ -49,9 +48,7 @@ void TaskChecker::print_task_info(int task_num, std::string language_option)
 {
 	if (task_num >= tasklib->get_task_count())
 	{
-		std::cout << RED << "Exceeds the number of tasks!" << std::endl;
-		std::cout << "The maximum number of " << tasklib_name.substr(0, tasklib->library_name.size() - 3) << " is " << tasklib->get_task_count() << RESET << std::endl;
-		exit(1);
+		LOG_ERROR("Exceeds the number of tasks!\nThe maximum number of %s is %d", tasklib_name.substr(0, tasklib->library_name.size() - 3).c_str(), tasklib->get_task_count());
 	}
 
 	std::cout << "============================================" << std::endl;
@@ -194,11 +191,17 @@ void TaskChecker::complie_program(std::string program)
 		LOG_SUCCESS("Compilation is successful.");
 	}
 }
+void TaskChecker::execute_program(std::string program)
+{
+	tasklib->generate_task_test(task_num);
+	tasklib->generate_task_control(task_num);
+}
 void TaskChecker::run()
 {
 	print_task_info(task_num, language_option);
 	if (program.size() != 0)
 	{
 		complie_program(program);
+		execute_program(program);
 	}
 }

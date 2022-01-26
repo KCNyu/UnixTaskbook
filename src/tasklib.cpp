@@ -4,6 +4,10 @@ int TaskLib::get_task_count() const
 {
 	return task_count;
 }
+std::vector<std::string> TaskLib::get_task_argv(int task_num) const
+{
+	return task_argv;
+}
 
 std::string TaskLib::get_task_info(int task_num, int language_option) const
 {
