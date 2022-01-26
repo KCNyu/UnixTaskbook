@@ -130,7 +130,7 @@ void TaskChecker::parse_complie_argv(char **&complie_argv)
 }
 void TaskChecker::complie_program(std::string program)
 {
-	if (!file_exists(program))
+	if (!exists_file(program))
 	{
 		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
 	}
@@ -170,7 +170,7 @@ void TaskChecker::complie_program(std::string program)
 		LOG_ERROR("Error during compilation: ");
 	}
 
-	if (!file_exists(complie_out))
+	if (!exists_file(complie_out))
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
 		show_file(complie_log.c_str(), "", 0);
@@ -234,11 +234,13 @@ void TaskChecker::execute_program(std::string program)
 		LOG_ERROR("Error during running: %s", complie_out.c_str());
 	}
 }
+void TaskChecker::check_program_result(std::string program)
+{
+	LOG_PROCESS("Checking results...");
+	tasklib->check_program(task_num);
+}
 void TaskChecker::run()
 {
-
-	system("rm *.tst");
-
 	print_task_info(task_num, language_option);
 
 	if (program.size() == 0)
@@ -253,5 +255,8 @@ void TaskChecker::run()
 		create_test(program);
 		tasklib->print_extral_info(task_num);
 		execute_program(program);
+		check_program_result(program);
 	}
+
+	system("rm *.tst");
 }

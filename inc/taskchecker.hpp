@@ -33,6 +33,7 @@ public:
 	void complie_program(std::string program);
 	void create_test(std::string program);
 	void execute_program(std::string program);
+	void check_program_result(std::string program);
 	void run();
 	~TaskChecker();
 };

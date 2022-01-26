@@ -37,6 +37,7 @@ public:
 	virtual void set_execute_argv(int task_num);
 	virtual void print_extral_info(int task_num);
 	virtual int get_total_test_count(int task_num) const;
+	virtual int check_program(int task_num) const;
 	virtual ~TaskB() {}
 
 	// Helper functions are optional

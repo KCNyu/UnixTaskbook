@@ -40,6 +40,7 @@ public:
 	virtual void set_execute_argv(int task_num) = 0;
 	virtual void print_extral_info(int task_num) = 0;
 	virtual int get_total_test_count(int task_num) const = 0;
+	virtual int check_program(int task_num) const = 0;
 	virtual ~TaskLib() {}
 
 	// friend class

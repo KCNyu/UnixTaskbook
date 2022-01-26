@@ -1,6 +1,6 @@
 #include "utilities.hpp"
 
-bool file_exists(std::string filename)
+bool exists_file(std::string filename)
 {
 	int f = open(filename.c_str(), O_RDONLY);
 	if (f == -1)
@@ -90,4 +90,29 @@ ssize_t read_line(int fd, void *sbuf, size_t sbufsize)
 	}
 	*ptr = 0;
 	return n - 1;
+}
+int compare_file(const char *name1, const char *name2)
+{
+	int f1 = open(name1, O_RDONLY);
+	int f2 = open(name2, O_RDONLY);
+	char buf1[100];
+	char buf2[100];
+	int n1 = read(f1, buf1, sizeof(buf1));
+	int n2 = read(f2, buf2, sizeof(buf2));
+	close(f1);
+	close(f2);
+	if (n1 != n2)
+	{
+		return 1;
+	}
+
+	for (int i = 0; i < n1; i++)
+	{
+		if (buf1[i] != buf2[i])
+		{
+			return 2;
+		}
+	}
+
+	return 0;
 }
