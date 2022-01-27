@@ -356,18 +356,7 @@ void TaskB::set_execute_argv(int task_num)
 }
 int TaskB::check_program(int task_num) const
 {
-	show_file(control_file.c_str(), "Result file: ", 2);
-	int rescomp = compare_file(test_files[0].c_str(), control_file.c_str());
-	switch (rescomp)
-	{
-	case 0:
-		printf("%sCorrect!\n%s", GREEN, RESET);
-		break;
-	default:
-		printf("%sWrong result.\n%s", RED, RESET);
-		show_file(control_file.c_str(), "Correct results must be as follows:", 1);
-		printf("%sTest %d failed.\n%s", RED, 10, RESET);
-		exit(7);
-	}
-	return 1;
+	show_file(test_files[0].c_str(), "Result file: ", 2);
+
+	return compare_file(test_files[0].c_str(), control_file.c_str());;
 }

@@ -215,7 +215,7 @@ void TaskChecker::parse_execute_argv(char **&execute_argv)
 void TaskChecker::execute_program(std::string program)
 {
 	std::cout << "Program output:\n"
-		  << "-------------------------------------------" << std::endl;
+			  << "-------------------------------------------" << std::endl;
 
 	pid_t pid = fork();
 	if (pid == 0)
@@ -237,7 +237,17 @@ void TaskChecker::execute_program(std::string program)
 void TaskChecker::check_program_result(std::string program)
 {
 	LOG_PROCESS("Checking results...");
-	tasklib->check_program(task_num);
+
+	switch (tasklib->check_program(task_num))
+	{
+	case 0:
+		LOG_SUCCESS("Correct results.");
+		break;
+	default:
+		LOG_INFO("Wrong result");
+		show_file(tasklib->control_file.c_str(), "Correct results must be as follows:", 1);
+		exit(1);
+	}
 }
 void TaskChecker::run()
 {
@@ -259,4 +269,6 @@ void TaskChecker::run()
 	}
 
 	system("rm *.tst");
+
+	LOG_SUCCESS("Testing successfully finished.");
 }
