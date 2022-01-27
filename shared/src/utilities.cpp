@@ -101,8 +101,8 @@ int compare_file(const char *name1, const char *name2)
 {
 	int f1 = open(name1, O_RDONLY);
 	int f2 = open(name2, O_RDONLY);
-	char buf1[100];
-	char buf2[100];
+	char buf1[MAX_SIZE];
+	char buf2[MAX_SIZE];
 	int n1 = read(f1, buf1, sizeof(buf1));
 	int n2 = read(f2, buf2, sizeof(buf2));
 	close(f1);

@@ -22,7 +22,7 @@ protected:
 	std::string library_name;
 
 	int task_count;
-	int file_input;
+	int output = 1;
 	int f_control;
 	int total_test_count;
 

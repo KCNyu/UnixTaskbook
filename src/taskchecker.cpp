@@ -46,7 +46,7 @@ void TaskChecker::check_task_lib()
 }
 void TaskChecker::print_task_info(int task_num, std::string language_option)
 {
-	if (task_num >= tasklib->get_task_count())
+	if (task_num > tasklib->get_task_count() || task_num <= 0)
 	{
 		LOG_ERROR("Exceeds the number of tasks!\nThe maximum number of %s is %d", tasklib_name.substr(0, tasklib->library_name.size() - 3).c_str(), tasklib->get_task_count());
 	}
@@ -152,7 +152,7 @@ void TaskChecker::complie_program(std::string program)
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		dup2(file_log, 2);
+		dup2(file_log, STDERR_FILENO);
 		close(file_log);
 
 		char **complie_argv;
@@ -221,6 +221,14 @@ void TaskChecker::execute_program(std::string program)
 	{
 		char **execute_argv;
 		parse_execute_argv(execute_argv);
+#if 0
+		for (size_t i = 0; i < tasklib->execute_argv.size() + 1; i++)
+		{
+			std::cout << execute_argv[i] << " ";
+		}
+		std::cout << std::endl;
+#endif
+		dup2(tasklib->output, STDOUT_FILENO);
 		execvp(complie_out.c_str(), execute_argv);
 		LOG_ERROR("Error when running program %s", complie_out.c_str());
 	}
@@ -250,6 +258,8 @@ void TaskChecker::check_program_result(std::string program)
 }
 void TaskChecker::run()
 {
+	srand(time(nullptr));
+
 	print_task_info(task_num, language_option);
 
 	if (program.size() == 0)
@@ -265,9 +275,8 @@ void TaskChecker::run()
 		tasklib->print_extral_info(task_num);
 		execute_program(program);
 		check_program_result(program);
+		system("rm *.tst");
 	}
-
-	system("rm *.tst");
 
 	LOG_SUCCESS("Testing successfully finished.");
 }

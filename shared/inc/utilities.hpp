@@ -7,6 +7,8 @@
 #include <iostream>
 #include "color.hpp"
 
+#define MAX_SIZE 65535
+
 bool exists_file(std::string filename);
 void show_file(const char *name, const char *comment, int filetype);
 void show_file(std::string name, const char *comment, int filetype);
