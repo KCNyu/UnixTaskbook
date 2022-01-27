@@ -3,9 +3,15 @@
 TaskB::TaskB()
 {
 	library_name = "libtaskB.so";
+
 	complier = "gcc";
+
 	complie_argv = {complier, "-Wall", "", "-o"};
+
 	task_count = 17;
+
+	total_test_count = 3;
+
 	task_text_russian = {
 	    "Дан символьный файл. Изменить порядок следования его элементов на противоположный.\nНапример, файл с символами ABCDE должен измениться на EDCBA.\n",
 	    "Дан символьный файл. Заменить все входящие в него заглавные латинские буквы на маленькие и изменить порядок следования его элементов на противоположный.\nНапример, файл с символами A12BmnCD9E должен измениться на e9dcnmb21a\n",
@@ -43,4 +49,314 @@ TaskB::TaskB()
 	    "给定一个字符文件。 用三个“A”字符替换其中的每个数字字符。\n例如，字符文件 A1B2C34 应更改为 AAAABAAACAAAAAA。\n",
 	    "给定一个字符文件，其中包含元素 A1、A2、...、AN（N 是文件中的元素数）。 用以下内容替换其元素的原始布局：\nA1, AN, A2, AN − 1, A3, ....\n例如，带有符号 ABCDEFGHI 的文件应更改为 AIBHCGDFE。\n",
 	};
+}
+void TaskB::test1()
+{
+	for (int i = sz - 1; i >= 0; i--)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test2()
+{
+	for (int i = sz - 1; i >= 0; i--)
+	{
+		c[i] = tolower(c[i]);
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test3()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test4()
+{
+	for (int i = 0; i < sz / 2; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test5()
+{
+	for (int i = sz - 10; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test6()
+{
+	for (int i = sz / 2; i < sz; i++)
+	{
+
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test7()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		if (i % 2 == 0)
+		{
+			write(f_control, &c[i], 1);
+		}
+	}
+}
+void TaskB::test8()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		if (!isdigit(c[i]))
+		{
+			write(f_control, &c[i], 1);
+		}
+	}
+}
+void TaskB::test9()
+{
+	for (int i = sz - 1; i >= 0; i--)
+	{
+		if (!isupper(c[i]))
+		{
+			write(f_control, &c[i], 1);
+		}
+	}
+}
+void TaskB::test10()
+{
+	for (int i = 0; i < 20 - sz; i++)
+	{
+		write(f_control, "A", 1);
+	}
+	for (int i = 0; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test11()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+	for (int i = 0; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test12()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+	}
+
+	for (int i = sz - 1; i >= 0; i--)
+	{
+		write(f_control, &c[i], 1);
+	}
+}
+void TaskB::test13()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+		if (i % 2 == 0)
+		{
+			write(f_control, &c[i], 1);
+		}
+	}
+}
+void TaskB::test14()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		write(f_control, &c[i], 1);
+		if (isdigit(c[i]))
+		{
+			write(f_control, &c[i], 1);
+		}
+	}
+}
+void TaskB::test15()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		if (i % 2 == 0)
+		{
+			write(f_control, &c[i], 1);
+		}
+		else
+		{
+			write(f_control, "XX", 2);
+		}
+	}
+}
+void TaskB::test16()
+{
+	for (int i = 0; i < sz; i++)
+	{
+		if (!isdigit(c[i]))
+		{
+			write(f_control, &c[i], 1);
+		}
+		else
+		{
+			write(f_control, "AAA", 3);
+		}
+	}
+}
+void TaskB::test17()
+{
+	for (int i = 0; i < sz / 2; i++)
+	{
+		write(f_control, &c[i], 1);
+		write(f_control, &c[sz - i - 1], 1);
+	}
+	if (sz % 2 != 0)
+	{
+		write(f_control, &c[sz / 2], 1);
+	}
+}
+void TaskB::init_random_test_files_name(size_t test_file_count)
+{
+	test_files.resize(test_file_count);
+
+	for (auto &tf : test_files)
+	{
+		tf.clear();
+
+		for (size_t i = 0; i < 8; i++)
+		{
+			tf.push_back((char)(rand() % 26 + 97));
+		}
+		tf += ".tst";
+	}
+}
+void TaskB::generate_task_test(int task_num)
+{
+
+	init_random_test_files_name(1);
+
+	int f_test = open(test_files[0].c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+	sz = (10 + rand() % 10) * 2;
+	if (task_num == 10)
+	{
+		sz = 9 + rand() % 8;
+	}
+	if (task_num != 4 && task_num != 6)
+	{
+		sz += rand() % 2;
+	}
+
+	int r[4];
+
+	do
+	{
+		for (size_t i = 0; i < 4; i++)
+			r[i] = 0;
+
+		for (size_t i = 0; i < sz; i++)
+			switch (rand() % 4)
+			{
+			case 0:
+				c[i] = (char)(rand() % 10 + 48);
+				r[0]++;
+				break;
+			case 1:
+				c[i] = (char)(rand() % 26 + 65);
+				r[1]++;
+				break;
+			case 2:
+				c[i] = (char)(rand() % 26 + 97);
+				r[2]++;
+				break;
+			case 3:
+				c[i] = (char)(rand() % 16 + 33);
+				r[3]++;
+				break;
+			}
+	} while (r[0] < 2 || r[1] < 2 || r[2] < 2 || r[3] < 2);
+	write(f_test, c, sz);
+	close(f_test);
+}
+void TaskB::generate_task_control(int task_num)
+{
+	f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	switch (task_num)
+	{
+	case 1:
+		test1();
+		break;
+	case 2:
+		test2();
+		break;
+	case 3:
+		test3();
+		break;
+	case 4:
+		test4();
+		break;
+	case 5:
+		test5();
+		break;
+	case 6:
+		test6();
+		break;
+	case 7:
+		test7();
+		break;
+	case 8:
+		test8();
+		break;
+	case 9:
+		test9();
+		break;
+	case 10:
+		test10();
+		break;
+	case 11:
+		test11();
+		break;
+	case 12:
+		test12();
+		break;
+	case 13:
+		test13();
+		break;
+	case 14:
+		test14();
+		break;
+	case 15:
+		test15();
+		break;
+	case 16:
+		test16();
+		break;
+	case 17:
+		test17();
+		break;
+	}
+	close(f_control);
+}
+int TaskB::get_total_test_count(int task_num) const
+{
+	return total_test_count;
+}
+void TaskB::print_extral_info(int task_num)
+{
+	show_file(test_files[0].c_str(), "Input file: ", 0);
+}
+void TaskB::set_execute_argv(int task_num)
+{
+	execute_argv = test_files;
+}
+int TaskB::check_program(int task_num) const
+{
+	show_file(test_files[0].c_str(), "Result file: ", 2);
+
+	return compare_file(test_files[0].c_str(), control_file.c_str());;
 }

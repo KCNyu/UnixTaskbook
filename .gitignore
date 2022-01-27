@@ -53,3 +53,7 @@ dkms.conf
 
 #vscode
 .vscode
+
+#test file
+*.tst
+TaskChecker

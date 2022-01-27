@@ -35,16 +35,16 @@
 			GREEN, ##__VA_ARGS__);  \
 		fprintf(stdout, "\n%s", RESET); \
 	}
-#define LOG_FILE(format, ...)                \
+#define LOG_FILE(format, ...)                   \
 	{                                       \
 		fprintf(stdout, "%s" format "", \
-			CYAN, ##__VA_ARGS__);  \
+			CYAN, ##__VA_ARGS__);   \
 		fprintf(stdout, "\n%s", RESET); \
 	}
-#define LOG_MARK(format, ...)                \
+#define LOG_PROCESS(format, ...)                \
 	{                                       \
 		fprintf(stdout, "%s" format "", \
-			BROWN, ##__VA_ARGS__);  \
+			BLUE, ##__VA_ARGS__);   \
 		fprintf(stdout, "\n%s", RESET); \
 	}
 

@@ -39,8 +39,7 @@ void TaskChecker::check_task_lib()
 	assert(tasklib->get_task_count() == tasklib->task_text_chinese.size());
 
 	// check tasklib name
-	assert(tasklib->library_name.find("libtask") == 0);
-	assert(tasklib->library_name.substr(tasklib->library_name.size() - 3) == ".so");
+	assert(tasklib->library_name == tasklib_name);
 
 	// check complier
 	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
@@ -49,9 +48,7 @@ void TaskChecker::print_task_info(int task_num, std::string language_option)
 {
 	if (task_num >= tasklib->get_task_count())
 	{
-		std::cout << RED << "Exceeds the number of tasks!" << std::endl;
-		std::cout << "The maximum number of " << tasklib_name.substr(0, tasklib->library_name.size() - 3) << " is " << tasklib->get_task_count() << RESET << std::endl;
-		exit(1);
+		LOG_ERROR("Exceeds the number of tasks!\nThe maximum number of %s is %d", tasklib_name.substr(0, tasklib->library_name.size() - 3).c_str(), tasklib->get_task_count());
 	}
 
 	std::cout << "============================================" << std::endl;
@@ -86,7 +83,7 @@ void TaskChecker::parse_task_name()
 
 	tasklib_name = std::string("libtask") + task_name.substr(0, pos) + ".so";
 
-	task_num = atoi(task_name.substr(pos).c_str()) - 1;
+	task_num = atoi(task_name.substr(pos).c_str());
 }
 void TaskChecker::parse_command(int argc, char *argv[])
 {
@@ -133,7 +130,7 @@ void TaskChecker::parse_complie_argv(char **&complie_argv)
 }
 void TaskChecker::complie_program(std::string program)
 {
-	if (!fileexists(program))
+	if (!exists_file(program))
 	{
 		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
 	}
@@ -173,7 +170,7 @@ void TaskChecker::complie_program(std::string program)
 		LOG_ERROR("Error during compilation: ");
 	}
 
-	if (!fileexists(complie_out))
+	if (!exists_file(complie_out))
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
 		show_file(complie_log.c_str(), "", 0);
@@ -194,11 +191,84 @@ void TaskChecker::complie_program(std::string program)
 		LOG_SUCCESS("Compilation is successful.");
 	}
 }
+void TaskChecker::create_test(std::string program)
+{
+	tasklib->generate_task_test(task_num);
+	tasklib->generate_task_control(task_num);
+	tasklib->set_execute_argv(task_num);
+}
+void TaskChecker::parse_execute_argv(char **&execute_argv)
+{
+	size_t execute_argc = tasklib->get_execute_argv().size();
+	execute_argv = new char *[execute_argc + 2];
+
+	execute_argv[0] = new char[100];
+	strcpy(execute_argv[0], complie_out.c_str());
+
+	for (size_t i = 1; i < execute_argc + 1; i++)
+	{
+		execute_argv[i] = new char[100];
+		strcpy(execute_argv[i], tasklib->execute_argv[i - 1].c_str());
+	}
+	execute_argv[execute_argc + 1] = NULL;
+}
+void TaskChecker::execute_program(std::string program)
+{
+	std::cout << "Program output:\n"
+			  << "-------------------------------------------" << std::endl;
+
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		char **execute_argv;
+		parse_execute_argv(execute_argv);
+		execvp(complie_out.c_str(), execute_argv);
+		LOG_ERROR("Error when running program %s", complie_out.c_str());
+	}
+	int status;
+	pid = waitpid(pid, &status, 0);
+
+	std::cout << "\n-------------------------------------------" << std::endl;
+	if (pid < 0)
+	{
+		LOG_ERROR("Error during running: %s", complie_out.c_str());
+	}
+}
+void TaskChecker::check_program_result(std::string program)
+{
+	LOG_PROCESS("Checking results...");
+
+	switch (tasklib->check_program(task_num))
+	{
+	case 0:
+		LOG_SUCCESS("Correct results.");
+		break;
+	default:
+		LOG_INFO("Wrong result");
+		show_file(tasklib->control_file.c_str(), "Correct results must be as follows:", 1);
+		exit(1);
+	}
+}
 void TaskChecker::run()
 {
 	print_task_info(task_num, language_option);
-	if (program.size() != 0)
+
+	if (program.size() == 0)
 	{
-		complie_program(program);
+		LOG_ERROR("Need to be checked program name or directory");
 	}
+
+	complie_program(program);
+
+	for (int i = 0; i < tasklib->get_total_test_count(task_num); i++)
+	{
+		create_test(program);
+		tasklib->print_extral_info(task_num);
+		execute_program(program);
+		check_program_result(program);
+	}
+
+	system("rm *.tst");
+
+	LOG_SUCCESS("Testing successfully finished.");
 }
