@@ -8,7 +8,7 @@ TaskC::TaskC()
 
     complie_argv = {complier, "-Wall", "", "-o"};
 
-    task_count = 17;
+    task_count = 16;
 
     total_test_count = 3;
 
@@ -132,4 +132,365 @@ TaskC::TaskC()
                  "\"Now then, Eeyore,\" he said.\n\n\"Don't Bustle me,\" said Eeyore, getting up slowly.\n\"Don't now-then me.\" He took a piece of paper from\nbehind his ear, and unfolded it. \"Nobody knows\nanything about this,\" he went on. \"This is a\nSurprise.\" He coughed in an important way, and\nbegan again: \"What-nots and Etceteras, before I\nbegin, or perhaps I should say, before I end, I\nhave a piece of Poetry to read to you. Hitherto -\nhitherto - a long word meaning - well, you'll see\nwhat it means directly - hitherto, as I was\nsaying, all the Poetry in the Forest has been\nwritten by Pooh, a Bear with a Pleasing Manner but\na Positively Startling Lack of Brain. The Poem\nwhich I am now about to read to you was written by\nEeyore, or Myself, in a Quiet Moment. If somebody\nwill take Roo's bull's eye away from him, and wake\nup Owl, we shall all be able to enjoy it. I call\nit - POEM.\"\n",
                  "\"Is it a very Grand thing to be an Afternoon, what\nyou said?\"\n\n\"A what?\" said Christopher Robin lazily, as he\nlistened to something else.\n\n\"On a horse,\" explained Pooh.\n\n\"A Knight?\"\n\n\"Oh, was that it?\" said Pooh. \"I thought it was a\n- Is it as Grand as a King and Factors and all the\nother things you said?\"\n\n\"Well, it's not as grand as a King,\" said\nChristopher Robin, and then, as Pooh seemed\ndisappointed, he added quickly, \"but it's grander\nthan Factors.\"\n\n\"Could a Bear be one?\"\n\n\"Of course he could!\" said Christopher Robin.\n\"I'll make you one.\" And he took a stick and\ntouched Pooh on the shoulder, and said, \"Rise, Sir\nPooh de Bear, most faithful of all my Knights.\"\n\nSo Pooh rose and sat down and said \"Thank you,\"\nwhich is a proper thing to say when you have been\nmade a Knight.\n",
                  "\"Pooh, when I'm - you know - when I'm not doing\nNothing, will you come up here sometimes?\"\n\n\"Just Me?\"\n\n\"Yes, Pooh.\"\n\n\"Will you be here too?\"\n\n\"Yes, Pooh, I will be really. I promise I will be,\nPooh.\"\n\n\"That's good,\" said Pooh.\n\n\"Pooh, promise you won't forget about me, ever.\nNot even when I'm a hundred.\"\n\nPooh thought for a little.\n\n\"How old shall I be then?\"\n\n\"Ninety-nine.\"\n\nPooh nodded.\n\n\"I promise,\" he said.\n"};
+}
+void TaskC::generate_task_test(int task_num)
+{
+    init_random_test_files_name(2);
+
+    int num1 = rand() % text_data.size();
+
+    f1 = open(test_files[0].c_str(), O_RDWR | O_CREAT, 0644);
+    write(f1, text_data[num1].c_str(), text_data[num1].size());
+    lseek(f1, 0, SEEK_SET);
+
+    if (task_num == 2 || task_num == 4 || task_num == 13)
+    {
+        use_flag = true;
+        int num2 = rand() % text_data.size();
+
+        while (num2 == num1)
+        {
+            num2 = rand() % sizeof(text_data);
+        }
+
+        f2 = open(test_files[1].c_str(), O_RDWR | O_CREAT, 0644);
+        write(f2, text_data[num2].c_str(), text_data[num2].size());
+        lseek(f2, 0, SEEK_SET);
+    }
+
+    int slen = rand() % 10 + 20;
+    for (int i = 0; i < slen; i++)
+        S[i] = (char)(rand() % 26 + 65);
+    S[slen] = '\n';
+    S[slen + 1] = '\0';
+    K = rand() % 10 + 5;
+}
+void TaskC::test1()
+{
+    execute_argv.push_back(S);
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+    write(f_control, S, strlen(S));
+}
+void TaskC::test2()
+{
+    execute_argv.push_back(test_files[0]);
+    execute_argv.push_back(test_files[1]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+    while ((n = read_line(f2, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+}
+void TaskC::test3()
+{
+    execute_argv.push_back(S);
+    execute_argv.push_back(test_files[0]);
+
+    write(f_control, S, strlen(S));
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+}
+void TaskC::test4()
+{
+    execute_argv.push_back(test_files[0]);
+    execute_argv.push_back(test_files[1]);
+
+    while ((n = read_line(f2, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+}
+void TaskC::test5()
+{
+    execute_argv.push_back(std::to_string(K));
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        j++;
+        if (j == K)
+        {
+            write(f_control, &empty, 1);
+        }
+        write(f_control, buf, n);
+    }
+}
+void TaskC::test6()
+{
+    execute_argv.push_back(std::to_string(K));
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        j++;
+        write(f_control, buf, n);
+        if (j == K)
+        {
+            write(f_control, &empty, 1);
+        }
+    }
+}
+void TaskC::test7()
+{
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+        if (n == 1)
+        {
+            write(f_control, &empty, 1);
+        }
+    }
+}
+void TaskC::test8()
+{
+    execute_argv.push_back(S);
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        if (n == 1)
+        {
+            write(f_control, S, strlen(S));
+        }
+        else
+        {
+            write(f_control, buf, n);
+        }
+    }
+}
+void TaskC::test9()
+{
+    execute_argv.push_back(test_files[0]);
+
+    read_line(f1, buf, 200);
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        write(f_control, buf, n);
+    }
+}
+void TaskC::test10()
+{
+    execute_argv.push_back(test_files[0]);
+    n = read_line(f1, buf, 200);
+    while ((n2 = read_line(f1, buf2, 200)) > 0)
+    {
+        write(f_control, buf, n);
+        n = n2;
+        strcpy(buf, buf2);
+    }
+}
+void TaskC::test11()
+{
+    execute_argv.push_back(std::to_string(K));
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        j++;
+        if (j != K)
+        {
+            write(f_control, buf, n);
+        }
+    }
+}
+void TaskC::test12()
+{
+    execute_argv.push_back(test_files[0]);
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        if (n > 1)
+        {
+            write(f_control, buf, n);
+        }
+    }
+}
+void TaskC::test13()
+{
+    execute_argv.push_back(test_files[0]);
+    execute_argv.push_back(test_files[1]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        n2 = read_line(f2, buf2, 200);
+        if (n2 > 0)
+        {
+            buf[n - 1] = '\0';
+            strcat(buf, buf2);
+        }
+        write(f_control, buf, strlen(buf));
+    }
+}
+void TaskC::test14()
+{
+    execute_argv.push_back(std::to_string(K));
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        if (n - 1 > K)
+        {
+            memmove(buf, buf + K, n - K + 1);
+        }
+        else
+        {
+            buf[0] = '\n';
+            buf[1] = '\0';
+        }
+        write(f_control, buf, strlen(buf));
+    }
+}
+void TaskC::test15()
+{
+    execute_argv.push_back(std::to_string(K));
+    execute_argv.push_back(test_files[0]);
+
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        if (n - 1 > K)
+        {
+            memmove(buf + n - K - 1, buf + n - 1, 2);
+        }
+        else
+        {
+            buf[0] = '\n';
+            buf[1] = '\0';
+        }
+        write(f_control, buf, strlen(buf));
+    }
+}
+void TaskC::test16()
+{
+    execute_argv.push_back(test_files[0]);
+    while ((n = read_line(f1, buf, 200)) > 0)
+    {
+        for (j = 0; j < n; j++)
+        {
+            if (isupper(buf[j]))
+            {
+                buf[j] = tolower(buf[j]);
+            }
+            else if (islower(buf[j]))
+            {
+                buf[j] = toupper(buf[j]);
+            }
+        }
+        write(f_control, buf, n);
+    }
+}
+void TaskC::generate_task_control(int task_num)
+{
+    execute_argv.clear();
+    f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    switch (task_num)
+    {
+    case 1:
+        test1();
+        break;
+    case 2:
+        test2();
+        break;
+    case 3:
+        test3();
+        break;
+    case 4:
+        test4();
+        break;
+    case 5:
+        test5();
+        break;
+    case 6:
+        test6();
+        break;
+    case 7:
+        test7();
+        break;
+    case 8:
+        test8();
+        break;
+    case 9:
+        test9();
+        break;
+    case 10:
+        test10();
+        break;
+    case 11:
+        test11();
+        break;
+    case 12:
+        test12();
+        break;
+    case 13:
+        test13();
+        break;
+    case 14:
+        test14();
+        break;
+    case 15:
+        test15();
+        break;
+    case 16:
+        test16();
+        break;
+    }
+
+    close(f_control);
+    close(f1);
+    if (use_flag)
+    {
+        close(f2);
+    }
+}
+void TaskC::print_extral_info(int task_num)
+{
+    if (use_flag)
+    {
+        show_file(test_files[0], "Input file1: ", 2);
+		show_file(test_files[1], "Input file2: ", 2);
+    }
+    else
+    {
+        show_file(test_files[0], "Input file: ", 2);
+    }
+}
+int TaskC::get_total_test_count(int task_num) const
+{
+    return total_test_count;
+}
+int TaskC::check_program(int task_num) const
+{
+    show_file(test_files[0], "Result file: ", 2);
+
+	return compare_file(test_files[0], control_file);;
+}
+void TaskC::init_random_test_files_name(size_t test_file_count)
+{
+    test_files.resize(test_file_count);
+
+    for (auto &tf : test_files)
+    {
+        tf.clear();
+
+        for (size_t i = 0; i < 8; i++)
+        {
+            tf.push_back((char)(rand() % 26 + 97));
+        }
+        tf += ".tst";
+    }
 }

@@ -9,7 +9,9 @@
 
 bool exists_file(std::string filename);
 void show_file(const char *name, const char *comment, int filetype);
+void show_file(std::string name, const char *comment, int filetype);
 ssize_t read_line(int fd, void *sbuf, size_t sbufsize);
 int compare_file(const char *name1, const char *name2);
+int compare_file(std::string name1, std::string name2);
 
 #endif

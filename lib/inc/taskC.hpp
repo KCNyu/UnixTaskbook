@@ -1,10 +1,19 @@
 #include "tasklib.hpp"
 #include "utilities.hpp"
+#include <sstream>
 
 class TaskC : public TaskLib
 {
 private:
-    int total_test_count;
+    int f1, f2;
+    char S[50];
+    int n, n2;
+    char buf[200];
+    char buf2[200];
+    char empty = '\n';
+    int j = 0;
+    int K;
+    bool use_flag = false;
     std::vector<std::string> text_data;
 
 protected:
@@ -31,11 +40,14 @@ public:
     // virtual function inherited from parent class
     virtual void generate_task_test(int task_num);
     virtual void generate_task_control(int task_num);
-    virtual void set_execute_argv(int task_num);
     virtual void print_extral_info(int task_num);
     virtual int get_total_test_count(int task_num) const;
     virtual int check_program(int task_num) const;
     virtual ~TaskC() {}
+
+    // Helper functions are optional
+    // In order to implement the above interface, it is assisted by providing
+    void init_random_test_files_name(size_t test_file_count);
 };
 
 extern "C" TaskLib *create()
