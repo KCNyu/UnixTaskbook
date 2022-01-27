@@ -59,6 +59,10 @@ void show_file(const char *name, const char *comment, int filetype)
 		}
 	}
 }
+void show_file(std::string name, const char *comment, int filetype)
+{
+	show_file(name.c_str(), comment, filetype);
+}
 ssize_t read_line(int fd, void *sbuf, size_t sbufsize)
 {
 	ssize_t n, rc;
@@ -86,7 +90,9 @@ ssize_t read_line(int fd, void *sbuf, size_t sbufsize)
 			return n - 1;
 		}
 		else
+		{
 			return -1;
+		}
 	}
 	*ptr = 0;
 	return n - 1;
@@ -115,4 +121,8 @@ int compare_file(const char *name1, const char *name2)
 	}
 
 	return 0;
+}
+int compare_file(std::string name1, std::string name2)
+{
+	return compare_file(name1.c_str(), name2.c_str());
 }

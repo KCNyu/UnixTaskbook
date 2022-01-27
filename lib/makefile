@@ -9,8 +9,8 @@ CXX = g++
 
 ALL: $(lib)
 
-$(lib): $(obj) $(shared_obj)
-	$(CXX) -shared $(obj) $(shared_obj) -o $@ -fPIC
+$(lib): ./lib%.so: ./obj/%.o $(shared_obj)
+	$(CXX) -shared $< $(shared_obj) -o $@ -fPIC
 
 $(shared_obj): ../shared/obj/%.o: ../shared/src/%.cpp
 	$(CXX) -c $< -o $@ $(INC) -fPIC

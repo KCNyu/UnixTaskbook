@@ -23,7 +23,8 @@ protected:
 
 	int task_count;
 	int file_input;
-	int file_output;
+	int f_control;
+	int total_test_count;
 
 public:
 	// Public real function
@@ -37,7 +38,6 @@ public:
 	// Implemented by each tasklib itself
 	virtual void generate_task_test(int task_num) = 0;
 	virtual void generate_task_control(int task_num) = 0;
-	virtual void set_execute_argv(int task_num) = 0;
 	virtual void print_extral_info(int task_num) = 0;
 	virtual int get_total_test_count(int task_num) const = 0;
 	virtual int check_program(int task_num) const = 0;

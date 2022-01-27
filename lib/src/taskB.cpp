@@ -52,6 +52,8 @@ TaskB::TaskB()
 }
 void TaskB::test1()
 {
+	execute_argv = test_files;
+
 	for (int i = sz - 1; i >= 0; i--)
 	{
 		write(f_control, &c[i], 1);
@@ -59,6 +61,8 @@ void TaskB::test1()
 }
 void TaskB::test2()
 {
+	execute_argv = test_files;
+
 	for (int i = sz - 1; i >= 0; i--)
 	{
 		c[i] = tolower(c[i]);
@@ -67,6 +71,8 @@ void TaskB::test2()
 }
 void TaskB::test3()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < 10; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -74,6 +80,8 @@ void TaskB::test3()
 }
 void TaskB::test4()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz / 2; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -81,6 +89,8 @@ void TaskB::test4()
 }
 void TaskB::test5()
 {
+	execute_argv = test_files;
+
 	for (int i = sz - 10; i < sz; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -88,6 +98,8 @@ void TaskB::test5()
 }
 void TaskB::test6()
 {
+	execute_argv = test_files;
+
 	for (int i = sz / 2; i < sz; i++)
 	{
 
@@ -96,6 +108,8 @@ void TaskB::test6()
 }
 void TaskB::test7()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		if (i % 2 == 0)
@@ -106,6 +120,8 @@ void TaskB::test7()
 }
 void TaskB::test8()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		if (!isdigit(c[i]))
@@ -116,6 +132,8 @@ void TaskB::test8()
 }
 void TaskB::test9()
 {
+	execute_argv = test_files;
+
 	for (int i = sz - 1; i >= 0; i--)
 	{
 		if (!isupper(c[i]))
@@ -126,6 +144,8 @@ void TaskB::test9()
 }
 void TaskB::test10()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < 20 - sz; i++)
 	{
 		write(f_control, "A", 1);
@@ -137,6 +157,8 @@ void TaskB::test10()
 }
 void TaskB::test11()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -148,6 +170,8 @@ void TaskB::test11()
 }
 void TaskB::test12()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -160,6 +184,8 @@ void TaskB::test12()
 }
 void TaskB::test13()
 {
+	execute_argv = test_files;
+	
 	for (int i = 0; i < sz; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -171,6 +197,8 @@ void TaskB::test13()
 }
 void TaskB::test14()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -182,6 +210,8 @@ void TaskB::test14()
 }
 void TaskB::test15()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		if (i % 2 == 0)
@@ -196,6 +226,8 @@ void TaskB::test15()
 }
 void TaskB::test16()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz; i++)
 	{
 		if (!isdigit(c[i]))
@@ -210,6 +242,8 @@ void TaskB::test16()
 }
 void TaskB::test17()
 {
+	execute_argv = test_files;
+
 	for (int i = 0; i < sz / 2; i++)
 	{
 		write(f_control, &c[i], 1);
@@ -348,15 +382,11 @@ int TaskB::get_total_test_count(int task_num) const
 }
 void TaskB::print_extral_info(int task_num)
 {
-	show_file(test_files[0].c_str(), "Input file: ", 0);
-}
-void TaskB::set_execute_argv(int task_num)
-{
-	execute_argv = test_files;
+	show_file(test_files[0], "Input file: ", 0);
 }
 int TaskB::check_program(int task_num) const
 {
-	show_file(test_files[0].c_str(), "Result file: ", 2);
+	show_file(test_files[0], "Result file: ", 2);
 
-	return compare_file(test_files[0].c_str(), control_file.c_str());;
+	return compare_file(test_files[0], control_file);;
 }

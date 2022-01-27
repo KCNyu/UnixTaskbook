@@ -173,7 +173,7 @@ void TaskChecker::complie_program(std::string program)
 	if (!exists_file(complie_out))
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
-		show_file(complie_log.c_str(), "", 0);
+		show_file(complie_log, "", 0);
 		exit(1);
 	}
 
@@ -182,7 +182,7 @@ void TaskChecker::complie_program(std::string program)
 	if (statbuf.st_size > 0)
 	{
 		LOG_WARN("Compiler outputs some warnings (see file %s):", complie_log.c_str());
-		show_file(complie_log.c_str(), "", 0);
+		show_file(complie_log, "", 0);
 		LOG_WARN("Compilation is partially successful.");
 	}
 	else
@@ -195,7 +195,6 @@ void TaskChecker::create_test(std::string program)
 {
 	tasklib->generate_task_test(task_num);
 	tasklib->generate_task_control(task_num);
-	tasklib->set_execute_argv(task_num);
 }
 void TaskChecker::parse_execute_argv(char **&execute_argv)
 {
@@ -245,7 +244,7 @@ void TaskChecker::check_program_result(std::string program)
 		break;
 	default:
 		LOG_INFO("Wrong result");
-		show_file(tasklib->control_file.c_str(), "Correct results must be as follows:", 1);
+		show_file(tasklib->control_file, "Correct results must be as follows:", 1);
 		exit(1);
 	}
 }
