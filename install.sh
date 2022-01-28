@@ -81,4 +81,8 @@ fi
 
 green "Compiling the project kernel is complete"
 
+if ! [ -a /usr/local/bin/taskchecker ]; then 
+	cp ./taskchecker /usr/local/bin; 
+fi
+
 green "Install success!"

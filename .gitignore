@@ -51,10 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-#vscode
-.vscode
-
 #test file
 *.tst
-TaskChecker
+taskchecker
 *log

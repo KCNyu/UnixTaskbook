@@ -15,9 +15,9 @@ myArgs = -Wall -ldl
 INC = -I./shared/inc -I./inc 
 STD = -std=c++11
 
-ALL: TaskChecker 
+ALL: taskchecker 
 
-TaskChecker: $(shared_obj) $(obj) 
+taskchecker: $(shared_obj) $(obj) 
 	$(CXX) $^ -o $@ $(myArgs) $(STD)
 
 $(shared_obj): ./shared/obj/%.o: ./shared/src/%.cpp

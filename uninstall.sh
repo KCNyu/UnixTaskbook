@@ -77,4 +77,9 @@ elif [ "$(uname)" == "Darwin" ]; then
 	fi
 
 fi
+
+if [ -a /usr/local/bin/taskchecker ]; then
+	rm /usr/local/bin/taskchecker
+fi
+
 green "Uninstall completed!"
