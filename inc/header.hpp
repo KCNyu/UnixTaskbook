@@ -14,6 +14,7 @@
 
 #include <cassert>
 #include <cstring>
+#include <ctime>
 
 #include "error.hpp"
 #include "cmdline.hpp"

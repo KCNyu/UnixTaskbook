@@ -469,15 +469,11 @@ void TaskC::print_extral_info(int task_num)
         show_file(test_files[0], "Input file: ", 2);
     }
 }
-int TaskC::get_total_test_count(int task_num) const
-{
-    return total_test_count;
-}
 int TaskC::check_program(int task_num) const
 {
     show_file(test_files[0], "Result file: ", 2);
 
-	return compare_file(test_files[0], control_file);;
+	return compare_file(test_files[0], control_file);
 }
 void TaskC::init_random_test_files_name(size_t test_file_count)
 {
