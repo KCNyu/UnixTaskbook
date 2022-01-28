@@ -5,6 +5,8 @@ class TaskD : public TaskLib
 {
 private:
     std::vector<std::vector<std::string>> random_cmds;
+    std::vector<std::vector<std::string>> random_cmds_stdout;
+    std::vector<std::vector<std::string>> random_cmds_stdin;
 
     int f;
     int backup;
@@ -35,6 +37,7 @@ public:
     // In order to implement the above interface, it is assisted by providing
     void init_random_test_files_name(size_t test_file_count);
     bool foo_judge(std::string cmd);
+    void init_helper_sys_cmd(std::string split);
 };
 
 extern "C" TaskLib *create()

@@ -221,7 +221,7 @@ void TaskChecker::execute_program(std::string program)
 	{
 		char **execute_argv;
 		parse_execute_argv(execute_argv);
-#if 0
+#if 1
 		for (size_t i = 0; i < tasklib->execute_argv.size() + 1; i++)
 		{
 			std::cout << execute_argv[i] << " ";
