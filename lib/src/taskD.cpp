@@ -131,10 +131,6 @@ void TaskD::generate_task_control(int task_num)
 void TaskD::print_extral_info(int task_num)
 {
 }
-int TaskD::get_total_test_count(int task_num) const
-{
-    return total_test_count;
-}
 int TaskD::check_program(int task_num) const
 {
     show_file(test_files[0], "Result file: ", 2);

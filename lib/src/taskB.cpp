@@ -376,10 +376,6 @@ void TaskB::generate_task_control(int task_num)
 	}
 	close(f_control);
 }
-int TaskB::get_total_test_count(int task_num) const
-{
-	return total_test_count;
-}
 void TaskB::print_extral_info(int task_num)
 {
 	show_file(test_files[0], "Input file: ", 0);

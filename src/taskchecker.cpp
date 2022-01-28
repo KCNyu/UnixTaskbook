@@ -269,12 +269,14 @@ void TaskChecker::run()
 
 	complie_program(program);
 
-	for (int i = 0; i < tasklib->get_total_test_count(task_num); i++)
+	for (int i = 0; i < tasklib->total_test_count; i++)
 	{
 		create_test(program);
 		tasklib->print_extral_info(task_num);
 		execute_program(program);
 		check_program_result(program);
+
+		// remove test files and control file
 		system("rm *.tst");
 	}
 
