@@ -98,7 +98,7 @@ void TaskChecker::parse_command(int argc, char *argv[])
 	if (argc == 1)
 	{
 		std::cerr << command_parser.usage();
-		exit(1);
+		exit(EXIT_FAILURE);;
 	}
 
 	command_parser.parse_check(argc, argv);
@@ -174,7 +174,7 @@ void TaskChecker::complie_program(std::string program)
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
 		show_file(complie_log, "", 0);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	struct stat statbuf;
@@ -253,7 +253,7 @@ void TaskChecker::check_program_result(std::string program)
 	default:
 		LOG_INFO("Wrong result");
 		show_file(tasklib->control_file, "Correct results must be as follows:", 1);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 void TaskChecker::run()
