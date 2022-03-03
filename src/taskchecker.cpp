@@ -135,6 +135,13 @@ void TaskChecker::complie_program(std::string program)
 		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
 	}
 
+	// return if the program is already compiled
+	if (program.find(".out") != std::string::npos)
+	{
+		complie_out = program;
+		return;
+	}
+
 	complie_log = std::string(program.substr(0, strrchr(program.c_str(), '.') - program.c_str()));
 	complie_out = complie_log;
 	complie_log += "." + tasklib->complier + "log";
