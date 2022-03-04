@@ -76,6 +76,7 @@ elif [ "$(uname)" == "Darwin" ]; then
 		rm /usr/local/lib/libtask*.so
 	fi
 
+	cd -
 fi
 
 if [ -a /usr/local/bin/taskchecker ]; then

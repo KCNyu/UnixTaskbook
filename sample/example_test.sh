@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd ../
-./recomplie.sh
+sudo ./recomplie.sh
 
 cd sample
 taskchecker -t B14 -l ch -p ../test/B14.c
