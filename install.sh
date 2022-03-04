@@ -72,7 +72,7 @@ if ! [ -a /usr/local/bin/taskchecker ]; then
 
 	sudo cp ./taskchecker /usr/local/bin
 
-	chmod +x /usr/local/bin/taskchecker
+	sudo chmod +x /usr/local/bin/taskchecker
 fi
 
 green "Install success!"
