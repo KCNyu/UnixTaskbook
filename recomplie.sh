@@ -62,13 +62,14 @@ if [ "$(uname)" == "Linux" ]; then
 	if [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
 		rm /etc/ld.so.conf.d/taskchecker.conf
 	fi
+
 elif [ "$(uname)" == "Darwin" ]; then
-    if [ -d /usr/local/lib ]; then
-        cd /usr/local/lib
-    else
-        exit 1
-    fi
-    printWorkSpace
+	if [ -d /usr/local/lib ]; then
+		cd /usr/local/lib
+	else
+		exit 1
+	fi
+	printWorkSpace
 
 	files=$(ls libtask*.so | wc -l)
 
@@ -133,8 +134,8 @@ fi
 
 green "Compiling the project kernel is complete"
 
-if ! [ -a /usr/local/bin/taskchecker ]; then 
-	cp ./taskchecker /usr/local/bin; 
+if ! [ -a /usr/local/bin/taskchecker ]; then
+	cp ./taskchecker /usr/local/bin
 fi
 
 green "Install success!"

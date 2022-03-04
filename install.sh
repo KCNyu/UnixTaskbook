@@ -16,17 +16,21 @@ function green() {
 
 if [ "$(uname)" == "Linux" ]; then
 
-	if ["$(arch)" == "x86_64"]; then
+	if [ "$(arch)" == "x86_64" ]; then
 
-		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-x86_64.tar.gz > TaskChecker-linux-x86_64.tar.gz
 
 		tar -zxvf TaskChecker-linux-x86_64.tar.gz
 
-	elif ["$(arch)" == "arm64"]; then
+		cd TaskChecker-linux-x86_64
 
-		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-arm64.tar.gz
+	elif [ "$(arch)" == "arm64" ]; then
+
+		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-arm64.tar.gz > TaskChecker-linux-arm64.tar.gz
 
 		tar -zxvf TaskChecker-linux-arm64.tar.gz
+
+		cd TaskChecker-linux-arm64
 
 	fi
 
@@ -45,16 +49,21 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 	if ["$(arch)" == "x86_64" ]; then
 
-		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-drawin-x86_64.tar.gz > TaskChecker-drawin-x86_64.tar.gz
 
-		tar -zxvf TaskChecker-darwin-x86_64.tar.gz
+		tar -zxvf TaskChecker-drawin-x86_64.tar.gz
 
-	elif ["$(arch)" == "arm64"]; then
+		cd TaskChecker-drawin-x86_64
 
-		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-aarch64.tar.gz
+	elif [ "$(arch)" == "arm64" ]; then
 
-		tar -zxvf TaskChecker-darwin-aarch64.tar.gz
+		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-drawin-arm64.tar.gz > TaskChecker-drawin-arm64.tar.gz
+
+		tar -zxvf TaskChecker-drawin-arm64.tar.gz
+
+		cd TaskChecker-drawin-arm64
 	fi
+
 	sudo cp ./*.so /usr/local/lib/
 
 fi
