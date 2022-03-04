@@ -69,7 +69,7 @@ elif [ "$(uname)" == "Darwin" ]; then
 fi
 
 if ! [ -a /usr/local/bin/taskchecker ]; then
-	cp ./taskchecker /usr/local/bin
+	sudo cp ./taskchecker /usr/local/bin
 fi
 
 green "Install success!"
