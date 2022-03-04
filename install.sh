@@ -18,13 +18,13 @@ if [ "$(uname)" == "Linux" ]; then
 
 	if ["$(arch)" == "x86_64"]; then
 
-		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-x86_64.tar.gz
+		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-x86_64.tar.gz
 
 		tar -zxvf TaskChecker-linux-x86_64.tar.gz
 
 	elif ["$(arch)" == "arm64"]; then
 
-		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-arm64.tar.gz
+		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-arm64.tar.gz
 
 		tar -zxvf TaskChecker-linux-arm64.tar.gz
 
@@ -45,13 +45,13 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 	if ["$(arch)" == "x86_64" ]; then
 
-		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-x86_64.tar.gz
+		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-x86_64.tar.gz
 
 		tar -zxvf TaskChecker-darwin-x86_64.tar.gz
 
 	elif ["$(arch)" == "arm64"]; then
 
-		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-aarch64.tar.gz
+		curl -LJO https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-aarch64.tar.gz
 
 		tar -zxvf TaskChecker-darwin-aarch64.tar.gz
 	fi
