@@ -1,14 +1,10 @@
 #!/bin/bash
-
-FLINES="========================================="
 NORMAL=$(tput sgr0)
 RED=$(tput setaf 1)
 GREEN=$(
 	tput setaf 2
 	tput bold
 )
-YELLOW=$(tput setaf 3)
-BLUE=$(tput setaf 4)
 
 function red() {
 	echo -e "$RED$*$NORMAL"
@@ -18,71 +14,53 @@ function green() {
 	echo -e "$GREEN$*$NORMAL"
 }
 
-function yellow() {
-	echo -e "$YELLOW$*$NORMAL"
-}
-
-function blue() {
-	echo -e "$BLUE$*$NORMAL"
-}
-
-function printWorkSpace() {
-	echo $FLINES
-	WORKSPACE=$(pwd)
-	blue "WORKSPACE: ${WORKSPACE}"
-	echo $FLINES
-}
-
-if [ -d lib ]; then
-	cd lib
-else
-	red "lib not exist!"
-	exit 1
-fi
-
-printWorkSpace
-yellow "Dynamic library file is being compiled"
-
-if ! [ -d obj ]; then mkdir obj; fi
-if ! [ -d ../shared/obj ]; then mkdir ../shared/obj; fi
-if ! make; then
-	red "make failed!"
-	exit 1
-fi
-
 if [ "$(uname)" == "Linux" ]; then
 
-	if ! [ -d /usr/local/lib/TaskChecker ]; then mkdir /usr/local/lib/TaskChecker; fi
+	if ["$(arch)" == "x86_64"]; then
 
-	cp ./*.so /usr/local/lib/TaskChecker
+		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-x86_64.tar.gz
 
-	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then cp ./taskchecker.conf /etc/ld.so.conf.d; fi
+		tar -zxvf TaskChecker-linux-x86_64.tar.gz
 
-	if ! ldconfig; then
+	elif ["$(arch)" == "arm64"]; then
+
+		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-arm64.tar.gz
+
+		tar -zxvf TaskChecker-linux-arm64.tar.gz
+
+	fi
+
+	if ! [ -d /usr/local/lib/TaskChecker ]; then sudo mkdir /usr/local/lib/TaskChecker; fi
+
+	sudo cp ./*.so /usr/local/lib/TaskChecker
+
+	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then sudo cp ./taskchecker.conf /etc/ld.so.conf.d; fi
+
+	if ! sudo ldconfig; then
 		red "config error"
 		exit 1
 	fi
 
 elif [ "$(uname)" == "Darwin" ]; then
-	cp ./*.so /usr/local/lib/
+
+	if ["$(arch)" == "x86_64" ]; then
+
+		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-x86_64.tar.gz
+
+		tar -zxvf TaskChecker-darwin-x86_64.tar.gz
+
+	elif ["$(arch)" == "arm64"]; then
+
+		curl -O https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-darwin-aarch64.tar.gz
+
+		tar -zxvf TaskChecker-darwin-aarch64.tar.gz
+	fi
+	sudo cp ./*.so /usr/local/lib/
+
 fi
 
-green "Dynamic library installation and configuration completed"
-
-cd ..
-printWorkSpace
-yellow "Compile the project kernel"
-
-if ! [ -d obj ]; then mkdir obj; fi
-if ! make; then
-	red "make failed!"
-	exit 1
-fi
-
-green "Compiling the project kernel is complete"
-
-if ! [ -a /usr/local/bin/taskchecker ]; then 
-	cp ./taskchecker /usr/local/bin; 
+if ! [ -a /usr/local/bin/taskchecker ]; then
+	cp ./taskchecker /usr/local/bin
 fi
 
 green "Install success!"
