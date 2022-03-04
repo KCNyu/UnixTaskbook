@@ -5,6 +5,6 @@ cd ../
 
 cd sample
 for ((i = 1; i <= 16; i++)); do
-	../TaskChecker -t C$i
-	../TaskChecker -t C$i -l ch
+	taskchecker -t C$i
+	taskchecker -t C$i -l ch
 done

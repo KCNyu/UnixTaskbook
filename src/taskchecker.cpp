@@ -98,7 +98,7 @@ void TaskChecker::parse_command(int argc, char *argv[])
 	if (argc == 1)
 	{
 		std::cerr << command_parser.usage();
-		exit(1);
+		exit(EXIT_FAILURE);;
 	}
 
 	command_parser.parse_check(argc, argv);
@@ -133,6 +133,13 @@ void TaskChecker::complie_program(std::string program)
 	if (!exists_file(program))
 	{
 		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
+	}
+
+	// return if the program is already compiled
+	if (program.find(".out") != std::string::npos)
+	{
+		complie_out = program;
+		return;
 	}
 
 	complie_log = std::string(program.substr(0, strrchr(program.c_str(), '.') - program.c_str()));
@@ -174,7 +181,7 @@ void TaskChecker::complie_program(std::string program)
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
 		show_file(complie_log, "", 0);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 
 	struct stat statbuf;
@@ -253,7 +260,7 @@ void TaskChecker::check_program_result(std::string program)
 	default:
 		LOG_INFO("Wrong result");
 		show_file(tasklib->control_file, "Correct results must be as follows:", 1);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
 }
 void TaskChecker::run()

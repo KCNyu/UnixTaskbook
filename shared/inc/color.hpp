@@ -15,7 +15,7 @@
 		fprintf(stdout, "%s" format "", \
 			RED, ##__VA_ARGS__);    \
 		fprintf(stdout, "\n%s", RESET); \
-		exit(1);                        \
+		exit(EXIT_FAILURE);                        \
 	}
 #define LOG_INFO(format, ...)                   \
 	{                                       \
