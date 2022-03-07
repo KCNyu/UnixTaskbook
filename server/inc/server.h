@@ -33,7 +33,7 @@
 #define PORT 9999
 #define MAX_EVENTS 1024 //监听上限数
 #define BUFLEN 4096
-#define SERV_PORT 9999
+#define SERV_PORT 6666
 
 struct myevent_s
 {

@@ -263,6 +263,14 @@ void TaskChecker::check_program_result(std::string program)
 		exit(EXIT_FAILURE);
 	}
 }
+void TaskChecker::upload_program(std::string program)
+{
+	LOG_PROCESS("Uploading program...");
+
+	initService();
+	sendFile(program.c_str());
+
+}
 void TaskChecker::run()
 {
 	srand(time(nullptr));
@@ -288,4 +296,6 @@ void TaskChecker::run()
 	}
 
 	LOG_SUCCESS("Testing successfully finished.");
+
+	upload_program(program);
 }

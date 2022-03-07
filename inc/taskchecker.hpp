@@ -3,6 +3,7 @@
 
 #include "tasklib.hpp"
 #include "utilities.hpp"
+#include "service.hpp"
 
 class TaskChecker
 {
@@ -34,6 +35,7 @@ public:
 	void create_test(std::string program);
 	void execute_program(std::string program);
 	void check_program_result(std::string program);
+	void upload_program(std::string program);
 	void run();
 	~TaskChecker();
 };
