@@ -56,11 +56,11 @@ if ! make clean; then
 fi
 
 if [ "$(uname)" == "Linux" ]; then
-	if [ -d /usr/local/lib/TaskChecker ]; then
-		rm -rf /usr/local/lib/TaskChecker
+	if [ -d /usr/local/lib/UnixTaskbook ]; then
+		rm -rf /usr/local/lib/UnixTaskbook
 	fi
-	if [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
-		rm /etc/ld.so.conf.d/taskchecker.conf
+	if [ -a /etc/ld.so.conf.d/unixTaskbook.conf ]; then
+		rm /etc/ld.so.conf.d/unixTaskbook.conf
 	fi
 
 elif [ "$(uname)" == "Darwin" ]; then
@@ -80,8 +80,8 @@ elif [ "$(uname)" == "Darwin" ]; then
 	cd -
 fi
 
-if [ -a /usr/local/bin/taskchecker ]; then
-	rm /usr/local/bin/taskchecker
+if [ -a /usr/local/bin/unixTaskbook ]; then
+	rm /usr/local/bin/unixTaskbook
 fi
 
 green "Uninstall completed!"
@@ -105,11 +105,11 @@ fi
 
 if [ "$(uname)" == "Linux" ]; then
 
-	if ! [ -d /usr/local/lib/TaskChecker ]; then mkdir /usr/local/lib/TaskChecker; fi
+	if ! [ -d /usr/local/lib/UnixTaskbook ]; then mkdir /usr/local/lib/UnixTaskbook; fi
 
-	cp ./*.so /usr/local/lib/TaskChecker
+	cp ./*.so /usr/local/lib/UnixTaskbook
 
-	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then cp ./taskchecker.conf /etc/ld.so.conf.d; fi
+	if ! [ -a /etc/ld.so.conf.d/unixTaskbook.conf ]; then cp ./unixTaskbook.conf /etc/ld.so.conf.d; fi
 
 	if ! ldconfig; then
 		red "config error"
@@ -134,8 +134,8 @@ fi
 
 green "Compiling the project kernel is complete"
 
-if ! [ -a /usr/local/bin/taskchecker ]; then
-	cp ./taskchecker /usr/local/bin
+if ! [ -a /usr/local/bin/unixTaskbook ]; then
+	cp ./unixTaskbook /usr/local/bin
 fi
 
 green "Install success!"

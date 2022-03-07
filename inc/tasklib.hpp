@@ -43,7 +43,7 @@ public:
 	virtual ~TaskLib() {}
 
 	// friend class
-	friend class TaskChecker;
+	friend class UnixTaskbook;
 };
 
 // the types of the class factories

@@ -15,9 +15,9 @@ myArgs = -Wall -ldl
 INC = -I./shared/inc -I./inc 
 STD = -std=c++11
 
-ALL: taskchecker 
+ALL: unixTaskbook 
 
-taskchecker: $(shared_obj) $(obj) 
+unixTaskbook: $(shared_obj) $(obj) 
 	$(CXX) $^ -o $@ $(myArgs) $(STD)
 
 $(shared_obj): ./shared/obj/%.o: ./shared/src/%.cpp
@@ -27,6 +27,6 @@ $(obj): ./obj/%.o: ./src/%.cpp
 	$(CXX) -c $< -o $@ $(INC) $(STD)
 
 clean:
-	rm -rf $(obj) $(shared_obj) TaskChecker 
+	rm -rf $(obj) $(shared_obj) UnixTaskbook 
 
 .PHONY: ALL clean

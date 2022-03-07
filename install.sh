@@ -18,27 +18,27 @@ if [ "$(uname)" == "Linux" ]; then
 
 	if [ "$(arch)" == "x86_64" ]; then
 
-		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-x86_64.tar.gz > TaskChecker-linux-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-linux-x86_64.tar.gz > UnixTaskbook-linux-x86_64.tar.gz
 
-		tar -zxvf TaskChecker-linux-x86_64.tar.gz
+		tar -zxvf UnixTaskbook-linux-x86_64.tar.gz
 
-		cd TaskChecker-linux-x86_64
+		cd UnixTaskbook-linux-x86_64
 
 	elif [ "$(arch)" == "arm64" ]; then
 
-		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-linux-arm64.tar.gz > TaskChecker-linux-arm64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-linux-arm64.tar.gz > UnixTaskbook-linux-arm64.tar.gz
 
-		tar -zxvf TaskChecker-linux-arm64.tar.gz
+		tar -zxvf UnixTaskbook-linux-arm64.tar.gz
 
-		cd TaskChecker-linux-arm64
+		cd UnixTaskbook-linux-arm64
 
 	fi
 
-	if ! [ -d /usr/local/lib/TaskChecker ]; then sudo mkdir /usr/local/lib/TaskChecker; fi
+	if ! [ -d /usr/local/lib/UnixTaskbook ]; then sudo mkdir /usr/local/lib/UnixTaskbook; fi
 
-	sudo cp ./*.so /usr/local/lib/TaskChecker
+	sudo cp ./*.so /usr/local/lib/UnixTaskbook
 
-	if ! [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then sudo cp ./taskchecker.conf /etc/ld.so.conf.d; fi
+	if ! [ -a /etc/ld.so.conf.d/unixTaskbook.conf ]; then sudo cp ./unixTaskbook.conf /etc/ld.so.conf.d; fi
 
 	if ! sudo ldconfig; then
 		red "config error"
@@ -49,30 +49,30 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 	if ["$(arch)" == "x86_64" ]; then
 
-		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-drawin-x86_64.tar.gz > TaskChecker-drawin-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-drawin-x86_64.tar.gz > UnixTaskbook-drawin-x86_64.tar.gz
 
-		tar -zxvf TaskChecker-drawin-x86_64.tar.gz
+		tar -zxvf UnixTaskbook-drawin-x86_64.tar.gz
 
-		cd TaskChecker-drawin-x86_64
+		cd UnixTaskbook-drawin-x86_64
 
 	elif [ "$(arch)" == "arm64" ]; then
 
-		curl -L https://github.com/KCNyu/TaskChecker/releases/download/v1.0.0/TaskChecker-drawin-arm64.tar.gz > TaskChecker-drawin-arm64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-drawin-arm64.tar.gz > UnixTaskbook-drawin-arm64.tar.gz
 
-		tar -zxvf TaskChecker-drawin-arm64.tar.gz
+		tar -zxvf UnixTaskbook-drawin-arm64.tar.gz
 
-		cd TaskChecker-drawin-arm64
+		cd UnixTaskbook-drawin-arm64
 	fi
 
 	sudo cp ./*.so /usr/local/lib/
 
 fi
 
-if ! [ -a /usr/local/bin/taskchecker ]; then
+if ! [ -a /usr/local/bin/unixTaskbook ]; then
 
-	sudo cp ./taskchecker /usr/local/bin
+	sudo cp ./unixTaskbook /usr/local/bin
 
-	sudo chmod +x /usr/local/bin/taskchecker
+	sudo chmod +x /usr/local/bin/unixTaskbook
 fi
 
 green "Install success!"

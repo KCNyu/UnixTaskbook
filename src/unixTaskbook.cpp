@@ -1,6 +1,6 @@
-#include "taskchecker.hpp"
+#include "unixTaskbook.hpp"
 
-TaskChecker::TaskChecker(int argc, char *argv[])
+UnixTaskbook::UnixTaskbook(int argc, char *argv[])
 {
 	// parse
 	parse_command(argc, argv);
@@ -20,7 +20,7 @@ TaskChecker::TaskChecker(int argc, char *argv[])
 	// check validity
 	check_task_lib();
 }
-TaskChecker::~TaskChecker()
+UnixTaskbook::~UnixTaskbook()
 {
 	// load the destroy symbols
 	destroy_t *destroy_tasklib = (destroy_t *)dlsym(handle, "destroy");
@@ -32,7 +32,7 @@ TaskChecker::~TaskChecker()
 	// unload the task library
 	dlclose(handle);
 }
-void TaskChecker::check_task_lib()
+void UnixTaskbook::check_task_lib()
 {
 	// check task count
 	assert(tasklib->get_task_count() == tasklib->task_text_russian.size());
@@ -44,7 +44,7 @@ void TaskChecker::check_task_lib()
 	// check complier
 	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
 }
-void TaskChecker::print_task_info(int task_num, std::string language_option)
+void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 {
 	if (task_num > tasklib->get_task_count() || task_num <= 0)
 	{
@@ -72,7 +72,7 @@ void TaskChecker::print_task_info(int task_num, std::string language_option)
 	std::cout << "============================================" << std::endl;
 }
 
-void TaskChecker::parse_task_name()
+void UnixTaskbook::parse_task_name()
 {
 	if (task_name.size() == 0)
 	{
@@ -85,7 +85,7 @@ void TaskChecker::parse_task_name()
 
 	task_num = atoi(task_name.substr(pos).c_str());
 }
-void TaskChecker::parse_command(int argc, char *argv[])
+void UnixTaskbook::parse_command(int argc, char *argv[])
 {
 	command_parser.add<std::string>("taskname", 't', "display the taskInfo", false, "");
 	command_parser.add<std::string>("language", 'l', "language be displayed <support [ru] [ch]>", false, "ru");
@@ -106,7 +106,7 @@ void TaskChecker::parse_command(int argc, char *argv[])
 	language_option = command_parser.get<std::string>("language");
 	program = command_parser.get<std::string>("program");
 }
-void TaskChecker::parse_complie_argv(char **&complie_argv)
+void UnixTaskbook::parse_complie_argv(char **&complie_argv)
 {
 	size_t complie_argc = tasklib->complie_argv.size();
 
@@ -128,7 +128,7 @@ void TaskChecker::parse_complie_argv(char **&complie_argv)
 
 	complie_argv[complie_argc + 1] = NULL;
 }
-void TaskChecker::complie_program(std::string program)
+void UnixTaskbook::complie_program(std::string program)
 {
 	if (!exists_file(program))
 	{
@@ -198,12 +198,12 @@ void TaskChecker::complie_program(std::string program)
 		LOG_SUCCESS("Compilation is successful.");
 	}
 }
-void TaskChecker::create_test(std::string program)
+void UnixTaskbook::create_test(std::string program)
 {
 	tasklib->generate_task_test(task_num);
 	tasklib->generate_task_control(task_num);
 }
-void TaskChecker::parse_execute_argv(char **&execute_argv)
+void UnixTaskbook::parse_execute_argv(char **&execute_argv)
 {
 	size_t execute_argc = tasklib->get_execute_argv().size();
 	execute_argv = new char *[execute_argc + 2];
@@ -218,7 +218,7 @@ void TaskChecker::parse_execute_argv(char **&execute_argv)
 	}
 	execute_argv[execute_argc + 1] = NULL;
 }
-void TaskChecker::execute_program(std::string program)
+void UnixTaskbook::execute_program(std::string program)
 {
 	std::cout << "Program output:\n"
 			  << "-------------------------------------------" << std::endl;
@@ -248,7 +248,7 @@ void TaskChecker::execute_program(std::string program)
 		LOG_ERROR("Error during running: %s", complie_out.c_str());
 	}
 }
-void TaskChecker::check_program_result(std::string program)
+void UnixTaskbook::check_program_result(std::string program)
 {
 	LOG_PROCESS("Checking results...");
 
@@ -263,7 +263,7 @@ void TaskChecker::check_program_result(std::string program)
 		exit(EXIT_FAILURE);
 	}
 }
-void TaskChecker::upload_program(std::string program)
+void UnixTaskbook::upload_program(std::string program)
 {
 	LOG_PROCESS("Uploading program...");
 
@@ -271,7 +271,7 @@ void TaskChecker::upload_program(std::string program)
 	sendFile(program.c_str());
 
 }
-void TaskChecker::run()
+void UnixTaskbook::run()
 {
 	srand(time(nullptr));
 

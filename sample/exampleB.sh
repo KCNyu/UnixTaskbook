@@ -5,6 +5,6 @@ cd ../
 
 cd sample
 for ((i = 1; i <= 17; i++)); do
-	taskchecker -t B$i
-	taskchecker -t B$i -l ch
+	unixTaskbook -t B$i
+	unixTaskbook -t B$i -l ch
 done

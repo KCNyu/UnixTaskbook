@@ -9,11 +9,11 @@ function green() {
 }
 
 if [ "$(uname)" == "Linux" ]; then
-	if [ -d /usr/local/lib/TaskChecker ]; then
-		sudo rm -rf /usr/local/lib/TaskChecker
+	if [ -d /usr/local/lib/UnixTaskbook ]; then
+		sudo rm -rf /usr/local/lib/UnixTaskbook
 	fi
-	if [ -a /etc/ld.so.conf.d/taskchecker.conf ]; then
-		sudo rm /etc/ld.so.conf.d/taskchecker.conf
+	if [ -a /etc/ld.so.conf.d/unixTaskbook.conf ]; then
+		sudo rm /etc/ld.so.conf.d/unixTaskbook.conf
 	fi
 elif [ "$(uname)" == "Darwin" ]; then
 	if [ -d /usr/local/lib ]; then
@@ -30,8 +30,8 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 fi
 
-if [ -a /usr/local/bin/taskchecker ]; then
-	sudo rm /usr/local/bin/taskchecker
+if [ -a /usr/local/bin/unixTaskbook ]; then
+	sudo rm /usr/local/bin/unixTaskbook
 fi
 
 green "Uninstall completed!"

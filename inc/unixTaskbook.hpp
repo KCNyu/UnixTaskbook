@@ -1,11 +1,11 @@
-#ifndef TASKCHECKER_HPP
-#define TASKCHECKER_HPP
+#ifndef UNIXTASKBOOK_HPP
+#define UNIXTASKBOOK_HPP
 
 #include "tasklib.hpp"
 #include "utilities.hpp"
 #include "service.hpp"
 
-class TaskChecker
+class UnixTaskbook
 {
 private:
 	void *handle;
@@ -29,7 +29,7 @@ protected:
 	void parse_execute_argv(char **&execute_argv);
 
 public:
-	TaskChecker(int argc, char *argv[]);
+	UnixTaskbook(int argc, char *argv[]);
 	void print_task_info(int task_num, std::string language_option);
 	void complie_program(std::string program);
 	void create_test(std::string program);
@@ -37,7 +37,7 @@ public:
 	void check_program_result(std::string program);
 	void upload_program(std::string program);
 	void run();
-	~TaskChecker();
+	~UnixTaskbook();
 };
 
 #endif

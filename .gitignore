@@ -53,5 +53,5 @@ dkms.conf
 
 #test file
 *.tst
-taskchecker
+unixTaskbook
 *log
