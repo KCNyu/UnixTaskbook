@@ -379,5 +379,4 @@ int TaskB::check_program(int task_num) const
 	show_file(test_files[0], "Result file: ", 2);
 
 	return compare_file(test_files[0], control_file);
-	;
 }

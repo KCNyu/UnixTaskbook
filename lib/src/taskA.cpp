@@ -44,17 +44,19 @@ TaskA::TaskA()
 }
 void TaskA::generate_task_test(int task_num)
 {
+    init_random_test_files_name(1);
+
     work_dir = generate_random_name(10);
     mkdir(work_dir.c_str(), 0777);
-    for (int i = 0; i < random() % 10; i++)
+    for (int i = 0; i < 1 + random() % 10; i++)
     {
-        for (int i = 0; i < random() % 5; i++)
+        for (int i = 0; i < 1 + random() % 5; i++)
         {
             std::string dirname = generate_random_name(10);
             sub_dir.push_back(dirname);
             mkdir((work_dir + "/" + dirname).c_str(), 0777);
             std::string filename = generate_random_name(10);
-            std::string filepath = work_dir + "/" + dirname + "/" + filename;
+            std::string filepath = work_dir + "/" + dirname + "/" + filename + extension_name[random() % extension_name.size()];
             std::ofstream ofs(filepath.c_str());
             ofs << generate_random_name(10);
             ofs.close();
@@ -63,13 +65,15 @@ void TaskA::generate_task_test(int task_num)
 }
 void TaskA::test1()
 {
-    std::string excute_dir = random() % 2 ? sub_dir[random() % sub_dir.size()] : work_dir;
+    std::string excute_dir = work_dir + "/" + (random() % 2 ? sub_dir[random() % sub_dir.size()] : "");
     sys_cmd = "( ls -l " + excute_dir + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
               control_file;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
     execute_argv.push_back(excute_dir);
+
+    output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
 void TaskA::test2()
 {
@@ -136,6 +140,9 @@ void TaskA::print_extral_info(int task_num)
 }
 int TaskA::check_program(int task_num) const
 {
+    std::string cmd = "rm -rf " + work_dir;
+    system(cmd.c_str());
+
     return 1;
 }
 void TaskA::init_random_test_files_name(size_t test_file_count)
