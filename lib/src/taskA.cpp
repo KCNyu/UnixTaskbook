@@ -12,6 +12,14 @@ TaskA::TaskA()
 
     total_test_count = 3;
 
+    extension_name = {
+        ".jpg",
+        ".png",
+        ".gif",
+        ".bmp",
+        ".tiff",
+        ".jpeg"};
+
     task_text_russian = {
         "При запуске программы выводится список файлов из текущего каталога (или каталога, указанного в качестве параметра командной строки). Информация о файлах должна выводиться в трех столбцах, содержащих имя файла, его размер (в байтах) и дату- время последнего изменения.\n",
         "При запуске программы выводится список файлов из текущего или указанного пользователем каталога с именами, имеющими указанное (непустое) расширение (например jpg). Каталог и требуемое расширение задаются пользователем в командной строке (первым указывается расширение, вторым — каталог). В случае отсутствия второго параметра обрабатывается текущий каталог. В случае отсутствия всех параметров выводится сообщение об ошибке. Информация о файлах должна выводиться в трех столбцах, содержащих имя файла, его размер (в байтах) и дату-время последнего изменения.\n",
@@ -36,17 +44,106 @@ TaskA::TaskA()
 }
 void TaskA::generate_task_test(int task_num)
 {
+    work_dir = generate_random_name(10);
+    mkdir(work_dir.c_str(), 0777);
+    for (int i = 0; i < random() % 10; i++)
+    {
+        for (int i = 0; i < random() % 5; i++)
+        {
+            std::string dirname = generate_random_name(10);
+            sub_dir.push_back(dirname);
+            mkdir((work_dir + "/" + dirname).c_str(), 0777);
+            std::string filename = generate_random_name(10);
+            std::string filepath = work_dir + "/" + dirname + "/" + filename;
+            std::ofstream ofs(filepath.c_str());
+            ofs << generate_random_name(10);
+            ofs.close();
+        }
+    }
+}
+void TaskA::test1()
+{
+    std::string excute_dir = random() % 2 ? sub_dir[random() % sub_dir.size()] : work_dir;
+    sys_cmd = "( ls -l " + excute_dir + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
 
+    execute_argv.clear();
+    execute_argv.push_back(excute_dir);
+}
+void TaskA::test2()
+{
+}
+void TaskA::test3()
+{
+}
+void TaskA::test4()
+{
+}
+void TaskA::test5()
+{
+}
+void TaskA::test6()
+{
+}
+void TaskA::test7()
+{
+}
+void TaskA::test8()
+{
+}
+void TaskA::test9()
+{
 }
 void TaskA::generate_task_control(int task_num)
 {
+    f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
+    switch (task_num)
+    {
+    case 1:
+        test1();
+        break;
+    case 2:
+        test2();
+        break;
+    case 3:
+        test3();
+        break;
+    case 4:
+        test4();
+        break;
+    case 5:
+        test5();
+        break;
+    case 6:
+        test6();
+        break;
+    case 7:
+        test7();
+        break;
+    case 8:
+        test8();
+        break;
+    case 9:
+        test9();
+        break;
+    }
+    close(f_control);
 }
 void TaskA::print_extral_info(int task_num)
 {
-
 }
 int TaskA::check_program(int task_num) const
 {
     return 1;
+}
+void TaskA::init_random_test_files_name(size_t test_file_count)
+{
+    test_files.resize(test_file_count);
+
+    for (auto &tf : test_files)
+    {
+        tf = generate_random_name(8) + ".tst";
+    }
 }

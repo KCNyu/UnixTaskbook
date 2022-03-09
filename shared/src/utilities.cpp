@@ -126,3 +126,15 @@ int compare_file(std::string name1, std::string name2)
 {
 	return compare_file(name1.c_str(), name2.c_str());
 }
+std::string generate_random_name(size_t length)
+{
+	std::string name;
+	char buf[length + 1];
+	for (size_t i = 0; i < length; i++)
+	{
+		buf[i] = 'a' + (rand() % 26);
+	}
+	buf[length] = 0;
+	name = buf;
+	return name;
+}

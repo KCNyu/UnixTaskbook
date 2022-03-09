@@ -462,7 +462,7 @@ void TaskC::print_extral_info(int task_num)
     if (use_flag)
     {
         show_file(test_files[0], "Input file1: ", 2);
-		show_file(test_files[1], "Input file2: ", 2);
+        show_file(test_files[1], "Input file2: ", 2);
     }
     else
     {
@@ -473,7 +473,7 @@ int TaskC::check_program(int task_num) const
 {
     show_file(test_files[0], "Result file: ", 2);
 
-	return compare_file(test_files[0], control_file);
+    return compare_file(test_files[0], control_file);
 }
 void TaskC::init_random_test_files_name(size_t test_file_count)
 {
@@ -481,12 +481,6 @@ void TaskC::init_random_test_files_name(size_t test_file_count)
 
     for (auto &tf : test_files)
     {
-        tf.clear();
-
-        for (size_t i = 0; i < 8; i++)
-        {
-            tf.push_back((char)(rand() % 26 + 97));
-        }
-        tf += ".tst";
+        tf = generate_random_name(8) + ".tst";
     }
 }

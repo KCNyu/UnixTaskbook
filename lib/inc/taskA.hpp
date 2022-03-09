@@ -3,6 +3,12 @@
 
 class TaskA : public TaskLib
 {
+private:
+    std::string sys_cmd;
+    std::string work_dir;
+    std::vector<std::string> extension_name;
+    std::vector<std::string> sub_dir;
+
 protected:
     void test1();
     void test2();
@@ -31,9 +37,9 @@ public:
 
 extern "C" TaskLib *create()
 {
-	return new TaskA;
+    return new TaskA;
 }
 extern "C" void destroy(TaskLib *t)
 {
-	delete t;
+    delete t;
 }

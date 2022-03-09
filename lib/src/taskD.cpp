@@ -216,7 +216,7 @@ void TaskD::test9()
     {
         execute_argv.push_back(cmd);
     }
-    
+
     sys_cmd = "";
     init_helper_sys_cmd("||");
     sys_cmd = "(" + sys_cmd + ") |";
@@ -233,7 +233,7 @@ void TaskD::test9()
     execute_argv.insert(execute_argv.begin(), test_files[0]);
 
     sys_cmd += " >> " + control_file;
-    
+
     system(sys_cmd.c_str());
     output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
@@ -288,12 +288,6 @@ void TaskD::init_random_test_files_name(size_t test_file_count)
 
     for (auto &tf : test_files)
     {
-        tf.clear();
-
-        for (size_t i = 0; i < 8; i++)
-        {
-            tf.push_back((char)(rand() % 26 + 97));
-        }
-        tf += ".tst";
+        tf = generate_random_name(8) + ".tst";
     }
 }
