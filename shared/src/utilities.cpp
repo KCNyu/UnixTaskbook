@@ -138,3 +138,12 @@ std::string generate_random_name(size_t length)
 	name = buf;
 	return name;
 }
+void init_random_test_files_name(std::vector<std::string> &test_files, size_t test_file_count)
+{
+	test_files.resize(test_file_count);
+
+	for (auto &tf : test_files)
+	{
+		tf = generate_random_name(8) + ".tst";
+	}
+}

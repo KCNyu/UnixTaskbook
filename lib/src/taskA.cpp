@@ -52,7 +52,7 @@ void TaskA::generate_test_file(std::string dirname, int count)
 }
 void TaskA::generate_task_test(int task_num)
 {
-    init_random_test_files_name(1);
+    init_random_test_files_name(test_files, 1);
 
     work_dir = generate_random_name(10);
     mkdir(work_dir.c_str(), 0777);
@@ -169,13 +169,4 @@ int TaskA::check_program(int task_num) const
     system(cmd.c_str());
 
     return 1;
-}
-void TaskA::init_random_test_files_name(size_t test_file_count)
-{
-    test_files.resize(test_file_count);
-
-    for (auto &tf : test_files)
-    {
-        tf = generate_random_name(8) + ".tst";
-    }
 }

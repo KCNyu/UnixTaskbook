@@ -46,7 +46,6 @@ public:
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
-    void init_random_test_files_name(size_t test_file_count);
 };
 
 extern "C" TaskLib *create()

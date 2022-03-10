@@ -135,7 +135,7 @@ TaskC::TaskC()
 }
 void TaskC::generate_task_test(int task_num)
 {
-    init_random_test_files_name(2);
+    init_random_test_files_name(test_files, 2);
 
     int num1 = rand() % text_data.size();
 
@@ -474,13 +474,4 @@ int TaskC::check_program(int task_num) const
     show_file(test_files[0], "Result file: ", 2);
 
     return compare_file(test_files[0], control_file);
-}
-void TaskC::init_random_test_files_name(size_t test_file_count)
-{
-    test_files.resize(test_file_count);
-
-    for (auto &tf : test_files)
-    {
-        tf = generate_random_name(8) + ".tst";
-    }
 }

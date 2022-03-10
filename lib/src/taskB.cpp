@@ -254,19 +254,10 @@ void TaskB::test17()
 		write(f_control, &c[sz / 2], 1);
 	}
 }
-void TaskB::init_random_test_files_name(size_t test_file_count)
-{
-	test_files.resize(test_file_count);
-
-	for (auto &tf : test_files)
-	{
-		tf = generate_random_name(8) + ".tst";
-	}
-}
 void TaskB::generate_task_test(int task_num)
 {
 
-	init_random_test_files_name(1);
+	init_random_test_files_name(test_files, 1);
 
 	int f_test = open(test_files[0].c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
