@@ -62,11 +62,11 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 
 	if (language_option == "ru" || language_option == "russian")
 	{
-		std::cout << tasklib->get_task_info(task_num, 0);
+		std::cout << tasklib->get_task_info(task_num, 0) << std::endl;
 	}
 	else if (language_option == "ch" || language_option == "chinese")
 	{
-		std::cout << tasklib->get_task_info(task_num, 1);
+		std::cout << tasklib->get_task_info(task_num, 1) << std::endl;
 	}
 
 	std::cout << "============================================" << std::endl;
