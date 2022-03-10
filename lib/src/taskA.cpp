@@ -12,6 +12,11 @@ TaskA::TaskA()
 
     total_test_count = 3;
 
+    extension_name = {
+        ".jpg",
+        ".png",
+        ".gif"};
+
     task_text_russian = {
         "При запуске программы выводится список файлов из текущего каталога (или каталога, указанного в качестве параметра командной строки). Информация о файлах должна выводиться в трех столбцах, содержащих имя файла, его размер (в байтах) и дату- время последнего изменения.\n",
         "При запуске программы выводится список файлов из текущего или указанного пользователем каталога с именами, имеющими указанное (непустое) расширение (например jpg). Каталог и требуемое расширение задаются пользователем в командной строке (первым указывается расширение, вторым — каталог). В случае отсутствия второго параметра обрабатывается текущий каталог. В случае отсутствия всех параметров выводится сообщение об ошибке. Информация о файлах должна выводиться в трех столбцах, содержащих имя файла, его размер (в байтах) и дату-время последнего изменения.\n",
@@ -34,19 +39,170 @@ TaskA::TaskA()
         "编写一个程序，在嵌套目录结构中搜索文件，不考虑某些目录。初始目录名和要排除的目录名由用户在命令行中指定（排除目录名可以有多个）。对于所有找到的文件，将显示它们的全名、大小（以字节为单位）和上次修改的日期时间。如果未指定排除目录的名称，则处理所有子目录。如果缺少所有命令行选项，则处理当前目录。\n",
         "启动程序时，会显示当前目录（或指定为命令行参数的目录）的子目录列表。 显示所有级别的子目录，每个目录都指示完整路径，以源目录的名称开头）。\n"};
 }
+void TaskA::generate_test_file(std::string dirname, int count)
+{
+    for (int i = 0; i < 10 + count; i++)
+    {
+        std::string filename = generate_random_name(10);
+        std::string filepath = dirname + "/" + filename + extension_name[random() % extension_name.size()];
+        std::ofstream ofs(filepath.c_str());
+        ofs << generate_random_name(10);
+        ofs.close();
+    }
+}
 void TaskA::generate_task_test(int task_num)
 {
+    init_random_test_files_name(test_files, 1);
 
+    work_dir = generate_random_name(10);
+    mkdir(work_dir.c_str(), 0777);
+    for (int i = 0; i < 1 + random() % 5; i++)
+    {
+        for (int i = 0; i < 1 + random() % 10; i++)
+        {
+            std::string dirname = generate_random_name(10);
+            sub_dir.push_back(dirname);
+            mkdir((work_dir + "/" + dirname).c_str(), 0777);
+            generate_test_file(work_dir + "/" + dirname, random() % 10);
+        }
+        generate_test_file(work_dir, random() % 10);
+    }
+
+    execute_dir = work_dir + (random() % 2 ? "/" + sub_dir[random() % sub_dir.size()] : "");
+
+    output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
+}
+void TaskA::test1()
+{
+    sys_cmd = "( ls -l " + execute_dir + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
+}
+void TaskA::test2()
+{
+    std::string test_extension = extension_name[random() % extension_name.size()];
+    sys_cmd = "( ls -l " + execute_dir + " | grep " + test_extension + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+
+    execute_argv.push_back(test_extension);
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
+}
+void TaskA::test3()
+{
+    std::string test_extension = extension_name[random() % extension_name.size()];
+    sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " | xargs ls -l | awk '{print $9 \" \" $5}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+
+    execute_argv.push_back(test_extension);
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
+}
+void TaskA::test4()
+{
+    std::string test_extension = extension_name[random() % extension_name.size()];
+    sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " -exec ls -l {} \\; | awk 'BEGIN{count=0;size=0;} {count++;size+=$5;} END{print count \" \" size}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+    execute_argv.push_back(test_extension);
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
+}
+void TaskA::test5()
+{
+}
+void TaskA::test6()
+{
+}
+void TaskA::test7()
+{
+}
+void TaskA::test8()
+{
+}
+void TaskA::test9()
+{
+    if (work_dir == execute_dir)
+    {
+        execute_dir = ".";
+    }
+    sys_cmd = "( find " + execute_dir + " -name \"*\" ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
 }
 void TaskA::generate_task_control(int task_num)
 {
+    f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
+    switch (task_num)
+    {
+    case 1:
+        test1();
+        break;
+    case 2:
+        test2();
+        break;
+    case 3:
+        test3();
+        break;
+    case 4:
+        test4();
+        break;
+    case 5:
+        test5();
+        break;
+    case 6:
+        test6();
+        break;
+    case 7:
+        test7();
+        break;
+    case 8:
+        test8();
+        break;
+    case 9:
+        test9();
+        break;
+    }
+
+    close(f_control);
 }
 void TaskA::print_extral_info(int task_num)
 {
-
 }
 int TaskA::check_program(int task_num) const
 {
-    return 1;
+    std::string cmd = "rm -rf " + work_dir;
+    system(cmd.c_str());
+
+    show_file(test_files[0], "Result file: ", 2);
+
+    return compare_file(test_files[0], control_file);
 }

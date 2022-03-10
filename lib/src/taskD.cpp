@@ -56,7 +56,7 @@ bool TaskD::foo_judge(std::string cmd)
 }
 void TaskD::generate_task_test(int task_num)
 {
-    init_random_test_files_name(1);
+    init_random_test_files_name(test_files, 1);
 
     // Generate the test file in advance to make the ls command work normally
     f = open(test_files[0].c_str(), O_CREAT | O_TRUNC | O_WRONLY, 0644);
@@ -95,8 +95,6 @@ void TaskD::test1()
     sys_cmd += ") > " + control_file;
 
     system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test2()
 {
@@ -111,8 +109,6 @@ void TaskD::test2()
     sys_cmd += ") > " + control_file;
 
     system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test3()
 {
@@ -127,8 +123,6 @@ void TaskD::test3()
     sys_cmd += ") > " + control_file;
 
     system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test4()
 {
@@ -143,8 +137,6 @@ void TaskD::test4()
     sys_cmd += ") > " + control_file;
 
     system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test5()
 {
@@ -161,7 +153,6 @@ void TaskD::test5()
     puts(sys_cmd.c_str());
     system(sys_cmd.c_str());
 
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test6()
 {
@@ -174,8 +165,6 @@ void TaskD::test6()
     sys_cmd += " > " + control_file;
 
     system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test7()
 {
@@ -187,9 +176,7 @@ void TaskD::test7()
     sys_cmd = sys_cmd.substr(test_files[0].size() + 1);
     sys_cmd += " > " + control_file;
 
-    system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
+    system(sys_cmd.c_str());    
 }
 void TaskD::test8()
 {
@@ -206,8 +193,6 @@ void TaskD::test8()
     sys_cmd = "(" + sys_cmd + ") > " + control_file;
 
     system(sys_cmd.c_str());
-
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::test9()
 {
@@ -216,7 +201,7 @@ void TaskD::test9()
     {
         execute_argv.push_back(cmd);
     }
-    
+
     sys_cmd = "";
     init_helper_sys_cmd("||");
     sys_cmd = "(" + sys_cmd + ") |";
@@ -233,9 +218,8 @@ void TaskD::test9()
     execute_argv.insert(execute_argv.begin(), test_files[0]);
 
     sys_cmd += " >> " + control_file;
-    
+
     system(sys_cmd.c_str());
-    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 }
 void TaskD::generate_task_control(int task_num)
 {
@@ -271,6 +255,9 @@ void TaskD::generate_task_control(int task_num)
         test9();
         break;
     }
+    
+    output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
+
     close(f_control);
 }
 void TaskD::print_extral_info(int task_num)
@@ -281,19 +268,4 @@ int TaskD::check_program(int task_num) const
     show_file(test_files[0], "Result file: ", 2);
 
     return compare_file(test_files[0], control_file);
-}
-void TaskD::init_random_test_files_name(size_t test_file_count)
-{
-    test_files.resize(test_file_count);
-
-    for (auto &tf : test_files)
-    {
-        tf.clear();
-
-        for (size_t i = 0; i < 8; i++)
-        {
-            tf.push_back((char)(rand() % 26 + 97));
-        }
-        tf += ".tst";
-    }
 }

@@ -3,6 +3,13 @@
 
 class TaskA : public TaskLib
 {
+private:
+    std::string sys_cmd;
+    std::string work_dir;
+    std::string execute_dir;
+    std::vector<std::string> extension_name;
+    std::vector<std::string> sub_dir;
+
 protected:
     void test1();
     void test2();
@@ -26,14 +33,14 @@ public:
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
-    void init_random_test_files_name(size_t test_file_count);
+    void generate_test_file(std::string dirname, int count);
 };
 
 extern "C" TaskLib *create()
 {
-	return new TaskA;
+    return new TaskA;
 }
 extern "C" void destroy(TaskLib *t)
 {
-	delete t;
+    delete t;
 }
