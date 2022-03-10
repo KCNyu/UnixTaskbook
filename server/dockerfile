@@ -11,6 +11,6 @@ COPY . /home/user/server
 
 WORKDIR /home/user/server
 
-RUN make
+RUN mkdir obj && make
 
 CMD ["./server", "6666"]
