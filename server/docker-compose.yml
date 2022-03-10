@@ -1,0 +1,9 @@
+version: '3'
+services:
+  unixtaskbook-server:
+    stdin_open: true
+    tty: true
+    container_name: unixtaskbook-server
+    build: .
+    ports:
+      - "6666:6666"

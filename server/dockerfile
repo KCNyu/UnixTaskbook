@@ -1,0 +1,16 @@
+FROM ubuntu
+
+LABEL description="Container for use server for UnixTaskbook" 
+
+# install build dependencies 
+RUN apt-get update && apt-get install -y gcc g++ make 
+
+EXPOSE 6666
+
+COPY . /home/user/server
+
+WORKDIR /home/user/server
+
+RUN make
+
+CMD ["./server", "6666"]
