@@ -43,32 +43,32 @@ void TaskA::generate_test_file(std::string dirname, int count)
 {
     for (int i = 0; i < 10 + count; i++)
     {
-        std::string filename = generate_random_name(10);
-        std::string filepath = dirname + "/" + filename + extension_name[random() % extension_name.size()];
+        std::string filename = utilities::generate_random_name(10);
+        std::string filepath = dirname + "/" + filename + extension_name[rand() % extension_name.size()];
         std::ofstream ofs(filepath.c_str());
-        ofs << generate_random_name(10);
+        ofs << utilities::generate_random_name(10);
         ofs.close();
     }
 }
 void TaskA::generate_task_test(int task_num)
 {
-    init_random_test_files_name(test_files, 1);
+    utilities::init_random_test_files_name(test_files, 1);
 
-    work_dir = generate_random_name(10);
+    work_dir = utilities::generate_random_name(10);
     mkdir(work_dir.c_str(), 0777);
-    for (int i = 0; i < 1 + random() % 5; i++)
+    for (int i = 0; i < 1 + rand() % 5; i++)
     {
-        for (int i = 0; i < 1 + random() % 10; i++)
+        for (int i = 0; i < 1 + rand() % 10; i++)
         {
-            std::string dirname = generate_random_name(10);
+            std::string dirname = utilities::generate_random_name(10);
             sub_dir.push_back(dirname);
             mkdir((work_dir + "/" + dirname).c_str(), 0777);
-            generate_test_file(work_dir + "/" + dirname, random() % 10);
+            generate_test_file(work_dir + "/" + dirname, rand() % 10);
         }
-        generate_test_file(work_dir, random() % 10);
+        generate_test_file(work_dir, rand() % 10);
     }
 
-    execute_dir = work_dir + (random() % 2 ? "/" + sub_dir[random() % sub_dir.size()] : "");
+    execute_dir = work_dir + (rand() % 2 ? "/" + sub_dir[rand() % sub_dir.size()] : "");
 
     output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
@@ -87,7 +87,7 @@ void TaskA::test1()
 }
 void TaskA::test2()
 {
-    std::string test_extension = extension_name[random() % extension_name.size()];
+    std::string test_extension = extension_name[rand() % extension_name.size()];
     sys_cmd = "( ls -l " + execute_dir + " | grep " + test_extension + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
               control_file;
     system(sys_cmd.c_str());
@@ -102,7 +102,7 @@ void TaskA::test2()
 }
 void TaskA::test3()
 {
-    std::string test_extension = extension_name[random() % extension_name.size()];
+    std::string test_extension = extension_name[rand() % extension_name.size()];
     sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " | xargs ls -l | awk '{print $9 \" \" $5}' ) > " +
               control_file;
     system(sys_cmd.c_str());
@@ -117,7 +117,7 @@ void TaskA::test3()
 }
 void TaskA::test4()
 {
-    std::string test_extension = extension_name[random() % extension_name.size()];
+    std::string test_extension = extension_name[rand() % extension_name.size()];
     sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " -exec ls -l {} \\; | awk 'BEGIN{count=0;size=0;} {count++;size+=$5;} END{print count \" \" size}' ) > " +
               control_file;
     system(sys_cmd.c_str());
@@ -202,7 +202,7 @@ int TaskA::check_program(int task_num) const
     std::string cmd = "rm -rf " + work_dir;
     system(cmd.c_str());
 
-    show_file(test_files[0], "Result file: ", 2);
+    utilities::show_file(test_files[0], "Result file: ", 2);
 
-    return compare_file(test_files[0], control_file);
+    return utilities::compare_file(test_files[0], control_file);
 }

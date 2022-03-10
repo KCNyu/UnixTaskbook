@@ -135,7 +135,7 @@ TaskC::TaskC()
 }
 void TaskC::generate_task_test(int task_num)
 {
-    init_random_test_files_name(test_files, 2);
+    utilities::init_random_test_files_name(test_files, 2);
 
     int num1 = rand() % text_data.size();
 
@@ -170,7 +170,7 @@ void TaskC::test1()
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -181,11 +181,11 @@ void TaskC::test2()
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
-    while ((n = read_line(f2, buf, 200)) > 0)
+    while ((n = utilities::read_line(f2, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -196,7 +196,7 @@ void TaskC::test3()
     execute_argv.push_back(test_files[0]);
 
     write(f_control, S, strlen(S));
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -206,11 +206,11 @@ void TaskC::test4()
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
 
-    while ((n = read_line(f2, buf, 200)) > 0)
+    while ((n = utilities::read_line(f2, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -220,7 +220,7 @@ void TaskC::test5()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         j++;
         if (j == K)
@@ -235,7 +235,7 @@ void TaskC::test6()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         j++;
         write(f_control, buf, n);
@@ -249,7 +249,7 @@ void TaskC::test7()
 {
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
         if (n == 1)
@@ -263,7 +263,7 @@ void TaskC::test8()
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n == 1)
         {
@@ -279,8 +279,8 @@ void TaskC::test9()
 {
     execute_argv.push_back(test_files[0]);
 
-    read_line(f1, buf, 200);
-    while ((n = read_line(f1, buf, 200)) > 0)
+    utilities::read_line(f1, buf, 200);
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -288,8 +288,8 @@ void TaskC::test9()
 void TaskC::test10()
 {
     execute_argv.push_back(test_files[0]);
-    n = read_line(f1, buf, 200);
-    while ((n2 = read_line(f1, buf2, 200)) > 0)
+    n = utilities::read_line(f1, buf, 200);
+    while ((n2 = utilities::read_line(f1, buf2, 200)) > 0)
     {
         write(f_control, buf, n);
         n = n2;
@@ -301,7 +301,7 @@ void TaskC::test11()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         j++;
         if (j != K)
@@ -313,7 +313,7 @@ void TaskC::test11()
 void TaskC::test12()
 {
     execute_argv.push_back(test_files[0]);
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n > 1)
         {
@@ -326,9 +326,9 @@ void TaskC::test13()
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
-        n2 = read_line(f2, buf2, 200);
+        n2 = utilities::read_line(f2, buf2, 200);
         if (n2 > 0)
         {
             buf[n - 1] = '\0';
@@ -342,7 +342,7 @@ void TaskC::test14()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n - 1 > K)
         {
@@ -361,7 +361,7 @@ void TaskC::test15()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n - 1 > K)
         {
@@ -378,7 +378,7 @@ void TaskC::test15()
 void TaskC::test16()
 {
     execute_argv.push_back(test_files[0]);
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         for (j = 0; j < n; j++)
         {
@@ -461,17 +461,17 @@ void TaskC::print_extral_info(int task_num)
 {
     if (use_flag)
     {
-        show_file(test_files[0], "Input file1: ", 2);
-        show_file(test_files[1], "Input file2: ", 2);
+        utilities::show_file(test_files[0], "Input file1: ", 2);
+        utilities::show_file(test_files[1], "Input file2: ", 2);
     }
     else
     {
-        show_file(test_files[0], "Input file: ", 2);
+        utilities::show_file(test_files[0], "Input file: ", 2);
     }
 }
 int TaskC::check_program(int task_num) const
 {
-    show_file(test_files[0], "Result file: ", 2);
+    utilities::show_file(test_files[0], "Result file: ", 2);
 
-    return compare_file(test_files[0], control_file);
+    return utilities::compare_file(test_files[0], control_file);
 }

@@ -4,6 +4,9 @@
 class TaskE : public TaskLib
 {
 private:
+    const size_t arrsize = 80000000;
+    std::vector<int> arr;
+    unsigned int seed;
 
 protected:
     void test1();

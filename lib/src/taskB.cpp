@@ -257,7 +257,7 @@ void TaskB::test17()
 void TaskB::generate_task_test(int task_num)
 {
 
-	init_random_test_files_name(test_files, 1);
+	utilities::init_random_test_files_name(test_files, 1);
 
 	int f_test = open(test_files[0].c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
@@ -363,11 +363,11 @@ void TaskB::generate_task_control(int task_num)
 }
 void TaskB::print_extral_info(int task_num)
 {
-	show_file(test_files[0], "Input file: ", 0);
+	utilities::show_file(test_files[0], "Input file: ", 0);
 }
 int TaskB::check_program(int task_num) const
 {
-	show_file(test_files[0], "Result file: ", 2);
+	utilities::show_file(test_files[0], "Result file: ", 2);
 
-	return compare_file(test_files[0], control_file);
+	return utilities::compare_file(test_files[0], control_file);
 }

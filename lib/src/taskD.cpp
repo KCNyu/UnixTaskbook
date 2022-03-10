@@ -56,7 +56,7 @@ bool TaskD::foo_judge(std::string cmd)
 }
 void TaskD::generate_task_test(int task_num)
 {
-    init_random_test_files_name(test_files, 1);
+    utilities::init_random_test_files_name(test_files, 1);
 
     // Generate the test file in advance to make the ls command work normally
     f = open(test_files[0].c_str(), O_CREAT | O_TRUNC | O_WRONLY, 0644);
@@ -265,7 +265,7 @@ void TaskD::print_extral_info(int task_num)
 }
 int TaskD::check_program(int task_num) const
 {
-    show_file(test_files[0], "Result file: ", 2);
+    utilities::show_file(test_files[0], "Result file: ", 2);
 
-    return compare_file(test_files[0], control_file);
+    return utilities::compare_file(test_files[0], control_file);
 }

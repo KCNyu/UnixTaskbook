@@ -51,18 +51,78 @@ TaskE::TaskE()
 
 void TaskE::generate_task_test(int task_num)
 {
+    utilities::init_random_test_files_name(test_files, 1);
 
+    seed = time(nullptr);
+    srand(seed);
+
+    arr.resize(arrsize);
+    for (auto &num : arr)
+    {
+        num = rand() % 201 - 100;
+    }
+
+    execute_argv.clear();
+    execute_argv.push_back(std::to_string(seed));
 }
 void TaskE::generate_task_control(int task_num)
 {
-
+    switch (task_num)
+    {
+    case 1:
+        test1();
+        break;
+    case 2:
+        test2();
+        break;
+    case 3:
+        test3();
+        break;
+    case 4:
+        test4();
+        break;
+    case 5:
+        test5();
+        break;
+    case 6:
+        test6();
+        break;
+    case 7:
+        test7();
+        break;
+    case 8:
+        test8();
+        break;
+    case 9:
+        test9();
+        break;
+    case 10:
+        test10();
+        break;
+    case 11:
+        test11();
+        break;
+    case 12:
+        test12();
+        break;
+    case 13:
+        test13();
+        break;
+    case 14:
+        test14();
+        break;
+    case 15:
+        test15();
+        break;
+    case 16:
+        test16();
+        break;
+    }
 }
 void TaskE::print_extral_info(int task_num)
 {
-
 }
 int TaskE::check_program(int task_num) const
 {
     return 1;
-
 }
