@@ -18,12 +18,22 @@ static int dopath(Myfunc *);
 int main(int argc, char *argv[])
 {
     int ret = 0;
+#if 0
     if (argc != 2)
         printf("Usage: scandir <initial directory>\n");
     else
     {
         ret = myscan(argv[1], myfunc); /* performs all work */
-        printf("OK\n");
+        //printf("OK\n");
+    }
+#endif
+    if (argc == 1)
+    {
+        ret = myscan(".", myfunc); /* performs all work */
+    }
+    else
+    {
+        ret = myscan(argv[1], myfunc); /* performs all work */
     }
     return ret;
 }
@@ -49,9 +59,9 @@ static int dopath(Myfunc *func)
     if (S_ISDIR(statbuf.st_mode) == 0) /* not a directory */
         return (func(fullpath, &statbuf, FILEINFO));
     /*
-       * This is a directory. Call func(),
-       * then process all files in this directory recursively.
-       */
+     * This is a directory. Call func(),
+     * then process all files in this directory recursively.
+     */
     if ((ret = func(fullpath, &statbuf, DIRINFO)) != 0)
         return ret;
     size_t n = strlen(fullpath);
@@ -75,6 +85,7 @@ static int dopath(Myfunc *func)
 }
 static int myfunc(const char *pathname, const struct stat *statptr, int type)
 {
+    /*
     switch (type)
     {
     case FILEINFO:
@@ -96,6 +107,7 @@ static int myfunc(const char *pathname, const struct stat *statptr, int type)
     default:
         printf("Unknown filetype: ");
     }
+    */
     printf("%s\n", pathname);
     return 0;
 }

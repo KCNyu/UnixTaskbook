@@ -69,6 +69,8 @@ void TaskA::generate_task_test(int task_num)
     }
 
     execute_dir = work_dir + (random() % 2 ? "/" + sub_dir[random() % sub_dir.size()] : "");
+
+    output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
 void TaskA::test1()
 {
@@ -77,14 +79,11 @@ void TaskA::test1()
     system(sys_cmd.c_str());
 
     execute_argv.clear();
+
     if (execute_dir != work_dir)
     {
         execute_argv.push_back(execute_dir);
     }
-
-    execute_argv.push_back(execute_dir);
-
-    output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
 void TaskA::test2()
 {
@@ -100,14 +99,35 @@ void TaskA::test2()
     {
         execute_argv.push_back(execute_dir);
     }
-
-    output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
 void TaskA::test3()
 {
+    std::string test_extension = extension_name[random() % extension_name.size()];
+    sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " | xargs ls -l | awk '{print $9 \" \" $5}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+
+    execute_argv.push_back(test_extension);
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
 }
 void TaskA::test4()
 {
+    std::string test_extension = extension_name[random() % extension_name.size()];
+    sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " -exec ls -l {} \\; | awk 'BEGIN{count=0;size=0;} {count++;size+=$5;} END{print count \" \" size}' ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+    execute_argv.push_back(test_extension);
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
 }
 void TaskA::test5()
 {
@@ -123,6 +143,19 @@ void TaskA::test8()
 }
 void TaskA::test9()
 {
+    if (work_dir == execute_dir)
+    {
+        execute_dir = ".";
+    }
+    sys_cmd = "( find " + execute_dir + " -name \"*\" ) > " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+    if (execute_dir != work_dir)
+    {
+        execute_argv.push_back(execute_dir);
+    }
 }
 void TaskA::generate_task_control(int task_num)
 {
@@ -158,6 +191,7 @@ void TaskA::generate_task_control(int task_num)
         test9();
         break;
     }
+
     close(f_control);
 }
 void TaskA::print_extral_info(int task_num)
@@ -168,5 +202,7 @@ int TaskA::check_program(int task_num) const
     std::string cmd = "rm -rf " + work_dir;
     system(cmd.c_str());
 
-    return 1;
+    show_file(test_files[0], "Result file: ", 2);
+
+    return compare_file(test_files[0], control_file);
 }
