@@ -1,3 +1,7 @@
+#ifndef SERVER_H
+
+#define SERVER_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +38,6 @@
 #define MAX_EVENTS 1024 //监听上限数
 #define BUFLEN 4096
 #define SERV_PORT 6666
-
 struct myevent_s
 {
     int fd;                                           //要监听的文件描述符
@@ -46,8 +49,7 @@ struct myevent_s
     int len;
     long last_active; //记录每次加入红黑树 g_efd 的时间值
 };
-int g_efd;                                 //全局变量, 保存epoll_create返回的文件描述符
-struct myevent_s g_events[MAX_EVENTS + 1]; //自定义结构体类型数组. +1-->listen fd
+
 void eventset(struct myevent_s *ev, int fd, void (*call_back)(int, int, void *), void *arg);
 void eventadd(int efd, int events, struct myevent_s *ev);
 void eventdel(int efd, struct myevent_s *ev);
@@ -64,3 +66,5 @@ typedef struct
     int len;
     char buf[1000];
 } train, *ptrain;
+
+#endif

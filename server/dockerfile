@@ -1,16 +1,25 @@
-FROM ubuntu
+FROM gcc AS builder
+
+COPY . /build
+
+WORKDIR /build
+
+RUN if [ ! -d "obj" ]; then \
+        mkdir obj; \
+    fi && make
+
+FROM alpine
 
 LABEL description="Container for use server for UnixTaskbook" 
 
-# install build dependencies 
-RUN apt-get update && apt-get install -y gcc g++ make 
+RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
 
 EXPOSE 6666
 
-COPY . /home/user/server
+COPY --from=builder /build/server /build/server
 
-WORKDIR /home/user/server
+WORKDIR /build
 
-RUN mkdir obj && make
+RUN mkdir repo
 
 CMD ["./server", "6666"]
