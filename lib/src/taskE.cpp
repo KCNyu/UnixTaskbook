@@ -71,6 +71,7 @@ void TaskE::generate_task_test(int task_num)
 void TaskE::thread_test(std::string option_alg)
 {
     start = times(&tmsstart);
+#if defined __x86_64__
     if (option_alg == "sum")
     {
         std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
@@ -123,6 +124,60 @@ void TaskE::thread_test(std::string option_alg)
             }
         }
     }
+#elif defined __aarch64__
+    if (option_alg == "sum")
+    {
+        std::for_each(arr.begin(), arr.end(), [&](auto num)
+                      { res_l = res_l + num; });
+    }
+    else if (option_alg == "sum_positive")
+    {
+        std::for_each(arr.begin(), arr.end(), [&](auto num)
+                      { if(num>0) res_l = res_l + num; });
+    }
+    else if (option_alg == "avg_positive")
+    {
+        std::for_each(arr.begin(), arr.end(), [&](auto num)
+                      { if(num>0) res_d = res_d + num; });
+        res_d = res_d / arr.size();
+    }
+    else if (option_alg == "count_positive")
+    {
+        res_l = std::count_if(arr.begin(), arr.end(), [&](auto num)
+                              { return num > 0; });
+    }
+    else if (option_alg == "sum_positive_index")
+    {
+        for (size_t i = 0; i < arr.size(); i++)
+        {
+            if (arr[i] > 0)
+            {
+                res_d = res_d + i;
+            }
+        }
+    }
+    else if (option_alg == "avg_even")
+    {
+        std::for_each(arr.begin(), arr.end(), [&](auto num)
+                      { if(num%2==0) res_d = res_d + num; });
+        res_d = res_d / arr.size();
+    }
+    else if (option_alg == "count_even")
+    {
+        res_l = std::count_if(arr.begin(), arr.end(), [&](auto num)
+                              { return num % 2 == 0; });
+    }
+    else if (option_alg == "sum_even_index")
+    {
+        for (size_t i = 0; i < arr.size(); i++)
+        {
+            if (arr[i] % 2 == 0)
+            {
+                res_d = res_d + i;
+            }
+        }
+    }
+#endif
     end = times(&tmsend);
 
     std::ofstream outfile(control_file);
@@ -140,7 +195,6 @@ void TaskE::thread_test(std::string option_alg)
 
     print_time(std::cout);
     print_time(outfile);
-    
 
 #if 0
     start = times(&tmsstart);

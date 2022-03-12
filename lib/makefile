@@ -5,6 +5,7 @@ shared_src = $(wildcard ../shared/src/*.cpp)
 shared_obj = $(patsubst ../shared/src/%.cpp, ../shared/obj/%.o, $(shared_src))
 
 UNAME_S := $(shell uname -s)
+UNAME_M := $(shell uname -m)
 ifeq ($(UNAME_S), Linux)
     CXX = g++
 endif
@@ -13,9 +14,13 @@ ifeq ($(UNAME_S), Drawin)
     CXX = clang++
 endif
 
-INC = -I../inc -I../shared/inc -I./inc 
-STD = -std=c++17 -ltbb
-
+INC = -I../inc -I../shared/inc -I./inc
+ifeq ($(UNAME_M), x86_64)
+	STD = -std=c++17 -ltbb
+endif
+ifeq ($(UNAME_M), arm64)
+	STD = -std=c++17
+endif
 ALL: $(lib)
 
 $(lib): ./lib%.so: ./obj/%.o $(shared_obj)

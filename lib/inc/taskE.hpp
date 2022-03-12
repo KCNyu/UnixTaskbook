@@ -2,12 +2,13 @@
 #include "utilities.hpp"
 #include <sys/times.h>
 #include <algorithm>
+#if defined __x86_64__
 #include <execution>
+#endif
 #include <atomic>
 #include <fstream>
 #include <iomanip>
 #include <cmath>
-
 
 int res_nmd = 0;
 class TaskE : public TaskLib
