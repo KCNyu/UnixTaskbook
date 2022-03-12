@@ -53,6 +53,9 @@ void TaskE::generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
+    res_l = 0;
+    res_d = 0;
+
     seed = time(nullptr);
     srand(seed);
 
@@ -65,64 +68,315 @@ void TaskE::generate_task_test(int task_num)
     execute_argv.clear();
     execute_argv.push_back(std::to_string(seed));
 }
+void TaskE::thread_test(std::string option_alg)
+{
+    start = times(&tmsstart);
+    if (option_alg == "sum")
+    {
+        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
+                      { res_l = res_l + num; });
+    }
+    else if (option_alg == "sum_positive")
+    {
+        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
+                      { if(num>0) res_l = res_l + num; });
+    }
+    else if (option_alg == "avg_positive")
+    {
+        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
+                      { if(num>0) res_d = res_d + num; });
+        res_d = res_d / arr.size();
+    }
+    else if (option_alg == "count_positive")
+    {
+        res_l = std::count_if(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
+                              { return num > 0; });
+    }
+    else if (option_alg == "sum_positive_index")
+    {
+        for (size_t i = 0; i < arr.size(); i++)
+        {
+            if (arr[i] > 0)
+            {
+                res_d = res_d + i;
+            }
+        }
+    }
+    else if (option_alg == "avg_even")
+    {
+        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
+                      { if(num%2==0) res_d = res_d + num; });
+        res_d = res_d / arr.size();
+    }
+    else if (option_alg == "count_even")
+    {
+        res_l = std::count_if(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
+                              { return num % 2 == 0; });
+    }
+    else if (option_alg == "sum_even_index")
+    {
+        for (size_t i = 0; i < arr.size(); i++)
+        {
+            if (arr[i] % 2 == 0)
+            {
+                res_d = res_d + i;
+            }
+        }
+    }
+    end = times(&tmsend);
+
+    std::ofstream outfile(control_file);
+
+    if (res_l != 0)
+    {
+        std::cout << "res = " << res_l << std::endl;
+        outfile << "res = " << res_l << std::endl;
+    }
+    else
+    {
+        std::cout << "res = " << res_d << std::endl;
+        outfile << "res = " << res_d << std::endl;
+    }
+
+    print_time(std::cout);
+    print_time(outfile);
+    
+
+#if 0
+    start = times(&tmsstart);
+
+    auto thr_sum_mutex = [&](int st)
+    {
+        int res = 0;
+        for (int i = st; i < st + arrsize / 4; i++)
+        {
+            if (arr[i] > 0)
+            {
+                res += 1;
+            }
+        }
+        std::lock_guard<std::mutex> lk(mutex);
+        res_l[3] += res;
+    };
+    std::vector<std::thread> thr_vec;
+    for (int i = 0; i < 4; i++)
+    {
+        thr_vec.emplace_back(thr_sum_mutex, i * arrsize / 4);
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        thr_vec[i].join();
+    }
+
+    end = times(&tmsend);
+
+    std::cout << "res_l[3]: " << res_l[3] << std::endl;
+    for (auto time : get_time())
+    {
+        std::cout << time << " ";
+    }
+    std::cout << std::endl;
+
+    auto alg2 = [&]()
+    {
+        start = times(&tmsstart);
+
+        auto thr_sum_no_mutex = [&](long st)
+        {
+            if (option_alg == "sum")
+            {
+                for (long i = st; i < st + arrsize / 4; i++)
+                {
+                    res_l[1] += arr[i];
+                }
+            }
+        };
+        std::vector<std::thread> thr_vec;
+        for (int i = 0; i < 4; i++)
+        {
+            thr_vec.emplace_back(thr_sum_no_mutex, i * arrsize / 4);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            thr_vec[i].join();
+        }
+
+        end = times(&tmsend);
+        for (auto time : get_time())
+        {
+            std::cout << time << " ";
+        }
+        std::cout << std::endl;
+    };
+
+    auto alg3 = [&]()
+    {
+        start = times(&tmsstart);
+
+        auto thr_sum_mutex = [&](int st)
+        {
+            for (int i = st; i < st + arrsize / 4; i++)
+            {
+                std::lock_guard<std::mutex> lk(mutex);
+                res_l[2] += arr[i];
+            }
+        };
+        std::vector<std::thread> thr_vec;
+        for (int i = 0; i < 4; i++)
+        {
+            thr_vec.emplace_back(thr_sum_mutex, i * arrsize / 4);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            thr_vec[i].join();
+        }
+
+        end = times(&tmsend);
+        for (auto time : get_time())
+        {
+            std::cout << time << " ";
+        }
+        std::cout << std::endl;
+    };
+
+    auto alg4 = [&]()
+    {
+        start = times(&tmsstart);
+
+        auto thr_sum_mutex = [&](int st)
+        {
+            int res = 0;
+            for (int i = st; i < st + arrsize / 4; i++)
+            {
+                res += arr[i];
+            }
+            std::lock_guard<std::mutex> lk(mutex);
+            res_l[3] += res;
+        };
+        std::vector<std::thread> thr_vec;
+        for (int i = 0; i < 4; i++)
+        {
+            thr_vec.emplace_back(thr_sum_mutex, i * arrsize / 4);
+        }
+        for (int i = 0; i < 4; i++)
+        {
+            thr_vec[i].join();
+        }
+
+        end = times(&tmsend);
+        for (auto time : get_time())
+        {
+            std::cout << time << " ";
+        }
+        std::cout << std::endl;
+    };
+
+    alg1();
+    alg2();
+    alg3();
+    alg4();
+
+    for (auto res : res_l)
+    {
+        std::cout << res << std::endl;
+    }
+#endif
+}
 void TaskE::generate_task_control(int task_num)
 {
     switch (task_num)
     {
     case 1:
-        test1();
-        break;
     case 2:
-        test2();
+        thread_test("sum");
         break;
     case 3:
-        test3();
-        break;
     case 4:
-        test4();
+        thread_test("sum_positive");
         break;
     case 5:
-        test5();
-        break;
     case 6:
-        test6();
+        thread_test("avg_positive");
         break;
     case 7:
-        test7();
-        break;
     case 8:
-        test8();
+        thread_test("count_positive");
         break;
     case 9:
-        test9();
-        break;
     case 10:
-        test10();
+        thread_test("sum_positive_index");
         break;
     case 11:
-        test11();
-        break;
     case 12:
-        test12();
+        thread_test("avg_even");
         break;
     case 13:
-        test13();
-        break;
     case 14:
-        test14();
+        thread_test("count_even");
         break;
     case 15:
-        test15();
-        break;
     case 16:
-        test16();
+        thread_test("sum_even_index");
         break;
     }
+    output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
 void TaskE::print_extral_info(int task_num)
 {
 }
 int TaskE::check_program(int task_num) const
 {
-    return 1;
+    std::ifstream in(test_files[0]);
+    std::string line;
+    if (res_l != 0)
+    {
+        long res = 0;
+        int flag = 0;
+        while (std::getline(in, line))
+        {
+            if (line.find("res") != std::string::npos)
+            {
+                res = std::stol(line.substr(line.find("=") + 1));
+                if ((res_l != res) && flag != 1)
+                {
+                    return 1;
+                }
+                flag++;
+            }
+        }
+    }
+    else
+    {
+        double res = 0;
+        int flag = 0;
+        while (std::getline(in, line))
+        {
+            if (line.find("res") != std::string::npos)
+            {
+                res = std::stod(line.substr(line.find("=") + 1));
+                if ((fabs(res_d - res) > 1E-10) && flag != 1)
+                {
+                    return 1;
+                }
+                flag++;
+            }
+        }
+    }
+    in.close();
+    return 0;
+}
+std::vector<double> TaskE::get_time()
+{
+    auto sec = [](long ticks) -> double
+    {
+        return (double)ticks / sysconf(_SC_CLK_TCK);
+    };
+
+    return {sec(end - start), sec(tmsend.tms_utime - tmsstart.tms_utime), sec(tmsend.tms_stime - tmsstart.tms_stime)};
+}
+void TaskE::print_time(std::ostream &out)
+{
+    std::cout.setf(std::ios::fixed);
+
+    out << std::setprecision(2) << "realtime - " << get_time()[0] << " , usertime - " << get_time()[1] << " , sys time - " << get_time()[2] << std::endl;
 }

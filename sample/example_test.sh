@@ -33,5 +33,9 @@ unixTaskbook -t E8 -p ../test/E8.c
 echo "Press enter for the next test"
 read -n 1
 
+unixTaskbook -t E10 -p ../test/E10.c
+echo "Press enter for the next test"
+read -n 1
+
 echo
 echo "All existing test files passed the test!!!" 

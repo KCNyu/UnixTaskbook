@@ -1,30 +1,28 @@
 #include "tasklib.hpp"
 #include "utilities.hpp"
+#include <sys/times.h>
+#include <algorithm>
+#include <execution>
+#include <atomic>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
 
+
+int res_nmd = 0;
 class TaskE : public TaskLib
 {
 private:
     const size_t arrsize = 80000000;
     std::vector<int> arr;
     unsigned int seed;
+    struct tms tmsstart, tmsend;
+    clock_t start, end;
+    std::atomic<long> res_l;
+    std::atomic<double> res_d;
 
 protected:
-    void test1();
-    void test2();
-    void test3();
-    void test4();
-    void test5();
-    void test6();
-    void test7();
-    void test8();
-    void test9();
-    void test10();
-    void test11();
-    void test12();
-    void test13();
-    void test14();
-    void test15();
-    void test16();
+    void thread_test(std::string option_alg);
 
 public:
     TaskE();
@@ -38,6 +36,8 @@ public:
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
+    std::vector<double> get_time();
+    void print_time(std::ostream &out);
 };
 
 extern "C" TaskLib *create()
