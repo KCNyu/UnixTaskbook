@@ -10,7 +10,7 @@ ifeq ($(UNAME_S), Linux)
     CXX = g++
 endif
 
-ifeq ($(UNAME_S), Drawin)
+ifeq ($(UNAME_S), Darwin)
     CXX = clang++
 endif
 

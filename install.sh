@@ -49,19 +49,19 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 	if ["$(arch)" == "x86_64" ]; then
 
-		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-drawin-x86_64.tar.gz > UnixTaskbook-drawin-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-darwin-x86_64.tar.gz > UnixTaskbook-darwin-x86_64.tar.gz
 
-		tar -zxvf UnixTaskbook-drawin-x86_64.tar.gz
+		tar -zxvf UnixTaskbook-darwin-x86_64.tar.gz
 
-		cd UnixTaskbook-drawin-x86_64
+		cd UnixTaskbook-darwin-x86_64
 
 	elif [ "$(arch)" == "arm64" ]; then
 
-		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-drawin-arm64.tar.gz > UnixTaskbook-drawin-arm64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-darwin-arm64.tar.gz > UnixTaskbook-darwin-arm64.tar.gz
 
-		tar -zxvf UnixTaskbook-drawin-arm64.tar.gz
+		tar -zxvf UnixTaskbook-darwin-arm64.tar.gz
 
-		cd UnixTaskbook-drawin-arm64
+		cd UnixTaskbook-darwin-arm64
 	fi
 
 	sudo cp ./*.so /usr/local/lib/
