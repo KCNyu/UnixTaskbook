@@ -18,19 +18,19 @@ if [ "$(uname)" == "Linux" ]; then
 
 	if [ "$(arch)" == "x86_64" ]; then
 
-		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-linux-x86_64.tar.gz > UnixTaskbook-linux-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-Linux-x86_64.tar.gz > UnixTaskbook-Linux-x86_64.tar.gz
 
-		tar -zxvf UnixTaskbook-linux-x86_64.tar.gz
+		tar -zxvf UnixTaskbook-Linux-x86_64.tar.gz
 
-		cd UnixTaskbook-linux-x86_64
+		cd UnixTaskbook-Linux-x86_64
 
 	elif [ "$(arch)" == "arm64" ]; then
 
-		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-linux-arm64.tar.gz > UnixTaskbook-linux-arm64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-Linux-arm64.tar.gz > UnixTaskbook-Linux-arm64.tar.gz
 
-		tar -zxvf UnixTaskbook-linux-arm64.tar.gz
+		tar -zxvf UnixTaskbook-Linux-arm64.tar.gz
 
-		cd UnixTaskbook-linux-arm64
+		cd UnixTaskbook-Linux-arm64
 
 	fi
 
@@ -49,19 +49,19 @@ elif [ "$(uname)" == "Darwin" ]; then
 
 	if ["$(arch)" == "x86_64" ]; then
 
-		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-darwin-x86_64.tar.gz > UnixTaskbook-darwin-x86_64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-Darwin-x86_64.tar.gz > UnixTaskbook-Darwin-x86_64.tar.gz
 
-		tar -zxvf UnixTaskbook-darwin-x86_64.tar.gz
+		tar -zxvf UnixTaskbook-Darwin-x86_64.tar.gz
 
-		cd UnixTaskbook-darwin-x86_64
+		cd UnixTaskbook-Darwin-x86_64
 
 	elif [ "$(arch)" == "arm64" ]; then
 
-		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-darwin-arm64.tar.gz > UnixTaskbook-darwin-arm64.tar.gz
+		curl -L https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/UnixTaskbook-Darwin-arm64.tar.gz > UnixTaskbook-Darwin-arm64.tar.gz
 
-		tar -zxvf UnixTaskbook-darwin-arm64.tar.gz
+		tar -zxvf UnixTaskbook-Darwin-arm64.tar.gz
 
-		cd UnixTaskbook-darwin-arm64
+		cd UnixTaskbook-Darwin-arm64
 	fi
 
 	sudo cp ./*.so /usr/local/lib/
