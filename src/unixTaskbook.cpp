@@ -62,11 +62,11 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 
 	if (language_option == "ru" || language_option == "russian")
 	{
-		std::cout << tasklib->get_task_info(task_num, 0);
+		std::cout << tasklib->get_task_info(task_num, 0) << std::endl;
 	}
 	else if (language_option == "ch" || language_option == "chinese")
 	{
-		std::cout << tasklib->get_task_info(task_num, 1);
+		std::cout << tasklib->get_task_info(task_num, 1) << std::endl;
 	}
 
 	std::cout << "============================================" << std::endl;
@@ -130,7 +130,7 @@ void UnixTaskbook::parse_complie_argv(char **&complie_argv)
 }
 void UnixTaskbook::complie_program(std::string program)
 {
-	if (!exists_file(program))
+	if (!utilities::exists_file(program))
 	{
 		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
 	}
@@ -177,10 +177,10 @@ void UnixTaskbook::complie_program(std::string program)
 		LOG_ERROR("Error during compilation: ");
 	}
 
-	if (!exists_file(complie_out))
+	if (!utilities::exists_file(complie_out))
 	{
 		LOG_INFO("Error: Compiler outputs some error messages (see file %s):", complie_log.c_str());
-		show_file(complie_log, "", 0);
+		utilities::show_file(complie_log, "", 0);
 		exit(EXIT_FAILURE);
 	}
 
@@ -189,7 +189,7 @@ void UnixTaskbook::complie_program(std::string program)
 	if (statbuf.st_size > 0)
 	{
 		LOG_WARN("Compiler outputs some warnings (see file %s):", complie_log.c_str());
-		show_file(complie_log, "", 0);
+		utilities::show_file(complie_log, "", 0);
 		LOG_WARN("Compilation is partially successful.");
 	}
 	else
@@ -259,7 +259,7 @@ void UnixTaskbook::check_program_result(std::string program)
 		break;
 	default:
 		LOG_INFO("Wrong result");
-		show_file(tasklib->control_file, "Correct results must be as follows:", 1);
+		utilities::show_file(tasklib->control_file, "Correct results must be as follows:", 1);
 		exit(EXIT_FAILURE);
 	}
 }

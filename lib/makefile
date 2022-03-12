@@ -14,7 +14,7 @@ ifeq ($(UNAME_S), Drawin)
 endif
 
 INC = -I../inc -I../shared/inc -I./inc 
-STD = -std=c++11
+STD = -std=c++17 -ltbb
 
 ALL: $(lib)
 

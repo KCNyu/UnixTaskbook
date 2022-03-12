@@ -1,5 +1,8 @@
 #include "server.h"
 
+extern int g_efd;                                 //全局变量, 保存epoll_create返回的文件描述符
+extern struct myevent_s g_events[MAX_EVENTS + 1]; //自定义结构体类型数组. +1-->listen fd
+
 int main(int argc, char *argv[])
 {
     unsigned short port = SERV_PORT;

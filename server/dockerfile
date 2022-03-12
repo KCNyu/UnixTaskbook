@@ -1,0 +1,25 @@
+FROM gcc AS builder
+
+COPY . /build
+
+WORKDIR /build
+
+RUN if [ ! -d "obj" ]; then \
+        mkdir obj; \
+    fi && make
+
+FROM alpine
+
+LABEL description="Container for use server for UnixTaskbook" 
+
+RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
+
+EXPOSE 6666
+
+COPY --from=builder /build/server /build/server
+
+WORKDIR /build
+
+RUN mkdir repo
+
+CMD ["./server", "6666"]

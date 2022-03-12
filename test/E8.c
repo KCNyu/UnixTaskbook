@@ -181,7 +181,7 @@ void alg4()
 }
 int main(int argc, char const *argv[])
 {
-	srand(time(0));
+	srand(atoi(argv[1]));
 	for (int j = 0; j < ARRSIZE; j++)
 		x[j] = rand() % 201 - 100;
 	alg1();

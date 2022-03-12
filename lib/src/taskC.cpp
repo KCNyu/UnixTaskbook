@@ -13,39 +13,39 @@ TaskC::TaskC()
     total_test_count = 3;
 
     task_text_russian = {
-        "Дана строка S (не содержащая пробелов) и текстовый файл. Добавить строку S в конец файла.\n",
-        "Даны два текстовых файла. Добавить в конец первого файла содержимое второго файла.\n",
-        "Дана строка S (не содержащая пробелов) и текстовый файл. Добавить строку S в начало файла.\n",
-        "Даны два текстовых файла. Добавить в начало первого файла содержимое второго файла.\n",
-        "Дано целое число K и текстовый файл. Вставить пустую строку перед строкой файла с номером K (строки нумеруются от 1). Если строки с таким номером нет, то оставить файл без изменений.\n",
-        "Дано целое число K и текстовый файл. Вставить пустую строку после строки файла с номером K (строки нумеруются от 1). Если строки с таким номером нет, то оставить файл без изменений.\n",
-        "Дан текстовый файл. Продублировать в нем все пустые строки.\n",
-        "Дана строка S (не содержащая пробелов) и текстовый файл. Заменить в файле все пустые строки на строку S.\n",
-        "Дан непустой текстовый файл. Удалить из него первую строку.\n",
-        "Дан непустой текстовый файл. Удалить из него последнюю строку.\n",
-        "Дано целое число K и текстовый файл. Удалить из файла строку с номером K (строки нумеруются от 1). Если строки с таким номером нет, то оставить файл без изменений.\n",
-        "Дан текстовый файл. Удалить из него все пустые строки.\n",
-        "Даны два текстовых файла. Добавить в конец каждой строки первого файла соответствующую строку второго файла. Если второй файл короче первого, то оставшиеся строки первого файла не изменять.\n",
-        "Дано целое числоKи текстовый файл. Удалить из каждой строки файла первые K символов (если длина строки меньше K, то удалить из нее все символы).\n",
-        "Дано целое числоKи текстовый файл. Удалить из каждой строки файла последние K символов (если длина строки меньше K, то удалить из нее все символы).\n",
-        "Дан текстовый файл. Заменить в нем все прописные буквы на строчные, а все строчные — на прописные. Остальные символы не изменять.\n"};
+        "Дана строка S (не содержащая пробелов) и текстовый файл. Добавить строку S в конец файла.",
+        "Даны два текстовых файла. Добавить в конец первого файла содержимое второго файла.",
+        "Дана строка S (не содержащая пробелов) и текстовый файл. Добавить строку S в начало файла.",
+        "Даны два текстовых файла. Добавить в начало первого файла содержимое второго файла.",
+        "Дано целое число K и текстовый файл. Вставить пустую строку перед строкой файла с номером K (строки нумеруются от 1). Если строки с таким номером нет, то оставить файл без изменений.",
+        "Дано целое число K и текстовый файл. Вставить пустую строку после строки файла с номером K (строки нумеруются от 1). Если строки с таким номером нет, то оставить файл без изменений.",
+        "Дан текстовый файл. Продублировать в нем все пустые строки.",
+        "Дана строка S (не содержащая пробелов) и текстовый файл. Заменить в файле все пустые строки на строку S.",
+        "Дан непустой текстовый файл. Удалить из него первую строку.",
+        "Дан непустой текстовый файл. Удалить из него последнюю строку.",
+        "Дано целое число K и текстовый файл. Удалить из файла строку с номером K (строки нумеруются от 1). Если строки с таким номером нет, то оставить файл без изменений.",
+        "Дан текстовый файл. Удалить из него все пустые строки.",
+        "Даны два текстовых файла. Добавить в конец каждой строки первого файла соответствующую строку второго файла. Если второй файл короче первого, то оставшиеся строки первого файла не изменять.",
+        "Дано целое числоKи текстовый файл. Удалить из каждой строки файла первые K символов (если длина строки меньше K, то удалить из нее все символы).",
+        "Дано целое числоKи текстовый файл. Удалить из каждой строки файла последние K символов (если длина строки меньше K, то удалить из нее все символы).",
+        "Дан текстовый файл. Заменить в нем все прописные буквы на строчные, а все строчные — на прописные. Остальные символы не изменять."};
     task_text_chinese = {
-        "给定一个字符串 S（不包含空格）和一个文本文件。 将第 S 行添加到文件末尾。\n",
-        "给出了两个文本文件。 将第二个文件的内容附加到第一个文件的末尾。\n",
-        "给定一个字符串 S（不包含空格）和一个文本文件。 将第 S 行添加到文件的开头。\n",
-        "给出了两个文本文件。 将第二个文件的内容添加到第一个文件的开头。\n",
-        "给定一个整数 K 和一个文本文件。 在文件编号为 K 的行之前插入一个空行（行从 1 开始编号）。 如果没有带有此编号的行，则保持文件不变。\n",
-        "给定一个整数 K 和一个文本文件。 在文件中的行号 K 之后插入一个空行（行从 1 开始编号）。 如果没有带有此编号的行，则保持文件不变。\n",
-        "给定一个文本文件。 复制其中的所有空行。\n",
-        "给定一个字符串 S（不包含空格）和一个文本文件。 用字符串 S 替换文件中的所有空行。\n",
-        "给定一个非空的文本文件。 从中删除第一行。\n",
-        "给定一个非空的文本文件。 从中删除最后一行。\n",
-        "给定一个整数 K 和一个文本文件。 从文件中删除编号为 K 的行（行从 1 开始编号）。 如果没有带有此编号的行，则保持文件不变。\n",
-        "给定一个文本文件。 从中删除所有空行。\n",
-        "给出了两个文本文件。 将第二个文件的对应行追加到第一个文件的每一行末尾。 如果第二个文件比第一个文件短，则不要更改第一个文件的其余行。\n",
-        "给定一个整数和一个文本文件。 从文件的每一行中删除前 K 个字符（如果该行的长度小于 K，则从中删除所有字符）。\n",
-        "给定一个整数和一个文本文件。 从文件的每一行中删除最后 K 个字符（如果该行的长度小于 K，则从中删除所有字符）。\n",
-        "给定一个文本文件。 将其中的所有大写字母替换为小写字母，并将所有小写字母替换为大写字母。 不要改变其余的字符。\n"};
+        "给定一个字符串 S（不包含空格）和一个文本文件。 将第 S 行添加到文件末尾。",
+        "给出了两个文本文件。 将第二个文件的内容附加到第一个文件的末尾。",
+        "给定一个字符串 S（不包含空格）和一个文本文件。 将第 S 行添加到文件的开头。",
+        "给出了两个文本文件。 将第二个文件的内容添加到第一个文件的开头。",
+        "给定一个整数 K 和一个文本文件。 在文件编号为 K 的行之前插入一个空行（行从 1 开始编号）。 如果没有带有此编号的行，则保持文件不变。",
+        "给定一个整数 K 和一个文本文件。 在文件中的行号 K 之后插入一个空行（行从 1 开始编号）。 如果没有带有此编号的行，则保持文件不变。",
+        "给定一个文本文件。 复制其中的所有空行。",
+        "给定一个字符串 S（不包含空格）和一个文本文件。 用字符串 S 替换文件中的所有空行。",
+        "给定一个非空的文本文件。 从中删除第一行。",
+        "给定一个非空的文本文件。 从中删除最后一行。",
+        "给定一个整数 K 和一个文本文件。 从文件中删除编号为 K 的行（行从 1 开始编号）。 如果没有带有此编号的行，则保持文件不变。",
+        "给定一个文本文件。 从中删除所有空行。",
+        "给出了两个文本文件。 将第二个文件的对应行追加到第一个文件的每一行末尾。 如果第二个文件比第一个文件短，则不要更改第一个文件的其余行。",
+        "给定一个整数和一个文本文件。 从文件的每一行中删除前 K 个字符（如果该行的长度小于 K，则从中删除所有字符）。",
+        "给定一个整数和一个文本文件。 从文件的每一行中删除最后 K 个字符（如果该行的长度小于 K，则从中删除所有字符）。",
+        "给定一个文本文件。 将其中的所有大写字母替换为小写字母，并将所有小写字母替换为大写字母。 不要改变其余的字符。"};
 
     text_data = {"Winnie-the-Pooh sat down at the foot of the tree,\nput his head between his paws and began to think.\n\nFirst of all he said to himself: \"That\nbuzzing-noise means something. You don't get a\nbuzzing-noise like that, just buzzing and buzzing,\nwithout its meaning something. If there's a\nbuzzing-noise, somebody's making a buzzing-noise,\nand the only reason for making a buzzing-noise\nthat I know of is because you're a bee.\"\n\nThen he thought another long time, and said: \"And\nthe only reason for being a bee that I know of is\nmaking honey.\"\n\nAnd then he got up, and said: \"And the only reason\nfor making honey is so as I can eat it.\" So he\nbegan to climb the tree.\n",
                  "\"Oh, help!\" said Pooh, as he dropped ten feet on\nthe branch below him.\n\n\"If only I hadn't -\" he said, as he bounced twenty\nfeet on to the next branch.\n\n\"You see, what I meant to do,\" he explained, as he\nturned head-over-heels, and crashed on to another\nbranch thirty feet below, \"what I meant to do -\"\n\n\"Of course, it was rather -\" he admitted, as he\nslithered very quickly through the next six\nbranches.\n\n\"It all comes, I suppose,\" he decided, as he said\ngood-bye to the last branch, spun round three\ntimes, and flew gracefully into a gorse-bush, \"it\nall comes of liking honey so much. Oh, help!\"\n",
@@ -135,7 +135,7 @@ TaskC::TaskC()
 }
 void TaskC::generate_task_test(int task_num)
 {
-    init_random_test_files_name(test_files, 2);
+    utilities::init_random_test_files_name(test_files, 2);
 
     int num1 = rand() % text_data.size();
 
@@ -170,7 +170,7 @@ void TaskC::test1()
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -181,11 +181,11 @@ void TaskC::test2()
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
-    while ((n = read_line(f2, buf, 200)) > 0)
+    while ((n = utilities::read_line(f2, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -196,7 +196,7 @@ void TaskC::test3()
     execute_argv.push_back(test_files[0]);
 
     write(f_control, S, strlen(S));
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -206,11 +206,11 @@ void TaskC::test4()
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
 
-    while ((n = read_line(f2, buf, 200)) > 0)
+    while ((n = utilities::read_line(f2, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -220,7 +220,7 @@ void TaskC::test5()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         j++;
         if (j == K)
@@ -235,7 +235,7 @@ void TaskC::test6()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         j++;
         write(f_control, buf, n);
@@ -249,7 +249,7 @@ void TaskC::test7()
 {
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
         if (n == 1)
@@ -263,7 +263,7 @@ void TaskC::test8()
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n == 1)
         {
@@ -279,8 +279,8 @@ void TaskC::test9()
 {
     execute_argv.push_back(test_files[0]);
 
-    read_line(f1, buf, 200);
-    while ((n = read_line(f1, buf, 200)) > 0)
+    utilities::read_line(f1, buf, 200);
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         write(f_control, buf, n);
     }
@@ -288,8 +288,8 @@ void TaskC::test9()
 void TaskC::test10()
 {
     execute_argv.push_back(test_files[0]);
-    n = read_line(f1, buf, 200);
-    while ((n2 = read_line(f1, buf2, 200)) > 0)
+    n = utilities::read_line(f1, buf, 200);
+    while ((n2 = utilities::read_line(f1, buf2, 200)) > 0)
     {
         write(f_control, buf, n);
         n = n2;
@@ -301,7 +301,7 @@ void TaskC::test11()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         j++;
         if (j != K)
@@ -313,7 +313,7 @@ void TaskC::test11()
 void TaskC::test12()
 {
     execute_argv.push_back(test_files[0]);
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n > 1)
         {
@@ -326,9 +326,9 @@ void TaskC::test13()
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
-        n2 = read_line(f2, buf2, 200);
+        n2 = utilities::read_line(f2, buf2, 200);
         if (n2 > 0)
         {
             buf[n - 1] = '\0';
@@ -342,7 +342,7 @@ void TaskC::test14()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n - 1 > K)
         {
@@ -361,7 +361,7 @@ void TaskC::test15()
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
 
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         if (n - 1 > K)
         {
@@ -378,7 +378,7 @@ void TaskC::test15()
 void TaskC::test16()
 {
     execute_argv.push_back(test_files[0]);
-    while ((n = read_line(f1, buf, 200)) > 0)
+    while ((n = utilities::read_line(f1, buf, 200)) > 0)
     {
         for (j = 0; j < n; j++)
         {
@@ -461,17 +461,17 @@ void TaskC::print_extral_info(int task_num)
 {
     if (use_flag)
     {
-        show_file(test_files[0], "Input file1: ", 2);
-        show_file(test_files[1], "Input file2: ", 2);
+        utilities::show_file(test_files[0], "Input file1: ", 2);
+        utilities::show_file(test_files[1], "Input file2: ", 2);
     }
     else
     {
-        show_file(test_files[0], "Input file: ", 2);
+        utilities::show_file(test_files[0], "Input file: ", 2);
     }
 }
 int TaskC::check_program(int task_num) const
 {
-    show_file(test_files[0], "Result file: ", 2);
+    utilities::show_file(test_files[0], "Result file: ", 2);
 
-    return compare_file(test_files[0], control_file);
+    return utilities::compare_file(test_files[0], control_file);
 }

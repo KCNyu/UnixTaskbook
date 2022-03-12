@@ -1,5 +1,8 @@
 #include "server.h"
 
+int g_efd;								   //全局变量, 保存epoll_create返回的文件描述符
+struct myevent_s g_events[MAX_EVENTS + 1]; //自定义结构体类型数组. +1-->listen fd
+
 int recv_n(int new_fd, char *buf, int len)
 {
 	int ret;
@@ -43,11 +46,11 @@ void eventadd(int efd, int events, struct myevent_s *ev)
 	epv.events = ev->events = events; // EPOLLIN 或 EPOLLOUT
 
 	if (ev->status == 1)
-	{			    //已经在红黑树 g_efd 里
+	{						//已经在红黑树 g_efd 里
 		op = EPOLL_CTL_MOD; //修改其属性
 	}
 	else
-	{			    //不在红黑树里
+	{						//不在红黑树里
 		op = EPOLL_CTL_ADD; //将其加入红黑树 g_efd, 并将status置1
 		ev->status = 1;
 	}
@@ -67,7 +70,7 @@ void eventdel(int efd, struct myevent_s *ev)
 		return;
 
 	epv.data.ptr = ev;
-	ev->status = 0;				     //修改状态
+	ev->status = 0;								 //修改状态
 	epoll_ctl(efd, EPOLL_CTL_DEL, ev->fd, &epv); //从红黑树 efd 上将 ev->fd 摘除
 
 	return;
@@ -164,9 +167,9 @@ void acceptconn(int lfd, int events, void *arg)
 
 	do
 	{
-		for (i = 0; i < MAX_EVENTS; i++)     //从全局数组g_events中找一个空闲元素
+		for (i = 0; i < MAX_EVENTS; i++) //从全局数组g_events中找一个空闲元素
 			if (g_events[i].status == 0) //类似于select中找值为-1的元素
-				break;		     //跳出 for
+				break;					 //跳出 for
 
 		if (i == MAX_EVENTS)
 		{
@@ -189,7 +192,7 @@ void acceptconn(int lfd, int events, void *arg)
 	} while (0);
 
 	printf("new connect [%s:%d][time:%ld], pos[%d]\n",
-	       inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_events[i].last_active, i);
+		   inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_events[i].last_active, i);
 	return;
 }
 /* 从epoll 监听的 红黑树中删除一个 文件描述符*/
