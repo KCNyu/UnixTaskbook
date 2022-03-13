@@ -15,6 +15,7 @@ cd -
 # unixTaskbook配置文件
 cp ./unixTaskbook ../"$packagename" 
 cp ./lib/*.so ../"$packagename"
+cp ./lib/unixTaskbook.conf ../"$packagename"
 
 # vscode任务配置文件
 cp ./.vscode/launch.json ../"$packagename"
