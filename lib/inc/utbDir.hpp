@@ -1,7 +1,7 @@
 #include "tasklib.hpp"
 #include "utilities.hpp"
 
-class TaskA : public TaskLib
+class utbDir : public TaskLib
 {
 private:
     std::string sys_cmd;
@@ -22,14 +22,14 @@ protected:
     void test9();
 
 public:
-    TaskA();
+    utbDir();
 
     // virtual function inherited from parent class
     virtual void generate_task_test(int task_num);
     virtual void generate_task_control(int task_num);
     virtual void print_extral_info(int task_num);
     virtual int check_program(int task_num) const;
-    virtual ~TaskA() {}
+    virtual ~utbDir() {}
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
@@ -38,7 +38,7 @@ public:
 
 extern "C" TaskLib *create()
 {
-    return new TaskA;
+    return new utbDir;
 }
 extern "C" void destroy(TaskLib *t)
 {

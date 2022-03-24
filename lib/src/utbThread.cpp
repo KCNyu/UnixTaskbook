@@ -1,8 +1,8 @@
-#include "taskE.hpp"
+#include "utbThread.hpp"
 
-TaskE::TaskE()
+utbThread::utbThread()
 {
-    library_name = "libtaskE.so";
+    library_name = "libutbThread.so";
 
     complier = "gcc";
 
@@ -49,7 +49,7 @@ TaskE::TaskE()
         "实现算法的变体，用于查找具有偶数（0、2、-2、4、-4、...、100、-100）的原始数组的所有元素的索引总和。 使用线程的算法的线程数为 4。为避免溢出，请使用双精度变量来存储索引的总和。"};
 }
 
-void TaskE::generate_task_test(int task_num)
+void utbThread::generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
@@ -68,7 +68,7 @@ void TaskE::generate_task_test(int task_num)
     execute_argv.clear();
     execute_argv.push_back(std::to_string(seed));
 }
-void TaskE::thread_test(std::string option_alg)
+void utbThread::thread_test(std::string option_alg)
 {
     start = times(&tmsstart);
 #if defined __x86_64__
@@ -336,7 +336,7 @@ void TaskE::thread_test(std::string option_alg)
     }
 #endif
 }
-void TaskE::generate_task_control(int task_num)
+void utbThread::generate_task_control(int task_num)
 {
     switch (task_num)
     {
@@ -375,10 +375,10 @@ void TaskE::generate_task_control(int task_num)
     }
     output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
-void TaskE::print_extral_info(int task_num)
+void utbThread::print_extral_info(int task_num)
 {
 }
-int TaskE::check_program(int task_num) const
+int utbThread::check_program(int task_num) const
 {
     std::ifstream in(test_files[0]);
     std::string line;
@@ -419,7 +419,7 @@ int TaskE::check_program(int task_num) const
     in.close();
     return 0;
 }
-std::vector<double> TaskE::get_time()
+std::vector<double> utbThread::get_time()
 {
     auto sec = [](long ticks) -> double
     {
@@ -428,7 +428,7 @@ std::vector<double> TaskE::get_time()
 
     return {sec(end - start), sec(tmsend.tms_utime - tmsstart.tms_utime), sec(tmsend.tms_stime - tmsstart.tms_stime)};
 }
-void TaskE::print_time(std::ostream &out)
+void utbThread::print_time(std::ostream &out)
 {
     std::cout.setf(std::ios::fixed);
 

@@ -1,20 +1,16 @@
 #include "tasklib.hpp"
 #include "utilities.hpp"
-#include <sstream>
 
-class TaskC : public TaskLib
+class utbShell : public TaskLib
 {
 private:
-    int f1, f2;
-    char S[50];
-    int n, n2;
-    char buf[200];
-    char buf2[200];
-    char empty = '\n';
-    int j = 0;
-    int K;
-    bool use_flag = false;
-    std::vector<std::string> text_data;
+    std::vector<std::vector<std::string>> random_cmds;
+    std::vector<std::vector<std::string>> random_cmds_stdout;
+    std::vector<std::vector<std::string>> random_cmds_stdin;
+
+    int f;
+    int backup;
+    std::string sys_cmd;
 
 protected:
     void test1();
@@ -26,31 +22,26 @@ protected:
     void test7();
     void test8();
     void test9();
-    void test10();
-    void test11();
-    void test12();
-    void test13();
-    void test14();
-    void test15();
-    void test16();
 
 public:
-    TaskC();
+    utbShell();
 
     // virtual function inherited from parent class
     virtual void generate_task_test(int task_num);
     virtual void generate_task_control(int task_num);
     virtual void print_extral_info(int task_num);
     virtual int check_program(int task_num) const;
-    virtual ~TaskC() {}
+    virtual ~utbShell() {}
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
+    bool foo_judge(std::string cmd);
+    void init_helper_sys_cmd(std::string split);
 };
 
 extern "C" TaskLib *create()
 {
-    return new TaskC;
+    return new utbShell;
 }
 extern "C" void destroy(TaskLib *t)
 {

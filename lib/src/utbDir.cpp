@@ -1,8 +1,8 @@
-#include "taskA.hpp"
+#include "utbDir.hpp"
 
-TaskA::TaskA()
+utbDir::utbDir()
 {
-    library_name = "libtaskA.so";
+    library_name = "libutbDir.so";
 
     complier = "gcc";
 
@@ -39,7 +39,7 @@ TaskA::TaskA()
         "编写一个程序，在嵌套目录结构中搜索文件，不考虑某些目录。初始目录名和要排除的目录名由用户在命令行中指定（排除目录名可以有多个）。对于所有找到的文件，将显示它们的全名、大小（以字节为单位）和上次修改的日期时间。如果未指定排除目录的名称，则处理所有子目录。如果缺少所有命令行选项，则处理当前目录。",
         "启动程序时，会显示当前目录（或指定为命令行参数的目录）的子目录列表。 显示所有级别的子目录，每个目录都指示完整路径，以源目录的名称开头）。"};
 }
-void TaskA::generate_test_file(std::string dirname, int count)
+void utbDir::generate_test_file(std::string dirname, int count)
 {
     for (int i = 0; i < 10 + count; i++)
     {
@@ -50,7 +50,7 @@ void TaskA::generate_test_file(std::string dirname, int count)
         ofs.close();
     }
 }
-void TaskA::generate_task_test(int task_num)
+void utbDir::generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
@@ -72,7 +72,7 @@ void TaskA::generate_task_test(int task_num)
 
     output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
-void TaskA::test1()
+void utbDir::test1()
 {
     sys_cmd = "( ls -l " + execute_dir + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
               control_file;
@@ -85,7 +85,7 @@ void TaskA::test1()
         execute_argv.push_back(execute_dir);
     }
 }
-void TaskA::test2()
+void utbDir::test2()
 {
     std::string test_extension = extension_name[rand() % extension_name.size()];
     sys_cmd = "( ls -l " + execute_dir + " | grep " + test_extension + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
@@ -100,7 +100,7 @@ void TaskA::test2()
         execute_argv.push_back(execute_dir);
     }
 }
-void TaskA::test3()
+void utbDir::test3()
 {
     std::string test_extension = extension_name[rand() % extension_name.size()];
     sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " | xargs ls -l | awk '{print $9 \" \" $5}' ) > " +
@@ -115,7 +115,7 @@ void TaskA::test3()
         execute_argv.push_back(execute_dir);
     }
 }
-void TaskA::test4()
+void utbDir::test4()
 {
     std::string test_extension = extension_name[rand() % extension_name.size()];
     sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " -exec ls -l {} \\; | awk 'BEGIN{count=0;size=0;} {count++;size+=$5;} END{print count \" \" size}' ) > " +
@@ -129,19 +129,19 @@ void TaskA::test4()
         execute_argv.push_back(execute_dir);
     }
 }
-void TaskA::test5()
+void utbDir::test5()
 {
 }
-void TaskA::test6()
+void utbDir::test6()
 {
 }
-void TaskA::test7()
+void utbDir::test7()
 {
 }
-void TaskA::test8()
+void utbDir::test8()
 {
 }
-void TaskA::test9()
+void utbDir::test9()
 {
     if (work_dir == execute_dir)
     {
@@ -157,7 +157,7 @@ void TaskA::test9()
         execute_argv.push_back(execute_dir);
     }
 }
-void TaskA::generate_task_control(int task_num)
+void utbDir::generate_task_control(int task_num)
 {
     f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
@@ -194,10 +194,10 @@ void TaskA::generate_task_control(int task_num)
 
     close(f_control);
 }
-void TaskA::print_extral_info(int task_num)
+void utbDir::print_extral_info(int task_num)
 {
 }
-int TaskA::check_program(int task_num) const
+int utbDir::check_program(int task_num) const
 {
     std::string cmd = "rm -rf " + work_dir;
     system(cmd.c_str());

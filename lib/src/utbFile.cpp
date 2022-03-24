@@ -1,8 +1,8 @@
-#include "taskB.hpp"
+#include "utbFile.hpp"
 
-TaskB::TaskB()
+utbFile::utbFile()
 {
-	library_name = "libtaskB.so";
+	library_name = "libutbFile.so";
 
 	complier = "gcc";
 
@@ -50,7 +50,7 @@ TaskB::TaskB()
 		"给定一个字符文件，其中包含元素 A1、A2、...、AN（N 是文件中的元素数）。 用以下内容替换其元素的原始布局：\nA1, AN, A2, AN − 1, A3, ....\n例如，带有符号 ABCDEFGHI 的文件应更改为 AIBHCGDFE。",
 	};
 }
-void TaskB::test1()
+void utbFile::test1()
 {
 	execute_argv = test_files;
 
@@ -59,7 +59,7 @@ void TaskB::test1()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test2()
+void utbFile::test2()
 {
 	execute_argv = test_files;
 
@@ -69,7 +69,7 @@ void TaskB::test2()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test3()
+void utbFile::test3()
 {
 	execute_argv = test_files;
 
@@ -78,7 +78,7 @@ void TaskB::test3()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test4()
+void utbFile::test4()
 {
 	execute_argv = test_files;
 
@@ -87,7 +87,7 @@ void TaskB::test4()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test5()
+void utbFile::test5()
 {
 	execute_argv = test_files;
 
@@ -96,7 +96,7 @@ void TaskB::test5()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test6()
+void utbFile::test6()
 {
 	execute_argv = test_files;
 
@@ -106,7 +106,7 @@ void TaskB::test6()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test7()
+void utbFile::test7()
 {
 	execute_argv = test_files;
 
@@ -118,7 +118,7 @@ void TaskB::test7()
 		}
 	}
 }
-void TaskB::test8()
+void utbFile::test8()
 {
 	execute_argv = test_files;
 
@@ -130,7 +130,7 @@ void TaskB::test8()
 		}
 	}
 }
-void TaskB::test9()
+void utbFile::test9()
 {
 	execute_argv = test_files;
 
@@ -142,7 +142,7 @@ void TaskB::test9()
 		}
 	}
 }
-void TaskB::test10()
+void utbFile::test10()
 {
 	execute_argv = test_files;
 
@@ -155,7 +155,7 @@ void TaskB::test10()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test11()
+void utbFile::test11()
 {
 	execute_argv = test_files;
 
@@ -168,7 +168,7 @@ void TaskB::test11()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test12()
+void utbFile::test12()
 {
 	execute_argv = test_files;
 
@@ -182,7 +182,7 @@ void TaskB::test12()
 		write(f_control, &c[i], 1);
 	}
 }
-void TaskB::test13()
+void utbFile::test13()
 {
 	execute_argv = test_files;
 
@@ -195,7 +195,7 @@ void TaskB::test13()
 		}
 	}
 }
-void TaskB::test14()
+void utbFile::test14()
 {
 	execute_argv = test_files;
 
@@ -208,7 +208,7 @@ void TaskB::test14()
 		}
 	}
 }
-void TaskB::test15()
+void utbFile::test15()
 {
 	execute_argv = test_files;
 
@@ -224,7 +224,7 @@ void TaskB::test15()
 		}
 	}
 }
-void TaskB::test16()
+void utbFile::test16()
 {
 	execute_argv = test_files;
 
@@ -240,7 +240,7 @@ void TaskB::test16()
 		}
 	}
 }
-void TaskB::test17()
+void utbFile::test17()
 {
 	execute_argv = test_files;
 
@@ -254,7 +254,7 @@ void TaskB::test17()
 		write(f_control, &c[sz / 2], 1);
 	}
 }
-void TaskB::generate_task_test(int task_num)
+void utbFile::generate_task_test(int task_num)
 {
 
 	utilities::init_random_test_files_name(test_files, 1);
@@ -302,7 +302,7 @@ void TaskB::generate_task_test(int task_num)
 	write(f_test, c, sz);
 	close(f_test);
 }
-void TaskB::generate_task_control(int task_num)
+void utbFile::generate_task_control(int task_num)
 {
 	f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	switch (task_num)
@@ -361,11 +361,11 @@ void TaskB::generate_task_control(int task_num)
 	}
 	close(f_control);
 }
-void TaskB::print_extral_info(int task_num)
+void utbFile::print_extral_info(int task_num)
 {
 	utilities::show_file(test_files[0], "Input file: ", 0);
 }
-int TaskB::check_program(int task_num) const
+int utbFile::check_program(int task_num) const
 {
 	utilities::show_file(test_files[0], "Result file: ", 2);
 

@@ -1,8 +1,8 @@
-#include "taskD.hpp"
+#include "utbShell.hpp"
 
-TaskD::TaskD()
+utbShell::utbShell()
 {
-    library_name = "libtaskD.so";
+    library_name = "libutbShell.so";
 
     complier = "gcc";
 
@@ -49,12 +49,12 @@ TaskD::TaskD()
         "编写一个模拟shell结构的shellD8程序：\n(cmdA A1 A2 ... AN; cmdB B1 B2 ... BM)> file \n这个结构保证了cmdA和cmdB命令的顺序执行：首先, cmdA 命令以参数 A1, A2, ..., AN 运行，然后 cmdB 命令以参数 B1, B2, ..., BM 运行。在这种情况下，每个命令的输出都被重定向到一个文件名为file。如果指定的文件不存在，则创建，如果存在，则删除其先前的内容。\nshellD8程序调用格式：\nshellD8 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM",
         "编写一个模拟shell结构的shellD9程序：\n(cmdA A1 A2 ... AN || cmdB B1 B2 ... BM) | cmdC C1 C2 ... CP >> file\n此构造执行以下操作。命令带有参数 A1, A2, ..., AN 的 cmdA；如果此程序因错误而终止（退出代码不为 0），则使用参数 B1, B2, ..., BM 运行 cmdB 命令。处理成功的命令重定向到cmdC命令的标准输入，参数为C1,C2,...,CP，cmdC命令的标准输出重定向到文件file，如果文件不存在，则\nshellD9 程序调用格式：\nshellD9 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM cmdC P C1 C2 ... CP"};
 }
-bool TaskD::foo_judge(std::string cmd)
+bool utbShell::foo_judge(std::string cmd)
 {
     bool judge_num = (cmd == "0" || cmd == "1" || cmd == "2" || cmd == "3" || cmd == "4");
     return judge_num;
 }
-void TaskD::generate_task_test(int task_num)
+void utbShell::generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
@@ -62,7 +62,7 @@ void TaskD::generate_task_test(int task_num)
     f = open(test_files[0].c_str(), O_CREAT | O_TRUNC | O_WRONLY, 0644);
     close(f);
 }
-void TaskD::init_helper_sys_cmd(std::string split)
+void utbShell::init_helper_sys_cmd(std::string split)
 {
     int split_index = 0;
     for (size_t i = 0; i < execute_argv.size(); i++)
@@ -82,7 +82,7 @@ void TaskD::init_helper_sys_cmd(std::string split)
         }
     }
 }
-void TaskD::test1()
+void utbShell::test1()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     for (auto cmd : random_cmds[rand() % random_cmds.size()])
@@ -96,7 +96,7 @@ void TaskD::test1()
 
     system(sys_cmd.c_str());
 }
-void TaskD::test2()
+void utbShell::test2()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     for (auto cmd : random_cmds[rand() % random_cmds.size()])
@@ -110,7 +110,7 @@ void TaskD::test2()
 
     system(sys_cmd.c_str());
 }
-void TaskD::test3()
+void utbShell::test3()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     for (auto cmd : random_cmds[rand() % random_cmds.size()])
@@ -124,7 +124,7 @@ void TaskD::test3()
 
     system(sys_cmd.c_str());
 }
-void TaskD::test4()
+void utbShell::test4()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     for (auto cmd : random_cmds_stdout[rand() % random_cmds_stdout.size()])
@@ -138,7 +138,7 @@ void TaskD::test4()
 
     system(sys_cmd.c_str());
 }
-void TaskD::test5()
+void utbShell::test5()
 {
     execute_argv = random_cmds_stdin[rand() % random_cmds_stdin.size()];
     execute_argv.insert(execute_argv.begin(), "/etc/passwd");
@@ -154,7 +154,7 @@ void TaskD::test5()
     system(sys_cmd.c_str());
 
 }
-void TaskD::test6()
+void utbShell::test6()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     execute_argv.insert(execute_argv.begin(), test_files[0]);
@@ -166,7 +166,7 @@ void TaskD::test6()
 
     system(sys_cmd.c_str());
 }
-void TaskD::test7()
+void utbShell::test7()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     execute_argv.insert(execute_argv.begin(), test_files[0]);
@@ -178,7 +178,7 @@ void TaskD::test7()
 
     system(sys_cmd.c_str());    
 }
-void TaskD::test8()
+void utbShell::test8()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     for (auto cmd : random_cmds[rand() % random_cmds.size()])
@@ -194,7 +194,7 @@ void TaskD::test8()
 
     system(sys_cmd.c_str());
 }
-void TaskD::test9()
+void utbShell::test9()
 {
     execute_argv = random_cmds[rand() % random_cmds.size()];
     for (auto cmd : random_cmds[rand() % random_cmds.size()])
@@ -221,7 +221,7 @@ void TaskD::test9()
 
     system(sys_cmd.c_str());
 }
-void TaskD::generate_task_control(int task_num)
+void utbShell::generate_task_control(int task_num)
 {
     f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
@@ -260,10 +260,10 @@ void TaskD::generate_task_control(int task_num)
 
     close(f_control);
 }
-void TaskD::print_extral_info(int task_num)
+void utbShell::print_extral_info(int task_num)
 {
 }
-int TaskD::check_program(int task_num) const
+int utbShell::check_program(int task_num) const
 {
     utilities::show_file(test_files[0], "Result file: ", 2);
 

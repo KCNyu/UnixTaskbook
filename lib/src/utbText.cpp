@@ -1,8 +1,8 @@
-#include "taskC.hpp"
+#include "utbText.hpp"
 
-TaskC::TaskC()
+utbText::utbText()
 {
-    library_name = "libtaskC.so";
+    library_name = "libutbText.so";
 
     complier = "gcc";
 
@@ -133,7 +133,7 @@ TaskC::TaskC()
                  "\"Is it a very Grand thing to be an Afternoon, what\nyou said?\"\n\n\"A what?\" said Christopher Robin lazily, as he\nlistened to something else.\n\n\"On a horse,\" explained Pooh.\n\n\"A Knight?\"\n\n\"Oh, was that it?\" said Pooh. \"I thought it was a\n- Is it as Grand as a King and Factors and all the\nother things you said?\"\n\n\"Well, it's not as grand as a King,\" said\nChristopher Robin, and then, as Pooh seemed\ndisappointed, he added quickly, \"but it's grander\nthan Factors.\"\n\n\"Could a Bear be one?\"\n\n\"Of course he could!\" said Christopher Robin.\n\"I'll make you one.\" And he took a stick and\ntouched Pooh on the shoulder, and said, \"Rise, Sir\nPooh de Bear, most faithful of all my Knights.\"\n\nSo Pooh rose and sat down and said \"Thank you,\"\nwhich is a proper thing to say when you have been\nmade a Knight.\n",
                  "\"Pooh, when I'm - you know - when I'm not doing\nNothing, will you come up here sometimes?\"\n\n\"Just Me?\"\n\n\"Yes, Pooh.\"\n\n\"Will you be here too?\"\n\n\"Yes, Pooh, I will be really. I promise I will be,\nPooh.\"\n\n\"That's good,\" said Pooh.\n\n\"Pooh, promise you won't forget about me, ever.\nNot even when I'm a hundred.\"\n\nPooh thought for a little.\n\n\"How old shall I be then?\"\n\n\"Ninety-nine.\"\n\nPooh nodded.\n\n\"I promise,\" he said.\n"};
 }
-void TaskC::generate_task_test(int task_num)
+void utbText::generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 2);
 
@@ -165,7 +165,7 @@ void TaskC::generate_task_test(int task_num)
     S[slen + 1] = '\0';
     K = rand() % 10 + 5;
 }
-void TaskC::test1()
+void utbText::test1()
 {
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
@@ -176,7 +176,7 @@ void TaskC::test1()
     }
     write(f_control, S, strlen(S));
 }
-void TaskC::test2()
+void utbText::test2()
 {
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
@@ -190,7 +190,7 @@ void TaskC::test2()
         write(f_control, buf, n);
     }
 }
-void TaskC::test3()
+void utbText::test3()
 {
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
@@ -201,7 +201,7 @@ void TaskC::test3()
         write(f_control, buf, n);
     }
 }
-void TaskC::test4()
+void utbText::test4()
 {
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
@@ -215,7 +215,7 @@ void TaskC::test4()
         write(f_control, buf, n);
     }
 }
-void TaskC::test5()
+void utbText::test5()
 {
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
@@ -230,7 +230,7 @@ void TaskC::test5()
         write(f_control, buf, n);
     }
 }
-void TaskC::test6()
+void utbText::test6()
 {
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
@@ -245,7 +245,7 @@ void TaskC::test6()
         }
     }
 }
-void TaskC::test7()
+void utbText::test7()
 {
     execute_argv.push_back(test_files[0]);
 
@@ -258,7 +258,7 @@ void TaskC::test7()
         }
     }
 }
-void TaskC::test8()
+void utbText::test8()
 {
     execute_argv.push_back(S);
     execute_argv.push_back(test_files[0]);
@@ -275,7 +275,7 @@ void TaskC::test8()
         }
     }
 }
-void TaskC::test9()
+void utbText::test9()
 {
     execute_argv.push_back(test_files[0]);
 
@@ -285,7 +285,7 @@ void TaskC::test9()
         write(f_control, buf, n);
     }
 }
-void TaskC::test10()
+void utbText::test10()
 {
     execute_argv.push_back(test_files[0]);
     n = utilities::read_line(f1, buf, 200);
@@ -296,7 +296,7 @@ void TaskC::test10()
         strcpy(buf, buf2);
     }
 }
-void TaskC::test11()
+void utbText::test11()
 {
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
@@ -310,7 +310,7 @@ void TaskC::test11()
         }
     }
 }
-void TaskC::test12()
+void utbText::test12()
 {
     execute_argv.push_back(test_files[0]);
     while ((n = utilities::read_line(f1, buf, 200)) > 0)
@@ -321,7 +321,7 @@ void TaskC::test12()
         }
     }
 }
-void TaskC::test13()
+void utbText::test13()
 {
     execute_argv.push_back(test_files[0]);
     execute_argv.push_back(test_files[1]);
@@ -337,7 +337,7 @@ void TaskC::test13()
         write(f_control, buf, strlen(buf));
     }
 }
-void TaskC::test14()
+void utbText::test14()
 {
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
@@ -356,7 +356,7 @@ void TaskC::test14()
         write(f_control, buf, strlen(buf));
     }
 }
-void TaskC::test15()
+void utbText::test15()
 {
     execute_argv.push_back(std::to_string(K));
     execute_argv.push_back(test_files[0]);
@@ -375,7 +375,7 @@ void TaskC::test15()
         write(f_control, buf, strlen(buf));
     }
 }
-void TaskC::test16()
+void utbText::test16()
 {
     execute_argv.push_back(test_files[0]);
     while ((n = utilities::read_line(f1, buf, 200)) > 0)
@@ -394,7 +394,7 @@ void TaskC::test16()
         write(f_control, buf, n);
     }
 }
-void TaskC::generate_task_control(int task_num)
+void utbText::generate_task_control(int task_num)
 {
     execute_argv.clear();
     f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -457,7 +457,7 @@ void TaskC::generate_task_control(int task_num)
         close(f2);
     }
 }
-void TaskC::print_extral_info(int task_num)
+void utbText::print_extral_info(int task_num)
 {
     if (use_flag)
     {
@@ -469,7 +469,7 @@ void TaskC::print_extral_info(int task_num)
         utilities::show_file(test_files[0], "Input file: ", 2);
     }
 }
-int TaskC::check_program(int task_num) const
+int utbText::check_program(int task_num) const
 {
     utilities::show_file(test_files[0], "Result file: ", 2);
 

@@ -81,7 +81,7 @@ void UnixTaskbook::parse_task_name()
 	std::string numerics("0123456789");
 	std::string::size_type pos = task_name.find_first_of(numerics);
 
-	tasklib_name = std::string("libtask") + task_name.substr(0, pos) + ".so";
+	tasklib_name = std::string("libutb") + task_name.substr(0, pos) + ".so";
 
 	task_num = atoi(task_name.substr(pos).c_str());
 }

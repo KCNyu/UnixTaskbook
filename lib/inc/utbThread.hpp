@@ -11,7 +11,7 @@
 #include <cmath>
 
 int res_nmd = 0;
-class TaskE : public TaskLib
+class utbThread : public TaskLib
 {
 private:
     const size_t arrsize = 80000000;
@@ -26,14 +26,14 @@ protected:
     void thread_test(std::string option_alg);
 
 public:
-    TaskE();
+    utbThread();
 
     // virtual function inherited from parent class
     virtual void generate_task_test(int task_num);
     virtual void generate_task_control(int task_num);
     virtual void print_extral_info(int task_num);
     virtual int check_program(int task_num) const;
-    virtual ~TaskE() {}
+    virtual ~utbThread() {}
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
@@ -43,7 +43,7 @@ public:
 
 extern "C" TaskLib *create()
 {
-    return new TaskE;
+    return new utbThread;
 }
 extern "C" void destroy(TaskLib *t)
 {

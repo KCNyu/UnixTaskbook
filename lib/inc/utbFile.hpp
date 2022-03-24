@@ -1,7 +1,7 @@
 #include "tasklib.hpp"
 #include "utilities.hpp"
 
-class TaskB : public TaskLib
+class utbFile : public TaskLib
 {
 private:
 	char c[50];
@@ -27,14 +27,14 @@ protected:
 	void test17();
 
 public:
-	TaskB();
+	utbFile();
 
 	// virtual function inherited from parent class
 	virtual void generate_task_test(int task_num);
 	virtual void generate_task_control(int task_num);
 	virtual void print_extral_info(int task_num);
 	virtual int check_program(int task_num) const;
-	virtual ~TaskB() {}
+	virtual ~utbFile() {}
 
 	// Helper functions are optional
 	// In order to implement the above interface, it is assisted by providing
@@ -42,7 +42,7 @@ public:
 
 extern "C" TaskLib *create()
 {
-	return new TaskB;
+	return new utbFile;
 }
 extern "C" void destroy(TaskLib *t)
 {
