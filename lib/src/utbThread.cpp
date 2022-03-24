@@ -124,7 +124,7 @@ void utbThread::thread_test(std::string option_alg)
             }
         }
     }
-#elif defined __aarch64__
+#elif defined __aarch64__ || defined __arm__
     if (option_alg == "sum")
     {
         std::for_each(arr.begin(), arr.end(), [&](auto num)
