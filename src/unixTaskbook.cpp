@@ -39,7 +39,7 @@ void UnixTaskbook::check_task_lib()
 	assert(tasklib->get_task_count() == tasklib->task_text_chinese.size());
 
 	// check tasklib name
-	assert(tasklib->library_name == tasklib_name);
+	// assert(tasklib->library_name == tasklib_name);
 
 	// check complier
 	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
@@ -80,9 +80,11 @@ void UnixTaskbook::parse_task_name()
 	}
 	std::string numerics("0123456789");
 	std::string::size_type pos = task_name.find_first_of(numerics);
-
+#if defined linux
 	tasklib_name = std::string("libutb") + task_name.substr(0, pos) + ".so";
-
+#elif defined __APPLE__
+	tasklib_name = std::string("libutb") + task_name.substr(0, pos) + ".dylib";
+#endif
 	task_num = atoi(task_name.substr(pos).c_str());
 }
 void UnixTaskbook::parse_command(int argc, char *argv[])

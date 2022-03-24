@@ -1,6 +1,7 @@
 project(UnixTaskbook)
 cmake_minimum_required(VERSION 3.0)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
@@ -27,9 +28,13 @@ include_directories(./lib/inc)
 foreach(file ${LIB_SRC})
     STRING(REGEX REPLACE ".+/(.+)\\..*" "\\1" FILE_NAME ${file})
     add_library(${FILE_NAME} SHARED ${file} ${SHARED_SRC})
-    if (${FILE_NAME} STREQUAL "utbThread" AND NOT ${CMAKE_CXX_COMPILER} STREQUAL "/usr/bin/aarch64-linux-gnu-g++")
+    if (${FILE_NAME} STREQUAL "utbThread" AND NOT ${CMAKE_CXX_COMPILER} STREQUAL "/usr/bin/aarch64-linux-gnu-g++" AND CMAKE_SYSTEM_NAME MATCHES "Linux")
         target_link_libraries(${FILE_NAME} tbb)
     endif()
-    install(TARGETS ${FILE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/UnixTaskbook)
+    if (CMAKE_SYSTEM_NAME MATCHES "Linux")
+        install(TARGETS ${FILE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/UnixTaskbook)
+    elseif (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+        install(TARGETS ${FILE_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/)
+    endif()
 endforeach()
 
