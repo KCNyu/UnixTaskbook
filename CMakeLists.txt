@@ -38,7 +38,7 @@ foreach(file ${LIB_SRC})
     endif()
 endforeach()
 
-install(CODE "EXECUTE_PROCESS(COMMAND cp ./lib/unixTaskbook.conf /etc/ld.so.conf.d)")
+install(CODE "EXECUTE_PROCESS(COMMAND cp ../lib/unixTaskbook.conf /etc/ld.so.conf.d)")
 install(CODE "EXECUTE_PROCESS(COMMAND ldconfig)")
 
 # set up the test
