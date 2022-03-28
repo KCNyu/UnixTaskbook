@@ -71,7 +71,7 @@ void utbThread::generate_task_test(int task_num)
 void utbThread::thread_test(std::string option_alg)
 {
     start = times(&tmsstart);
-#if defined __x86_64__
+#if defined __x86_64__ && defined __linux__
     if (option_alg == "sum")
     {
         std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
@@ -124,7 +124,7 @@ void utbThread::thread_test(std::string option_alg)
             }
         }
     }
-#elif defined __aarch64__ || defined __arm__
+#elif defined __aarch64__ || defined __arm__ || defined __APPLE__
     if (option_alg == "sum")
     {
         std::for_each(arr.begin(), arr.end(), [&](auto num)
