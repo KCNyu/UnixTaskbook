@@ -278,12 +278,12 @@ void UnixTaskbook::run()
 	srand(time(nullptr));
 
 	print_task_info(task_num, language_option);
-
+/*
 	if (program.size() == 0)
 	{
 		LOG_ERROR("Need to be checked program name or directory");
 	}
-
+*/
 	complie_program(program);
 
 	for (int i = 0; i < tasklib->total_test_count; i++)
