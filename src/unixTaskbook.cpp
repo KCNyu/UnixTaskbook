@@ -80,7 +80,7 @@ void UnixTaskbook::parse_task_name()
 	}
 	std::string numerics("0123456789");
 	std::string::size_type pos = task_name.find_first_of(numerics);
-#if defined linux
+#if defined __linux__
 	tasklib_name = std::string("libutb") + task_name.substr(0, pos) + ".so";
 #elif defined __APPLE__
 	tasklib_name = std::string("libutb") + task_name.substr(0, pos) + ".dylib";
