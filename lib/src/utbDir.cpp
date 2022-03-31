@@ -50,7 +50,7 @@ void utbDir::generate_test_file(std::string dirname, int count)
         ofs.close();
     }
 }
-void utbDir::generate_task_test(int task_num)
+void utbDir::utb_generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
@@ -157,7 +157,7 @@ void utbDir::test9()
         execute_argv.push_back(execute_dir);
     }
 }
-void utbDir::generate_task_control(int task_num)
+void utbDir::utb_generate_task_control(int task_num)
 {
     f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
@@ -194,10 +194,10 @@ void utbDir::generate_task_control(int task_num)
 
     close(f_control);
 }
-void utbDir::print_extral_info(int task_num)
+void utbDir::utb_print_extral_info(int task_num)
 {
 }
-int utbDir::check_program(int task_num) const
+int utbDir::utb_check_program(int task_num) const
 {
     std::string cmd = "rm -rf " + work_dir;
     system(cmd.c_str());

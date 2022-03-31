@@ -54,7 +54,7 @@ bool utbShell::foo_judge(std::string cmd)
     bool judge_num = (cmd == "0" || cmd == "1" || cmd == "2" || cmd == "3" || cmd == "4");
     return judge_num;
 }
-void utbShell::generate_task_test(int task_num)
+void utbShell::utb_generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
@@ -221,7 +221,7 @@ void utbShell::test9()
 
     system(sys_cmd.c_str());
 }
-void utbShell::generate_task_control(int task_num)
+void utbShell::utb_generate_task_control(int task_num)
 {
     f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
@@ -260,10 +260,10 @@ void utbShell::generate_task_control(int task_num)
 
     close(f_control);
 }
-void utbShell::print_extral_info(int task_num)
+void utbShell::utb_print_extral_info(int task_num)
 {
 }
-int utbShell::check_program(int task_num) const
+int utbShell::utb_check_program(int task_num) const
 {
     utilities::show_file(test_files[0], "Result file: ", 2);
 

@@ -254,7 +254,7 @@ void utbFile::test17()
 		write(f_control, &c[sz / 2], 1);
 	}
 }
-void utbFile::generate_task_test(int task_num)
+void utbFile::utb_generate_task_test(int task_num)
 {
 
 	utilities::init_random_test_files_name(test_files, 1);
@@ -302,7 +302,7 @@ void utbFile::generate_task_test(int task_num)
 	write(f_test, c, sz);
 	close(f_test);
 }
-void utbFile::generate_task_control(int task_num)
+void utbFile::utb_generate_task_control(int task_num)
 {
 	f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	switch (task_num)
@@ -361,11 +361,11 @@ void utbFile::generate_task_control(int task_num)
 	}
 	close(f_control);
 }
-void utbFile::print_extral_info(int task_num)
+void utbFile::utb_print_extral_info(int task_num)
 {
 	utilities::show_file(test_files[0], "Input file: ", 0);
 }
-int utbFile::check_program(int task_num) const
+int utbFile::utb_check_program(int task_num) const
 {
 	utilities::show_file(test_files[0], "Result file: ", 2);
 

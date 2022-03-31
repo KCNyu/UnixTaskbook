@@ -202,8 +202,8 @@ void UnixTaskbook::complie_program(std::string program)
 }
 void UnixTaskbook::create_test(std::string program)
 {
-	tasklib->generate_task_test(task_num);
-	tasklib->generate_task_control(task_num);
+	tasklib->utb_generate_task_test(task_num);
+	tasklib->utb_generate_task_control(task_num);
 }
 void UnixTaskbook::parse_execute_argv(char **&execute_argv)
 {
@@ -254,7 +254,7 @@ void UnixTaskbook::check_program_result(std::string program)
 {
 	LOG_PROCESS("Checking results...");
 
-	switch (tasklib->check_program(task_num))
+	switch (tasklib->utb_check_program(task_num))
 	{
 	case 0:
 		LOG_SUCCESS("Correct results.");
@@ -289,7 +289,7 @@ void UnixTaskbook::run()
 	for (int i = 0; i < tasklib->total_test_count; i++)
 	{
 		create_test(program);
-		tasklib->print_extral_info(task_num);
+		tasklib->utb_print_extral_info(task_num);
 		execute_program(program);
 		check_program_result(program);
 

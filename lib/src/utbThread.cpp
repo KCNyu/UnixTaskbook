@@ -49,7 +49,7 @@ utbThread::utbThread()
         "实现算法的变体，用于查找具有偶数（0、2、-2、4、-4、...、100、-100）的原始数组的所有元素的索引总和。 使用线程的算法的线程数为 4。为避免溢出，请使用双精度变量来存储索引的总和。"};
 }
 
-void utbThread::generate_task_test(int task_num)
+void utbThread::utb_generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
@@ -336,7 +336,7 @@ void utbThread::thread_test(std::string option_alg)
     }
 #endif
 }
-void utbThread::generate_task_control(int task_num)
+void utbThread::utb_generate_task_control(int task_num)
 {
     switch (task_num)
     {
@@ -375,10 +375,10 @@ void utbThread::generate_task_control(int task_num)
     }
     output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
-void utbThread::print_extral_info(int task_num)
+void utbThread::utb_print_extral_info(int task_num)
 {
 }
-int utbThread::check_program(int task_num) const
+int utbThread::utb_check_program(int task_num) const
 {
     std::ifstream in(test_files[0]);
     std::string line;

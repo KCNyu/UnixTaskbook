@@ -27,10 +27,10 @@ public:
     utbShell();
 
     // virtual function inherited from parent class
-    virtual void generate_task_test(int task_num);
-    virtual void generate_task_control(int task_num);
-    virtual void print_extral_info(int task_num);
-    virtual int check_program(int task_num) const;
+    virtual void utb_generate_task_test(int task_num);
+    virtual void utb_generate_task_control(int task_num);
+    virtual void utb_print_extral_info(int task_num);
+    virtual int utb_check_program(int task_num) const;
     virtual ~utbShell() {}
 
     // Helper functions are optional

@@ -36,10 +36,10 @@ public:
 
 	// The virtual function (interface)
 	// Implemented by each tasklib itself
-	virtual void generate_task_test(int task_num) = 0;
-	virtual void generate_task_control(int task_num) = 0;
-	virtual void print_extral_info(int task_num) = 0;
-	virtual int check_program(int task_num) const = 0;
+	virtual void utb_generate_task_test(int task_num) = 0;
+	virtual void utb_generate_task_control(int task_num) = 0;
+	virtual void utb_print_extral_info(int task_num) = 0;
+	virtual int utb_check_program(int task_num) const = 0;
 	virtual ~TaskLib() {}
 
 	// friend class

@@ -133,7 +133,7 @@ utbText::utbText()
                  "\"Is it a very Grand thing to be an Afternoon, what\nyou said?\"\n\n\"A what?\" said Christopher Robin lazily, as he\nlistened to something else.\n\n\"On a horse,\" explained Pooh.\n\n\"A Knight?\"\n\n\"Oh, was that it?\" said Pooh. \"I thought it was a\n- Is it as Grand as a King and Factors and all the\nother things you said?\"\n\n\"Well, it's not as grand as a King,\" said\nChristopher Robin, and then, as Pooh seemed\ndisappointed, he added quickly, \"but it's grander\nthan Factors.\"\n\n\"Could a Bear be one?\"\n\n\"Of course he could!\" said Christopher Robin.\n\"I'll make you one.\" And he took a stick and\ntouched Pooh on the shoulder, and said, \"Rise, Sir\nPooh de Bear, most faithful of all my Knights.\"\n\nSo Pooh rose and sat down and said \"Thank you,\"\nwhich is a proper thing to say when you have been\nmade a Knight.\n",
                  "\"Pooh, when I'm - you know - when I'm not doing\nNothing, will you come up here sometimes?\"\n\n\"Just Me?\"\n\n\"Yes, Pooh.\"\n\n\"Will you be here too?\"\n\n\"Yes, Pooh, I will be really. I promise I will be,\nPooh.\"\n\n\"That's good,\" said Pooh.\n\n\"Pooh, promise you won't forget about me, ever.\nNot even when I'm a hundred.\"\n\nPooh thought for a little.\n\n\"How old shall I be then?\"\n\n\"Ninety-nine.\"\n\nPooh nodded.\n\n\"I promise,\" he said.\n"};
 }
-void utbText::generate_task_test(int task_num)
+void utbText::utb_generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 2);
 
@@ -394,7 +394,7 @@ void utbText::test16()
         write(f_control, buf, n);
     }
 }
-void utbText::generate_task_control(int task_num)
+void utbText::utb_generate_task_control(int task_num)
 {
     execute_argv.clear();
     f_control = open(control_file.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -457,7 +457,7 @@ void utbText::generate_task_control(int task_num)
         close(f2);
     }
 }
-void utbText::print_extral_info(int task_num)
+void utbText::utb_print_extral_info(int task_num)
 {
     if (use_flag)
     {
@@ -469,7 +469,7 @@ void utbText::print_extral_info(int task_num)
         utilities::show_file(test_files[0], "Input file: ", 2);
     }
 }
-int utbText::check_program(int task_num) const
+int utbText::utb_check_program(int task_num) const
 {
     utilities::show_file(test_files[0], "Result file: ", 2);
 
