@@ -2,8 +2,11 @@
 
 utbThread::utbThread()
 {
+#if defined __linux__
     library_name = "libutbThread.so";
-
+#elif defined __APPLE__
+    library_name = "libutbThread.dylib";
+#endif
     complier = "gcc";
 
     complie_argv = {complier, "-Wall", "-pthread", "", "-o"};

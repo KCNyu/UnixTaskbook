@@ -2,8 +2,11 @@
 
 utbFile::utbFile()
 {
-	library_name = "libutbFile.so";
-
+#if defined __linux__
+    library_name = "libutbFile.so";
+#elif defined __APPLE__
+    library_name = "libutbFile.dylib";
+#endif
 	complier = "gcc";
 
 	complie_argv = {complier, "-Wall", "", "-o"};

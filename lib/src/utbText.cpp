@@ -2,8 +2,11 @@
 
 utbText::utbText()
 {
+#if defined __linux__
     library_name = "libutbText.so";
-
+#elif defined __APPLE__
+    library_name = "libutbText.dylib";
+#endif
     complier = "gcc";
 
     complie_argv = {complier, "-Wall", "", "-o"};

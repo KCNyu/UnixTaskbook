@@ -2,8 +2,11 @@
 
 utbShell::utbShell()
 {
+#if defined __linux__
     library_name = "libutbShell.so";
-
+#elif defined __APPLE__
+    library_name = "libutbShell.dylib";
+#endif
     complier = "gcc";
 
     complie_argv = {complier, "-Wall", "", "-o"};

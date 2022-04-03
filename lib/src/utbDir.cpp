@@ -2,7 +2,11 @@
 
 utbDir::utbDir()
 {
+#if defined __linux__
     library_name = "libutbDir.so";
+#elif defined __APPLE__
+    library_name = "libutbDir.dylib";
+#endif
 
     complier = "gcc";
 
