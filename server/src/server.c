@@ -75,6 +75,31 @@ void eventdel(int efd, struct myevent_s *ev)
 
 	return;
 }
+void rek_mkdir(char *path)
+{
+	char *sep = strrchr(path, '/');
+	if (sep != NULL)
+	{
+		*sep = 0;
+		rek_mkdir(path);
+		*sep = '/';
+	}
+	if (mkdir(path, 0777) && errno != EEXIST)
+		printf("error while trying to create '%s'\n%m\n", path);
+}
+
+int fopen_mkdir(char *path)
+{
+	char *sep = strrchr(path, '/');
+	if (sep)
+	{
+		char *path0 = strdup(path);
+		path0[sep - path] = 0;
+		rek_mkdir(path0);
+		free(path0);
+	}
+	return open(path, 0666);
+}
 void recvFile(int new_fd, int events, void *arg)
 {
 	struct myevent_s *ev = (struct myevent_s *)arg;
@@ -108,8 +133,8 @@ void recvFile(int new_fd, int events, void *arg)
 		return;
 	}
 	char filename[128];
-	sprintf(filename, "./repo/%s", ev->buf + 8);
-	fd = open(filename, O_RDWR);
+	sprintf(filename, "./repo/%s", ev->buf);
+	fd = fopen_mkdir(filename);
 	printf("buf = %s\n", filename);
 	if (-1 == fd)
 	{

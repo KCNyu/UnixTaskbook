@@ -50,7 +50,6 @@ int sendFile(const char *buf)
 	char filename[128];
 	memset(&t, 0, sizeof(t));
 	memset(filename, 0, sizeof(filename));
-	printf("buf = %s\n", buf);
 	strcpy(filename, buf);
 	printf("Upload files %s to the repository\n", filename);
 	fd = open(filename, O_RDONLY);
@@ -76,9 +75,22 @@ int sendFile(const char *buf)
 	long totalsize = statbuf.st_size;
 	int percent;
 	int char_count = 0;
-	t.len = strlen(filename);
-	strcpy(t.buf, filename);
+	
+	std::string student_name = getenv("STUDENT_NAME");
+	std::string student_group = getenv("STUDENT_GROUP");
+	// get filename without path
+	std::string filename_no_path = filename;
+	size_t pos = filename_no_path.find_last_of("/");
+	if (pos != std::string::npos)
+	{
+		filename_no_path = filename_no_path.substr(pos + 1);
+	}
+	std::string send_file_name = student_group + "/" + student_name + "/" + filename_no_path;
+
+	t.len = send_file_name.size();
+	strcpy(t.buf, send_file_name.c_str());
 	send(sfd, &t, 4 + t.len, 0);
+	
 	int fflag = 0;
 	long len = 0;
 	recv(sfd, &fflag, sizeof(int), 0);
