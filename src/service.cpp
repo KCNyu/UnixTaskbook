@@ -77,7 +77,17 @@ int sendFile(const char *buf)
 	int char_count = 0;
 	
 	std::string student_name = getenv("STUDENT_NAME");
+	if (student_name.empty())
+	{
+		printf("STUDENT_NAME is empty\n");
+		return -1;
+	}
 	std::string student_group = getenv("STUDENT_GROUP");
+	if (student_group.empty())
+	{
+		printf("STUDENT_GROUP is empty\n");
+		return -1;
+	}
 	// get filename without path
 	std::string filename_no_path = filename;
 	size_t pos = filename_no_path.find_last_of("/");
