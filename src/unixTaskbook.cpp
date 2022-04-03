@@ -291,6 +291,10 @@ void UnixTaskbook::check_program_dir(std::string dir)
 	// check all files by using execute_run
 	for (size_t i = 0; i < files.size(); i++)
 	{
+		if (files[i].find(".c") == std::string::npos)
+		{
+			continue;
+		}
 		std::string program = dir + "/" + files[i];
 		std::cout << BLUE << "-0-Checking " << program << RESET << std::endl;
 		execute_run(program);
