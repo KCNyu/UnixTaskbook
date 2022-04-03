@@ -22,7 +22,7 @@ elif [ "$(uname)" == "Darwin" ]; then
 		exit 1
 	fi
 
-	files=$(ls libtask*.dylib | wc -l)
+	files=$(ls utb*.dylib | wc -l)
 
 	if (($files != 0)); then
 		sudo rm /usr/local/lib/libtask*.dylib
