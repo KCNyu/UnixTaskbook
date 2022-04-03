@@ -4,8 +4,12 @@ UnixTaskbook::UnixTaskbook(int argc, char *argv[])
 {
 	// parse
 	parse_command(argc, argv);
-	parse_task_name();
-
+}
+UnixTaskbook::~UnixTaskbook()
+{
+}
+void UnixTaskbook::load_task_lib()
+{
 	// load the task library
 	handle = dlopen(tasklib_name.c_str(), RTLD_LAZY);
 	dlopen_error_handle(handle, "Cannot load library: ");
@@ -20,7 +24,7 @@ UnixTaskbook::UnixTaskbook(int argc, char *argv[])
 	// check validity
 	check_task_lib();
 }
-UnixTaskbook::~UnixTaskbook()
+void UnixTaskbook::close_task_lib()
 {
 	// load the destroy symbols
 	destroy_t *destroy_tasklib = (destroy_t *)dlsym(handle, "destroy");
@@ -39,7 +43,7 @@ void UnixTaskbook::check_task_lib()
 	assert(tasklib->get_task_count() == tasklib->task_text_chinese.size());
 
 	// check tasklib name
-	// assert(tasklib->library_name == tasklib_name);
+	assert(tasklib->library_name == tasklib_name);
 
 	// check complier
 	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
@@ -72,11 +76,12 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 	std::cout << "============================================" << std::endl;
 }
 
-void UnixTaskbook::parse_task_name()
+void UnixTaskbook::parse_task_name(std::string program)
 {
-	if (task_name.size() == 0)
+	if (program.size() != 0)
 	{
-		LOG_ERROR("Input the taskname");
+		// get task name without path and extension
+		task_name = program.substr(program.find_last_of("/") + 1, program.find_last_of(".") - program.find_last_of("/") - 1);
 	}
 	std::string numerics("0123456789");
 	std::string::size_type pos = task_name.find_first_of(numerics);
@@ -100,15 +105,16 @@ void UnixTaskbook::parse_command(int argc, char *argv[])
 	if (argc == 1)
 	{
 		std::cerr << command_parser.usage();
-		exit(EXIT_FAILURE);;
+		exit(EXIT_FAILURE);
 	}
 
 	command_parser.parse_check(argc, argv);
 	task_name = command_parser.get<std::string>("taskname");
 	language_option = command_parser.get<std::string>("language");
 	program = command_parser.get<std::string>("program");
+	check_dir = command_parser.get<std::string>("directory");
 }
-void UnixTaskbook::parse_complie_argv(char **&complie_argv)
+void UnixTaskbook::parse_complie_argv(std::string program, char **&complie_argv)
 {
 	size_t complie_argc = tasklib->complie_argv.size();
 
@@ -165,7 +171,7 @@ void UnixTaskbook::complie_program(std::string program)
 		close(file_log);
 
 		char **complie_argv;
-		parse_complie_argv(complie_argv);
+		parse_complie_argv(program, complie_argv);
 
 		execvp(tasklib->complier.c_str(), complie_argv);
 		LOG_ERROR("Error when running %s: ", tasklib->complier.c_str());
@@ -269,22 +275,44 @@ void UnixTaskbook::upload_program(std::string program)
 {
 	LOG_PROCESS("Uploading program...");
 
-	initService();
-	sendFile(program.c_str());
-
+	initService(is_online);
+	if (is_online)
+	{
+		sendFile(program.c_str());
+	}
 }
-void UnixTaskbook::run()
+// check all program files in the directory
+void UnixTaskbook::check_program_dir(std::string dir)
+{
+	LOG_PROCESS("Checking program files...");
+
+	utilities::get_files_in_dir(dir, files);
+
+	// check all files by using execute_run
+	for (size_t i = 0; i < files.size(); i++)
+	{
+		std::string program = dir + "/" + files[i];
+		std::cout << BLUE << "-0-Checking " << program << RESET << std::endl;
+		execute_run(program);
+	}
+}
+void UnixTaskbook::execute_run(std::string program)
 {
 	srand(time(nullptr));
 
+	parse_task_name(program);
+
+	load_task_lib();
+
 	print_task_info(task_num, language_option);
-/*
-	if (program.size() == 0)
-	{
-		LOG_ERROR("Need to be checked program name or directory");
-	}
-*/
+	/*
+		if (program.size() == 0)
+		{
+			LOG_ERROR("Need to be checked program name or directory");
+		}
+	*/
 	complie_program(program);
+
 
 	for (int i = 0; i < tasklib->total_test_count; i++)
 	{
@@ -298,6 +326,17 @@ void UnixTaskbook::run()
 	}
 
 	LOG_SUCCESS("Testing successfully finished.");
-
+	close_task_lib();
 	upload_program(program);
+}
+void UnixTaskbook::run()
+{
+	if (check_dir.size() > 0)
+	{
+		check_program_dir(check_dir);
+	}
+	else
+	{
+		execute_run(program);
+	}
 }

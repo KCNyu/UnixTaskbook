@@ -149,4 +149,22 @@ namespace utilities
 			tf = generate_random_name(8) + ".tst";
 		}
 	}
+	void get_files_in_dir(std::string dir, std::vector<std::string> &files)
+	{
+		DIR *dp;
+		struct dirent *dirp;
+		if ((dp = opendir(dir.c_str())) == NULL)
+		{
+			return;
+		}
+		while ((dirp = readdir(dp)) != NULL)
+		{
+			std::string name = dirp->d_name;
+			if (name != "." && name != "..")
+			{
+				files.push_back(name);
+			}
+		}
+		closedir(dp);
+	}
 }

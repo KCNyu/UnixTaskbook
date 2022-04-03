@@ -19,23 +19,31 @@ private:
 	std::string program;
 	std::string complie_out;
 	std::string complie_log;
+	std::string check_dir;
+	std::vector<std::string> files;
+	bool is_online = true;
 	cmdline::parser command_parser;
 
 protected:
 	void check_task_lib();
 	void parse_command(int argc, char *argv[]);
 	void parse_task_name();
-	void parse_complie_argv(char **&complie_argv);
+	void parse_complie_argv(std::string program, char **&complie_argv);
 	void parse_execute_argv(char **&execute_argv);
 
 public:
 	UnixTaskbook(int argc, char *argv[]);
+	void load_task_lib();
+	void close_task_lib();
 	void print_task_info(int task_num, std::string language_option);
 	void complie_program(std::string program);
 	void create_test(std::string program);
 	void execute_program(std::string program);
 	void check_program_result(std::string program);
 	void upload_program(std::string program);
+	void check_program_dir(std::string dir);
+	void execute_run(std::string program);
+	void parse_task_name(std::string program);
 	void run();
 	~UnixTaskbook();
 };

@@ -75,7 +75,7 @@ int sendFile(const char *buf)
 	long totalsize = statbuf.st_size;
 	int percent;
 	int char_count = 0;
-	
+
 	std::string student_name = getenv("STUDENT_NAME");
 	if (student_name.empty())
 	{
@@ -100,7 +100,7 @@ int sendFile(const char *buf)
 	t.len = send_file_name.size();
 	strcpy(t.buf, send_file_name.c_str());
 	send(sfd, &t, 4 + t.len, 0);
-	
+
 	int fflag = 0;
 	long len = 0;
 	recv(sfd, &fflag, sizeof(int), 0);
@@ -151,7 +151,7 @@ int displayProgress(int progress, int last_char_count)
 
 	return i;
 }
-void initService()
+void initService(bool &online)
 {
 	struct sockaddr_in serv_addr;
 	serv_addr.sin_family = AF_INET;
@@ -162,11 +162,13 @@ void initService()
 	if (sfd == -1)
 	{
 		printf("socket error\n");
+		online = false;
 	}
 
 	if (connect(sfd, (struct sockaddr *)(&serv_addr), sizeof(serv_addr)))
 	{
 		perror("connect error\n");
-		exit(-1);
+		online = false;
+		// exit(-1);
 	}
 }

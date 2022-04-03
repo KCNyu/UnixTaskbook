@@ -46,6 +46,6 @@ int sendFile(const char *buf);
 // upload to teacher server
 int displayProgress(int progress, int last_char_count);
 // show the Progress
-void initService();
+void initService(bool &is_online);
 
 #endif /* SERVICE_HPP */
