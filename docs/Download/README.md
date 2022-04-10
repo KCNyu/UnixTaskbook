@@ -10,3 +10,4 @@
 
 ```bash
 /bin/bash -c "$(curl -fsSL https://github.com/KCNyu/UnixTaskbook/releases/download/v1.0.0/uninstall.sh)"
+```
