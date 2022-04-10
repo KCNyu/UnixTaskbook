@@ -891,3 +891,41 @@ a:hover {
 .site-footer-credits {
     color: #819198
 }
+
+body {
+    margin: 0;
+}
+
+uld {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #159957;
+    background-image: linear-gradient(120deg, #155799, #159957);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    opacity: 0.8;
+}
+
+lid {
+    float: left;
+}
+
+lid a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+lid a:hover:not(.active) {
+    background-color: #159957;
+    background-image: linear-gradient(120deg, #155799, #159957)
+}
+
+.active {
+    background-color: #4CAF50;
+}
