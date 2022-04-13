@@ -18,23 +18,19 @@ static int dopath(Myfunc *);
 int main(int argc, char *argv[])
 {
     int ret = 0;
-#if 0
-    if (argc != 2)
-        printf("Usage: scandir <initial directory>\n");
-    else
+    //printf("Usage: scandir [<initial directory>]\n");
+    if (argc > 2)
     {
-        ret = myscan(argv[1], myfunc); /* performs all work */
-        //printf("OK\n");
-    }
-#endif
-    if (argc == 1)
-    {
-        ret = myscan(".", myfunc); /* performs all work */
+        printf("Error: many program arguments\n");
+        return 1;
     }
     else
     {
-        ret = myscan(argv[1], myfunc); /* performs all work */
     }
+    char *cwdir = (char *)malloc(200);
+    ret = myscan(argc == 2 ? argv[1] : getcwd(cwdir, 200),
+                 myfunc); /* performs all work */
+    //printf("OK\n");
     return ret;
 }
 
@@ -85,29 +81,7 @@ static int dopath(Myfunc *func)
 }
 static int myfunc(const char *pathname, const struct stat *statptr, int type)
 {
-    /*
-    switch (type)
-    {
-    case FILEINFO:
-        if (S_ISREG(statptr->st_mode))
-            printf("File: ");
-        else if (S_ISFIFO(statptr->st_mode))
-            printf("FIFO: ");
-        else if (S_ISLNK(statptr->st_mode))
-            printf("Link: ");
-        else if (S_ISSOCK(statptr->st_mode))
-            printf("Socket: ");
-        break;
-    case DIRINFO:
-        printf("Dir: ");
-        break;
-    case NODIRINFO:
-        printf("Unaccessible dir: ");
-        break;
-    default:
-        printf("Unknown filetype: ");
-    }
-    */
-    printf("%s\n", pathname);
+    if (type == DIRINFO)
+        printf("%s\n", pathname);
     return 0;
 }
