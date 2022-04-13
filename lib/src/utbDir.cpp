@@ -57,7 +57,7 @@ void utbDir::generate_test_file(std::string dirname, int count)
 void utbDir::utb_generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
-
+    sub_dir.clear();
     work_dir = utilities::generate_random_name(10);
     mkdir(work_dir.c_str(), 0777);
     for (int i = 0; i < 1 + rand() % 5; i++)
@@ -78,88 +78,93 @@ void utbDir::utb_generate_task_test(int task_num)
 }
 void utbDir::test1()
 {
-    sys_cmd = "( ls -l " + execute_dir + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
+    sys_cmd = "( ls -l " + execute_dir + " | awk '{print $9 \" \" $5 \" \" $6}' ) > " +
               control_file;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
-
-    if (execute_dir != work_dir)
-    {
-        execute_argv.push_back(execute_dir);
-    }
+    execute_argv.push_back(execute_dir);
 }
 void utbDir::test2()
 {
     std::string test_extension = extension_name[rand() % extension_name.size()];
-    sys_cmd = "( ls -l " + execute_dir + " | grep " + test_extension + " | awk '{print $9 \" \" $5 \" \" $8}' ) > " +
+    sys_cmd = "( ls -l " + execute_dir + " | grep " + test_extension + " | awk '{print $9 \" \" $5 \" \" $6}' ) > " +
               control_file;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
 
     execute_argv.push_back(test_extension);
-    if (execute_dir != work_dir)
-    {
-        execute_argv.push_back(execute_dir);
-    }
+    execute_argv.push_back(execute_dir);
 }
 void utbDir::test3()
 {
     std::string test_extension = extension_name[rand() % extension_name.size()];
-    sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " | xargs ls -l | awk '{print $9 \" \" $5}' ) > " +
+    sys_cmd = "(ls -l -R " + execute_dir + " | grep \"^d\" | awk '{print $9}' | while read dir; do\n\techo \"dir: $dir\"\n\tls -l -R " + execute_dir + "/$dir | grep \"" + test_extension + "\" | awk '{print \"    \" $9 \" \" $5}'\ndone) > " +
               control_file;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
 
     execute_argv.push_back(test_extension);
-    if (execute_dir != work_dir)
-    {
-        execute_argv.push_back(execute_dir);
-    }
+    execute_argv.push_back(execute_dir);
 }
 void utbDir::test4()
 {
+    execute_dir = work_dir;
     std::string test_extension = extension_name[rand() % extension_name.size()];
-    sys_cmd = "( find " + execute_dir + " -name *" + test_extension + " -exec ls -l {} \\; | awk 'BEGIN{count=0;size=0;} {count++;size+=$5;} END{print count \" \" size}' ) > " +
+    sys_cmd = "( ls -l " + execute_dir + "| grep \"^d\" | awk '{print $9}' | while read dir; do\n\tcd " + execute_dir + "/$dir\n\techo $dir\n\tls -l -R $dir | grep " + test_extension + "| awk '{print $5}' | awk '{sum+=$1}END{print sum}'\n\tcd ..\ndone\n ) > " +
               control_file;
+    std::cout << sys_cmd << std::endl;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
     execute_argv.push_back(test_extension);
-    if (execute_dir != work_dir)
-    {
-        execute_argv.push_back(execute_dir);
-    }
+    execute_argv.push_back(execute_dir);
 }
 void utbDir::test5()
 {
 }
 void utbDir::test6()
 {
+    execute_dir = work_dir + "/" + sub_dir[rand() % sub_dir.size()];
+    std::string execute_dir2 = work_dir + "/" + sub_dir[rand() % sub_dir.size()];
+    sys_cmd = "( diff -rq " + execute_dir + " " + execute_dir2 + " | grep -E \"^Only in " + execute_dir + "\" | sed -n 's/://p' | awk '{print $3\"/\"$4}' ) >> " +
+              control_file;
+    system(sys_cmd.c_str());
+    sys_cmd = "( diff -rq " + execute_dir + " " + execute_dir2 + " | grep -E \"^Only in " + execute_dir2 + "\" | sed -n 's/://p' | awk '{print $3\"/\"$4}' ) >> " +
+              control_file;
+    system(sys_cmd.c_str());
+    sys_cmd = "( for file in $(find " + execute_dir + " -type f | awk -F \"/\" '{print $NF}'); do find " + execute_dir2 + " -type f -iname \"$file\" | awk -F \"/\" '{print $NF}'; done ) >> " +
+              control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+    execute_argv.push_back(execute_dir);
+    execute_argv.push_back(execute_dir2);
 }
 void utbDir::test7()
 {
+    std::string test_extension = extension_name[rand() % extension_name.size()];
+    sys_cmd = "ls -l -R "+ execute_dir + " | grep " + test_extension + " | wc -l > " + control_file;
+    system(sys_cmd.c_str());
+    sys_cmd = "ls -l -R "+ execute_dir + " | grep " + test_extension + " | awk '{print $5}' | awk '{sum+=$1}END{print sum}' >> " + control_file;
+    system(sys_cmd.c_str());
+
+    execute_argv.clear();
+    execute_argv.push_back(test_extension);
+    execute_argv.push_back(execute_dir);
 }
 void utbDir::test8()
 {
 }
 void utbDir::test9()
 {
-    if (work_dir == execute_dir)
-    {
-        execute_dir = ".";
-    }
-    sys_cmd = "( find " + execute_dir + " -name \"*\" ) > " +
-              control_file;
+    sys_cmd = "ls -R -a " + execute_dir + " | grep \":$\" | sed -e 's/:$//'" + " > " + control_file;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
-    if (execute_dir != work_dir)
-    {
-        execute_argv.push_back(execute_dir);
-    }
+    execute_argv.push_back(execute_dir);
 }
 void utbDir::utb_generate_task_control(int task_num)
 {
@@ -203,7 +208,7 @@ void utbDir::utb_print_extral_info(int task_num)
 }
 int utbDir::utb_check_program(int task_num) const
 {
-    std::string cmd = "rm -rf " + work_dir;
+    std::string cmd = "rm -rf " + work_dir + " && (sort " + test_files[0] + " -o " + test_files[0] + ")";
     system(cmd.c_str());
 
     utilities::show_file(test_files[0], "Result file: ", 2);

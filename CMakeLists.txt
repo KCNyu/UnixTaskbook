@@ -82,6 +82,7 @@ foreach(i RANGE 1 16)
     test_info(Thread${i} ch)
 endforeach()
 
+test_execute(Dir9 Dir9.c)
 test_execute(File14 File14.c)
 test_execute(Shell1 Shell1.c)
 test_execute(Shell6 Shell6.c)
