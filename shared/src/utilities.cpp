@@ -167,4 +167,41 @@ namespace utilities
 		}
 		closedir(dp);
 	}
+
+	size_t normalized_output(std::string s, size_t start, size_t length, int option)
+	{
+		size_t language_size = 1;
+		switch (option)
+		{
+		case 0:
+			language_size = 2;
+			break;
+		case 1:
+			language_size = 3;
+			break;
+		default:
+			break;
+		}
+		const char *chs = s.c_str();
+		size_t end = start;
+		while (end < strlen(chs) && (end - start) < length)
+		{
+			end += ((unsigned int)chs[end] > 0x80) ? language_size : 1;
+		}
+		if (end > s.length())
+		{
+			end = s.length();
+		}
+		std::cout << s.substr(start, end) << std::endl;
+		return end;
+	}
+	void normalized_output_text(std::string text, size_t row_size, int option)
+	{
+		size_t text_size = text.size();
+		size_t end = normalized_output(text, 0, row_size, option);
+		while (end < text_size)
+		{
+			end = normalized_output(text, end, row_size, option);
+		}
+	}
 }

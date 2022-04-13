@@ -55,7 +55,7 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 		LOG_ERROR("Exceeds the number of tasks!\nThe maximum number of %s is %d", tasklib_name.substr(0, tasklib->library_name.size() - 3).c_str(), tasklib->get_task_count());
 	}
 
-	std::cout << "============================================" << std::endl;
+	std::cout << "=====================================================================" << std::endl;
 	std::cout << BLUE << "TASK INFO:" << RESET << std::endl;
 
 	if (language_option.size() == 0)
@@ -66,14 +66,15 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 
 	if (language_option == "ru" || language_option == "russian")
 	{
+		// utilities::normalized_output_text(tasklib->get_task_info(task_num, 0), 90, 0);
 		std::cout << tasklib->get_task_info(task_num, 0) << std::endl;
 	}
 	else if (language_option == "ch" || language_option == "chinese")
 	{
-		std::cout << tasklib->get_task_info(task_num, 1) << std::endl;
+		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 135, 1);
 	}
 
-	std::cout << "============================================" << std::endl;
+	std::cout << "=====================================================================" << std::endl;
 }
 
 void UnixTaskbook::parse_task_name(std::string program)
@@ -140,7 +141,8 @@ void UnixTaskbook::complie_program(std::string program)
 {
 	if (!utilities::exists_file(program))
 	{
-		LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
+		// LOG_ERROR("Error: Checked program %s not found\n", program.c_str());
+		exit(1);
 	}
 
 	// return if the program is already compiled
@@ -316,7 +318,6 @@ void UnixTaskbook::execute_run(std::string program)
 		}
 	*/
 	complie_program(program);
-
 
 	for (int i = 0; i < tasklib->total_test_count; i++)
 	{
