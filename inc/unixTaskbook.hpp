@@ -23,6 +23,7 @@ private:
 	std::vector<std::string> files;
 	bool is_online = true;
 	cmdline::parser command_parser;
+	bool print_option = false;
 
 protected:
 	void check_task_lib();
@@ -39,7 +40,7 @@ public:
 	void complie_program(std::string program);
 	void create_test(std::string program);
 	void execute_program(std::string program);
-	void check_program_result(std::string program, int test_num);
+	void check_program_result(std::string program, int test_num, bool print_option);
 	void upload_program(std::string program);
 	void check_program_dir(std::string dir);
 	void execute_run(std::string program);

@@ -216,11 +216,5 @@ int utbDir::utb_check_program(int test_num) const
     std::string cmd = "rm -rf " + work_dir + " && (sort " + test_files[0] + " -o " + test_files[0] + ")";
     system(cmd.c_str());
 
-    int res = utilities::compare_file(test_files[0], control_file);
-    if (test_num == total_test_count - 1 || res != 0)
-    {
-        utilities::show_file(test_files[0], "Result file: ", 2);
-    }
-
-    return res;
+    return utilities::compare_file(test_files[0], control_file);
 }

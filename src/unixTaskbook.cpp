@@ -101,6 +101,7 @@ void UnixTaskbook::parse_command(int argc, char *argv[])
 	command_parser.add<std::string>("language", 'l', "language be displayed <support [ru] [ch]>", false, "ru");
 	command_parser.add<std::string>("program", 'p', "check single program", false, "");
 	command_parser.add<std::string>("directory", 'd', "check all programs in the directory", false, "");
+	command_parser.add("showtest", 's', "show all test when checking");
 	command_parser.add("help", 'h', "display this help and exit");
 
 	command_parser.footer("Development of a system for automatic verification of educational tasks in Linux.\nMandatory arguments to long options are mandatory for short options too.");
@@ -116,6 +117,7 @@ void UnixTaskbook::parse_command(int argc, char *argv[])
 	language_option = command_parser.get<std::string>("language");
 	program = command_parser.get<std::string>("program");
 	check_dir = command_parser.get<std::string>("directory");
+	print_option = command_parser.exist("showtest");
 }
 void UnixTaskbook::parse_complie_argv(std::string program, char **&complie_argv)
 {
@@ -271,7 +273,7 @@ void UnixTaskbook::execute_program(std::string program)
 		LOG_ERROR("Error during running: %s", complie_out.c_str());
 	}
 }
-void UnixTaskbook::check_program_result(std::string program, int test_num)
+void UnixTaskbook::check_program_result(std::string program, int test_num, bool print_option)
 {
 	/*
 	LOG_PROCESS(" ------------------");
@@ -282,11 +284,16 @@ void UnixTaskbook::check_program_result(std::string program, int test_num)
 	switch (tasklib->utb_check_program(test_num))
 	{
 	case 0:
+		if (print_option || test_num == tasklib->total_test_count - 1)
+		{
+			utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
+		}
 		LOG_SUCCESS("\n                             ----------------")
 		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Correct result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		LOG_SUCCESS("                             ----------------\n");
 		break;
 	default:
+		utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
 		LOG_INFO("\n                             --------------")
 		LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Wrong result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		LOG_INFO("                             --------------\n");
@@ -359,7 +366,7 @@ void UnixTaskbook::execute_run(std::string program)
 		create_test(program);
 		tasklib->utb_print_extral_info(task_num);
 		execute_program(program);
-		check_program_result(program, i);
+		check_program_result(program, i, print_option);
 
 		// remove test files and control file
 		system("rm *.tst");

@@ -370,11 +370,5 @@ void utbFile::utb_print_extral_info(int task_num)
 }
 int utbFile::utb_check_program(int test_num) const
 {
-    int res = utilities::compare_file(test_files[0], control_file);
-    if (test_num == total_test_count - 1 || res != 0)
-    {
-        utilities::show_file(test_files[0], "Result file: ", 2);
-    }
-
-    return res;
+    return utilities::compare_file(test_files[0], control_file);;
 }
