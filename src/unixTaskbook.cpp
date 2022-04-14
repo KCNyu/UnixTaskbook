@@ -7,6 +7,7 @@ UnixTaskbook::UnixTaskbook(int argc, char *argv[])
 }
 UnixTaskbook::~UnixTaskbook()
 {
+	close_task_lib();
 }
 void UnixTaskbook::load_task_lib()
 {
@@ -331,7 +332,7 @@ void UnixTaskbook::execute_run(std::string program)
 	}
 
 	LOG_SUCCESS("Testing successfully finished.");
-	close_task_lib();
+	
 	upload_program(program);
 }
 void UnixTaskbook::run()
