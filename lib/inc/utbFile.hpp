@@ -33,7 +33,7 @@ public:
 	virtual void utb_generate_task_test(int task_num);
 	virtual void utb_generate_task_control(int task_num);
 	virtual void utb_print_extral_info(int task_num);
-	virtual int utb_check_program(int task_num) const;
+	virtual int utb_check_program(int test_num) const;
 	virtual ~utbFile() {}
 
 	// Helper functions are optional

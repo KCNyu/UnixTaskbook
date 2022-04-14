@@ -377,11 +377,8 @@ void utbThread::utb_generate_task_control(int task_num)
 void utbThread::utb_print_extral_info(int task_num)
 {
 }
-int utbThread::utb_check_program(int task_num) const
+int utbThread::utb_check_program(int test_num) const
 {
-    std::cout << "Runtime is from testing program" << std::endl;
-    std::string cmd = "cat " + test_files[0];
-    system(cmd.c_str());
     std::ifstream in(test_files[0]);
     std::string line;
     if (res_l != 0)
@@ -420,6 +417,12 @@ int utbThread::utb_check_program(int task_num) const
     }
     in.close();
 
+    if (test_num == total_test_count - 1)
+    {
+        std::cout << "Runtime is from testing program" << std::endl;
+        std::string cmd = "cat " + test_files[0];
+        system(cmd.c_str());
+    }
     return 0;
 }
 std::vector<double> utbThread::get_time() const

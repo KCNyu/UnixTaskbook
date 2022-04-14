@@ -39,7 +39,7 @@ public:
 	void complie_program(std::string program);
 	void create_test(std::string program);
 	void execute_program(std::string program);
-	void check_program_result(std::string program);
+	void check_program_result(std::string program, int test_num);
 	void upload_program(std::string program);
 	void check_program_dir(std::string dir);
 	void execute_run(std::string program);

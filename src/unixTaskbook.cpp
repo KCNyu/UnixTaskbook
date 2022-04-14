@@ -271,7 +271,7 @@ void UnixTaskbook::execute_program(std::string program)
 		LOG_ERROR("Error during running: %s", complie_out.c_str());
 	}
 }
-void UnixTaskbook::check_program_result(std::string program)
+void UnixTaskbook::check_program_result(std::string program, int test_num)
 {
 	/*
 	LOG_PROCESS(" ------------------");
@@ -279,7 +279,7 @@ void UnixTaskbook::check_program_result(std::string program)
 	LOG_PROCESS(" ------------------\n");
 	*/
 
-	switch (tasklib->utb_check_program(task_num))
+	switch (tasklib->utb_check_program(test_num))
 	{
 	case 0:
 		LOG_SUCCESS("\n                             ----------------")
@@ -359,7 +359,7 @@ void UnixTaskbook::execute_run(std::string program)
 		create_test(program);
 		tasklib->utb_print_extral_info(task_num);
 		execute_program(program);
-		check_program_result(program);
+		check_program_result(program, i);
 
 		// remove test files and control file
 		system("rm *.tst");
