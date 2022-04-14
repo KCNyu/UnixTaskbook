@@ -7,7 +7,7 @@ UnixTaskbook::UnixTaskbook(int argc, char *argv[])
 }
 UnixTaskbook::~UnixTaskbook()
 {
-	close_task_lib();
+	// close_task_lib();
 }
 void UnixTaskbook::load_task_lib()
 {
