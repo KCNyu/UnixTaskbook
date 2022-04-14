@@ -160,7 +160,12 @@ void utbDir::test8()
 }
 void utbDir::test9()
 {
-    sys_cmd = "ls -R -a " + execute_dir + " | grep \":$\" | sed -e 's/:$//'" + " > " + control_file;
+    execute_dir = work_dir;
+#if defined __APPLE__
+    sys_cmd = "echo " + execute_dir + " > " + control_file;
+    system(sys_cmd.c_str());
+#endif
+    sys_cmd = "ls -R -a " + execute_dir + " | grep \":$\" | sed -e 's/:$//'" + " >> " + control_file;
     system(sys_cmd.c_str());
 
     execute_argv.clear();
