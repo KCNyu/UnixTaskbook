@@ -37,8 +37,8 @@ public:
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
-    std::vector<double> get_time();
-    void print_time(std::ostream &out);
+    std::vector<double> get_time() const;
+    void print_time(std::ostream &out) const;
 };
 
 extern "C" TaskLib *create()

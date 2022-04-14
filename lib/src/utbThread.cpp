@@ -187,18 +187,14 @@ void utbThread::thread_test(std::string option_alg)
 
     if (res_l != 0)
     {
-        std::cout << "res = " << res_l << std::endl;
         outfile << "res = " << res_l << std::endl;
     }
     else
     {
-        std::cout << "res = " << res_d << std::endl;
         outfile << "res = " << res_d << std::endl;
     }
 
     print_time(std::cout);
-    print_time(outfile);
-
 #if 0
     start = times(&tmsstart);
 
@@ -383,6 +379,9 @@ void utbThread::utb_print_extral_info(int task_num)
 }
 int utbThread::utb_check_program(int task_num) const
 {
+    std::cout << "Runtime is from testing program" << std::endl;
+    std::string cmd = "cat " + test_files[0];
+    system(cmd.c_str());
     std::ifstream in(test_files[0]);
     std::string line;
     if (res_l != 0)
@@ -420,9 +419,10 @@ int utbThread::utb_check_program(int task_num) const
         }
     }
     in.close();
+
     return 0;
 }
-std::vector<double> utbThread::get_time()
+std::vector<double> utbThread::get_time() const
 {
     auto sec = [](long ticks) -> double
     {
@@ -431,9 +431,11 @@ std::vector<double> utbThread::get_time()
 
     return {sec(end - start), sec(tmsend.tms_utime - tmsstart.tms_utime), sec(tmsend.tms_stime - tmsstart.tms_stime)};
 }
-void utbThread::print_time(std::ostream &out)
+void utbThread::print_time(std::ostream &out) const
 {
     std::cout.setf(std::ios::fixed);
 
-    out << std::setprecision(2) << "realtime - " << get_time()[0] << " , usertime - " << get_time()[1] << " , sys time - " << get_time()[2] << std::endl;
+    out << "FYI the correct runtime is from unixTaskbook" << std::endl;
+    out << std::setprecision(2) << "realtime - " << get_time()[0] << " , usertime - " << get_time()[1] << " , sys time - " << get_time()[2] << std::endl
+        << std::endl;
 }
