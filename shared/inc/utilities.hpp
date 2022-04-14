@@ -24,5 +24,6 @@ namespace utilities
     void get_files_in_dir(std::string dir, std::vector<std::string> &files);
     size_t normalized_output(std::string s, size_t start, size_t length, int option);
     void normalized_output_text(std::string text, size_t row_size, int option);
+    static std::string divider = "==========================================================================";
 }
 #endif

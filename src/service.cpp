@@ -161,13 +161,16 @@ void initService(bool &online)
 	sfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sfd == -1)
 	{
-		printf("socket error\n");
+		LOG_INFO("socket error");
 		online = false;
 	}
 
 	if (connect(sfd, (struct sockaddr *)(&serv_addr), sizeof(serv_addr)))
 	{
-		perror("connect error\n");
+
+		LOG_INFO("\n                             ---------------")
+		LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Connect error |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		LOG_INFO("                             ---------------\n");
 		online = false;
 		// exit(-1);
 	}

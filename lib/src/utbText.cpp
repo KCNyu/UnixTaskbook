@@ -167,6 +167,7 @@ void utbText::utb_generate_task_test(int task_num)
     S[slen] = '\n';
     S[slen + 1] = '\0';
     K = rand() % 10 + 5;
+    j = 0;
 }
 void utbText::test1()
 {
