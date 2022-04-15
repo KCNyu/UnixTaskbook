@@ -68,6 +68,13 @@ void utbDir::utb_generate_task_test(int task_num)
             sub_dir.push_back(dirname);
             mkdir((work_dir + "/" + dirname).c_str(), 0777);
             generate_test_file(work_dir + "/" + dirname, rand() % 10);
+            for (int i = 0; i < 1 + rand() % 5; i++)
+            {
+                std::string subdirname = utilities::generate_random_name(10);
+                sub_dir.push_back(subdirname);
+                mkdir((work_dir + "/" + dirname + "/" + subdirname).c_str(), 0777);
+                generate_test_file(work_dir + "/" + dirname + "/" + subdirname, rand() % 10);
+            }
         }
         generate_test_file(work_dir, rand() % 10);
     }
