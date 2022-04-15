@@ -1,27 +1,4 @@
-# UnixTaskbook
-
-#### 0) Install \ Uninstall
-
-sudo ./install.sh
-
-sudo ./uninstall.sh
-
-#### 1) Usage
-
-Usage:  [OPTIONS] ... 
-
-Development of a system for automatic verification of educational tasks in Linux.
-
-Mandatory arguments to long options are mandatory for short options too.
-
-options:
-
-  -t, --taskname     display the taskInfo (string [=])
-
-  -l, --language     language be displayed <support [ru] [ch]> (string [=ru])
-
-  -p, --program      check single program (string [=])
-
-  -d, --directory    check all programs in the directory (string [=])
-
-  -h, --help         display this help and exit
+# [UnixTaskbook](https://unixtaskbook.com)
+## Introduction
+Задачник реализован на языке C++ для Unix и включает ядро, обеспечивающее основную функциональность задачника, и расширяемый набор динамических библиотек, каждая из которых содержит набор задач по определенной теме.
+[![](https://mermaid.ink/img/pako:eNqtlMFuwjAMhl8lypm9QA6c2Gm7MW6VqjRxS0TidI6zgRDvvnQtmsRAomy3qv2_3_ZfJ0dpogWpZIL3DGhg5XRHOlS4SUBPy-UG3f5Np10T4068ACF4JUwMQaMtot9fbzG9pgSzyNUBdXBGvLqGNB2UsD72gLOqmi2YXc3lde1dc4FeFLjZOTnk0cNhG6_WFwUWQ2RKrLfxUwxqcUV9b8khrLqE1XsHtabuY97UE9hTnH7mAz1kbuoOEEgzjNMzJP4vLxORKfp5YxF88w-3McYKezCZH4j1DP451nErr9vcs88TWROk7Pmmwc86ToAYAbmQAShoZ8vBP1YoRCV5CwEqqcqjhVYPtrLCU5Hm3pbUn63jSFK12idYSJ05rg9opGLKcBZNl8ekOn0BSBOiQg)](https://mermaid.live/edit#pako:eNqtlMFuwjAMhl8lypm9QA6c2Gm7MW6VqjRxS0TidI6zgRDvvnQtmsRAomy3qv2_3_ZfJ0dpogWpZIL3DGhg5XRHOlS4SUBPy-UG3f5Np10T4068ACF4JUwMQaMtot9fbzG9pgSzyNUBdXBGvLqGNB2UsD72gLOqmi2YXc3lde1dc4FeFLjZOTnk0cNhG6_WFwUWQ2RKrLfxUwxqcUV9b8khrLqE1XsHtabuY97UE9hTnH7mAz1kbuoOEEgzjNMzJP4vLxORKfp5YxF88w-3McYKezCZH4j1DP451nErr9vcs88TWROk7Pmmwc86ToAYAbmQAShoZ8vBP1YoRCV5CwEqqcqjhVYPtrLCU5Hm3pbUn63jSFK12idYSJ05rg9opGLKcBZNl8ekOn0BSBOiQg)
