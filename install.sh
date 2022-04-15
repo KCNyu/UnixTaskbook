@@ -76,7 +76,9 @@ if ! [ -a /usr/local/bin/unixTaskbook ]; then
 fi
 
 # set vscode workspace 
-cp -r ./.vscode ../utbWork
-cd ../utbWork
+cp -r ./.vscode ../utbWork/
+cd ../utbWork/
+mkdir .vscode
+mv * .vscode/
 
 green "Install success!"
