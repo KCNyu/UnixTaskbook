@@ -3,9 +3,9 @@
 utbFile::utbFile()
 {
 #if defined __linux__
-    library_name = "libutbFile.so";
+	library_name = "libutbFile.so";
 #elif defined __APPLE__
-    library_name = "libutbFile.dylib";
+	library_name = "libutbFile.dylib";
 #endif
 	complier = "gcc";
 
@@ -304,6 +304,9 @@ void utbFile::utb_generate_task_test(int task_num)
 	} while (r[0] < 2 || r[1] < 2 || r[2] < 2 || r[3] < 2);
 	write(f_test, c, sz);
 	close(f_test);
+
+	std::string cmd = "cp " + test_files[0] + " " + test_files[0] + ".bk";
+	system(cmd.c_str());
 }
 void utbFile::utb_generate_task_control(int task_num)
 {
@@ -366,9 +369,11 @@ void utbFile::utb_generate_task_control(int task_num)
 }
 void utbFile::utb_print_extra_info(int task_num)
 {
-	utilities::show_file(test_files[0], "Input file: ", 0);
+	std::string test_file_bk = test_files[0] + ".bk";
+	utilities::show_file(test_file_bk, "Input file: ", 0);
+	system("rm *.bk");
 }
 int utbFile::utb_check_program(int test_num) const
 {
-    return utilities::compare_file(test_files[0], control_file);;
+	return utilities::compare_file(test_files[0], control_file);
 }
