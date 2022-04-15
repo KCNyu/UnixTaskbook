@@ -74,12 +74,12 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 
 	if (language_option == "ru" || language_option == "russian")
 	{
-		// utilities::normalized_output_text(tasklib->get_task_info(task_num, 0), 90, 0);
-		std::cout << tasklib->get_task_info(task_num, 0) << std::endl;
+		// std::cout << tasklib->get_task_info(task_num, 0) << std::endl;
+		utilities::normalized_output_text(tasklib->get_task_info(task_num, 0), 130);
 	}
 	else if (language_option == "ch" || language_option == "chinese")
 	{
-		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 60, 1);
+		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 102);
 	}
 
 	LOG_MESSAGE("%s", utilities::divider.c_str());

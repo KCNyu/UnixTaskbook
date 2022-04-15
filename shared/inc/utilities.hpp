@@ -8,6 +8,7 @@
 #include <iostream>
 #include <dirent.h>
 #include <cstring>
+#include <iomanip>
 #include "color.hpp"
 namespace utilities
 {
@@ -22,8 +23,10 @@ namespace utilities
     std::string generate_random_name(size_t length);
     void init_random_test_files_name(std::vector<std::string> &test_files, size_t test_file_count);
     void get_files_in_dir(std::string dir, std::vector<std::string> &files);
-    size_t normalized_output(std::string s, size_t start, size_t length, int option);
-    void normalized_output_text(std::string text, size_t row_size, int option);
+    size_t normalized_output(std::string s, size_t start, size_t length);
+    void normalized_output_text(std::string text, size_t row_size);
+    //根据utf8字符的首字节,获取utf8字符所占字节数
+    uint8_t GetUtf8charByteNum(unsigned char ch);
     static std::string divider = "==========================================================================";
 }
 #endif
