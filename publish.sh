@@ -18,8 +18,7 @@ if [ "$platform" == "Linux" ]; then
 fi
 
 # vscode任务配置文件
-cp ./.vscode/launch.json ./"$packagename"
-cp ./.vscode/tasks.json ./"$packagename" 
+cp -r ./.vscode/ ./"$packagename"
 
 tar -zcvf "$packagename".tar.gz "$packagename"
 

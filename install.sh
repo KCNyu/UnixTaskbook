@@ -75,4 +75,8 @@ if ! [ -a /usr/local/bin/unixTaskbook ]; then
 	sudo chmod +x /usr/local/bin/unixTaskbook
 fi
 
+# set vscode workspace 
+cp -r ./.vscode ../utbWork
+cd ../utbWork
+
 green "Install success!"
