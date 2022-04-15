@@ -128,9 +128,9 @@ void UnixTaskbook::parse_command(int argc, char *argv[])
 	print_option = command_parser.exist("showtest");
 
 	std::string utb_show_mode;
-	if (getenv("UTB_PATH") != NULL)
+	if (getenv("UTB_SHOW_MODE") != NULL)
 	{
-		utb_show_mode = std::string(getenv("UTB_PATH"));
+		utb_show_mode = std::string(getenv("UTB_SHOW_MODE"));
 	}
 	if (utb_show_mode.size() != 0)
 	{
@@ -502,7 +502,20 @@ void UnixTaskbook::execute_run(std::string program)
 		LOG_SUCCESS("====================| Testing successfully finished |======================");
 	}
 
-	upload_program(program);
+	std::string utb_service;
+	if (getenv("UTB_SERVICE") != NULL)
+	{
+		utb_service = std::string(getenv("UTB_SERVICE"));
+	}
+	if (utb_service.size() != 0)
+	{
+
+		transform(utb_service.begin(), utb_service.end(), utb_service.begin(), ::tolower);
+		if (utb_service == "true")
+		{
+			upload_program(program);
+		}
+	}
 }
 void UnixTaskbook::run()
 {
