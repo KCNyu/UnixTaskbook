@@ -31,24 +31,24 @@ int main(int argc, char** argv)
 	if (f2 == -1)
 		err_sys(tmpfilename);
 	size_t sz = statbuf.st_size; //or:sz = lseek(f1, 0, SEEK_END)
-	printf("sz = %ld\n", sz);
+	//printf("sz = %ld\n", sz);
 	char c;
 	for (off_t i = 0; i < sz ; i++)
 	{
 		lseek(f1, i, SEEK_SET);
 		read(f1, &c, 1);
 		write(f2, &c, 1);
-		putchar(c);
+		//putchar(c);
 		*s = c;
 		if (*s >= '0' && *s <= '9')//数字的取值范围
 		{
 			write(f2, &c, 1);
-			putchar(c);
+			//putchar(c);
 		}
 	}
 	close(f1);
 	close(f2);
 	rename(tmpfilename, argv[1]);
-	printf("\nOK");
+	//printf("\nOK");
 	return 0;
 }

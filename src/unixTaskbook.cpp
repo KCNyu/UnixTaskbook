@@ -55,10 +55,16 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 	{
 		LOG_ERROR("Exceeds the number of tasks!\nThe maximum number of %s is %d", tasklib_name.substr(0, tasklib->library_name.size() - 3).c_str(), tasklib->get_task_count());
 	}
-
-	LOG_MESSAGE("                              -----------")
-	LOG_MESSAGE("=============================| TASK INFO |================================");
-	LOG_MESSAGE("                              -----------\n");
+	if (print_option)
+	{
+		LOG_MESSAGE("                              -----------")
+		LOG_MESSAGE("=============================| TASK INFO |================================");
+		LOG_MESSAGE("                              -----------\n");
+	}
+	else
+	{
+		LOG_MESSAGE("=============================| TASK INFO |================================");
+	}
 
 	if (language_option.size() == 0)
 	{
@@ -73,7 +79,7 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 	}
 	else if (language_option == "ch" || language_option == "chinese")
 	{
-		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 135, 1);
+		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 60, 1);
 	}
 
 	LOG_MESSAGE("%s", utilities::divider.c_str());
@@ -118,6 +124,25 @@ void UnixTaskbook::parse_command(int argc, char *argv[])
 	program = command_parser.get<std::string>("program");
 	check_dir = command_parser.get<std::string>("directory");
 	print_option = command_parser.exist("showtest");
+
+	std::string utb_show_mode;
+	if (getenv("UTB_PATH") != NULL)
+	{
+		utb_show_mode = std::string(getenv("UTB_PATH"));
+	}
+	if (utb_show_mode.size() != 0)
+	{
+
+		transform(utb_show_mode.begin(), utb_show_mode.end(), utb_show_mode.begin(), ::tolower);
+		if (utb_show_mode == "true")
+		{
+			print_option = true;
+		}
+		else if (utb_show_mode == "false")
+		{
+			print_option = false;
+		}
+	}
 }
 void UnixTaskbook::parse_complie_argv(std::string program, char **&complie_argv)
 {
@@ -166,10 +191,17 @@ void UnixTaskbook::complie_program(std::string program)
 	{
 		LOG_ERROR("Error during creation log-file: ");
 	}
+	if (print_option)
+	{
+		LOG_PROCESS("                            ------------------");
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		LOG_PROCESS("                            ------------------\n");
+	}
+	else
+	{
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	}
 
-	LOG_PROCESS("                            ------------------");
-	LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-	LOG_PROCESS("                            ------------------\n");
 	unlink(complie_out.c_str());
 
 	pid_t pid = fork();
@@ -182,9 +214,16 @@ void UnixTaskbook::complie_program(std::string program)
 		parse_complie_argv(program, complie_argv);
 
 		execvp(tasklib->complier.c_str(), complie_argv);
-		LOG_INFO("                              ----------------------------------")
-		LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_INFO("                              ----------------------------------\n");
+		if (print_option)
+		{
+			LOG_INFO("                              ----------------------------------")
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_ERROR("                              ----------------------------------\n");
+		}
+		else
+		{
+			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		}
 	}
 	close(file_log);
 
@@ -192,18 +231,31 @@ void UnixTaskbook::complie_program(std::string program)
 	pid = waitpid(pid, &status, 0);
 	if (pid < 0)
 	{
-		LOG_INFO("                              ----------------------------------")
-		LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_INFO("                              ----------------------------------\n");
+		if (print_option)
+		{
+			LOG_INFO("                              ----------------------------------")
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_ERROR("                              ----------------------------------\n");
+		}
+		else
+		{
+			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		}
 	}
 
 	if (!utilities::exists_file(complie_out))
 	{
 		utilities::show_file(complie_log, "", 0);
-		LOG_INFO("                             ---------------")
-		LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Compile error |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_INFO("                             ---------------\n");
-		exit(EXIT_FAILURE);
+		if (print_option)
+		{
+			LOG_INFO("                             ---------------")
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Compile error |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_ERROR("                             ---------------\n");
+		}
+		else
+		{
+			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Compile error |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		}
 	}
 
 	struct stat statbuf;
@@ -211,16 +263,30 @@ void UnixTaskbook::complie_program(std::string program)
 	if (statbuf.st_size > 0)
 	{
 		utilities::show_file(complie_log, "", 0);
-		LOG_WARN("  			     -----------------");
-		LOG_WARN("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Compile warning |<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_WARN("  			     -----------------\n");
+		if (print_option)
+		{
+			LOG_WARN("  			     -----------------");
+			LOG_WARN("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Compile warning |<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_WARN("  			     -----------------\n");
+		}
+		else
+		{
+			LOG_WARN("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Compile warning |<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		}
 	}
 	else
 	{
 		unlink(complie_log.c_str());
-		LOG_SUCCESS(" 		        ---------------------------");
-		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<| Compilation is successful |<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_SUCCESS(" 		        ---------------------------\n");
+		if (print_option)
+		{
+			LOG_SUCCESS(" 		        ---------------------------");
+			LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<| Compilation is successful |<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_SUCCESS(" 		        ---------------------------\n");
+		}
+		else
+		{
+			LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<| Compilation is successful |<<<<<<<<<<<<<<<<<<<<<<");
+		}
 	}
 }
 void UnixTaskbook::create_test(std::string program)
@@ -286,26 +352,50 @@ void UnixTaskbook::check_program_result(std::string program, int test_num, bool 
 	case 0:
 		if (print_option || test_num == tasklib->total_test_count - 1)
 		{
+			tasklib->utb_print_extral_info(task_num);
 			utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
 		}
-		LOG_SUCCESS("\n                             ----------------")
-		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Correct result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_SUCCESS("                             ----------------\n");
+		if (print_option)
+		{
+			LOG_SUCCESS("\n                             ----------------")
+			LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Correct result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_SUCCESS("                             ----------------\n");
+		}
+		else
+		{
+			LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Correct result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		}
 		break;
 	default:
+		tasklib->utb_print_extral_info(task_num);
 		utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
-		LOG_INFO("\n                             --------------")
-		LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Wrong result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		LOG_INFO("                             --------------\n");
+		if (print_option)
+		{
+			LOG_INFO("\n                             --------------")
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Wrong result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_INFO("                             --------------\n");
+		}
+		else
+		{
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Wrong result |<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		}
+
 		utilities::show_file(tasklib->control_file, "Correct results must be as follows:", 1);
 		exit(EXIT_FAILURE);
 	}
 }
 void UnixTaskbook::upload_program(std::string program)
 {
-	LOG_PROCESS("\n                            -------------------");
-	LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Uploading program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-	LOG_PROCESS("                            -------------------\n");
+	if (print_option)
+	{
+		LOG_PROCESS("\n                            -------------------");
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Uploading program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		LOG_PROCESS("                            -------------------\n");
+	}
+	else
+	{
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Uploading program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	}
 
 	initService(is_online);
 	if (is_online)
@@ -316,9 +406,16 @@ void UnixTaskbook::upload_program(std::string program)
 // check all program files in the directory
 void UnixTaskbook::check_program_dir(std::string dir)
 {
-	LOG_PROCESS("                   -------------------------------------");
-	LOG_PROCESS(">>>>>>>>>>>>>>>>>>| Checking program files in directory |>>>>>>>>>>>>>>>>>");
-	LOG_PROCESS("                   -------------------------------------\n");
+	if (print_option)
+	{
+		LOG_PROCESS("                   -------------------------------------");
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>| Checking program files in directory |>>>>>>>>>>>>>>>>>");
+		LOG_PROCESS("                   -------------------------------------\n");
+	}
+	else
+	{
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>| Checking program files in directory |>>>>>>>>>>>>>>>>>");
+	}
 
 	utilities::get_files_in_dir(dir, files);
 
@@ -330,15 +427,30 @@ void UnixTaskbook::check_program_dir(std::string dir)
 			continue;
 		}
 		std::string program = dir + "/" + files[i];
-		LOG_PROCESS("\n                           --------------------");
-		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %ld |>>>>>>>>>>>>>>>>>>>>>>>>>>", i + 1);
-		LOG_PROCESS("                           --------------------\n");
+		if (print_option)
+		{
+			LOG_PROCESS("\n                           --------------------");
+			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %ld |>>>>>>>>>>>>>>>>>>>>>>>>>>", i + 1);
+			LOG_PROCESS("                           --------------------\n");
+		}
+		else
+		{
+			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %ld |>>>>>>>>>>>>>>>>>>>>>>>>>>", i + 1);
+		}
+
 		execute_run(program);
 	}
 
-	LOG_SUCCESS("\n                      ===============================");
-	LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<| Finish checking the directory |<<<<<<<<<<<<<<<<<<<<<");
-	LOG_SUCCESS("                      ===============================\n");
+	if (print_option)
+	{
+		LOG_SUCCESS("\n                      ===============================");
+		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<| Finish checking the directory |<<<<<<<<<<<<<<<<<<<<<");
+		LOG_SUCCESS("                      ===============================\n");
+	}
+	else
+	{
+		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<| Finish checking the directory |<<<<<<<<<<<<<<<<<<<<<");
+	}
 }
 void UnixTaskbook::execute_run(std::string program)
 {
@@ -359,21 +471,34 @@ void UnixTaskbook::execute_run(std::string program)
 
 	for (int i = 0; i < tasklib->total_test_count; i++)
 	{
-		LOG_PROCESS("\n                             ----------------");
-		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>>| Running test %d |>>>>>>>>>>>>>>>>>>>>>>>>>>>>", i + 1);
-		LOG_PROCESS("                             ----------------\n");
+		if (print_option)
+		{
+			LOG_PROCESS("\n                             ----------------");
+			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>>| Running test %d |>>>>>>>>>>>>>>>>>>>>>>>>>>>>", i + 1);
+			LOG_PROCESS("                             ----------------\n");
+		}
+		else
+		{
+			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>>| Running test %d |>>>>>>>>>>>>>>>>>>>>>>>>>>>>", i + 1);
+		}
 
 		create_test(program);
-		tasklib->utb_print_extral_info(task_num);
 		execute_program(program);
 		check_program_result(program, i, print_option);
 
 		// remove test files and control file
 		system("rm *.tst");
 	}
-	LOG_SUCCESS("\n                     ===============================");
-	LOG_SUCCESS("====================| Testing successfully finished |======================");
-	LOG_SUCCESS("                     ===============================\n");
+	if (print_option)
+	{
+		LOG_SUCCESS("\n                     ===============================");
+		LOG_SUCCESS("====================| Testing successfully finished |======================");
+		LOG_SUCCESS("                     ===============================\n");
+	}
+	else
+	{
+		LOG_SUCCESS("====================| Testing successfully finished |======================");
+	}
 
 	upload_program(program);
 }

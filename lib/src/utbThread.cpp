@@ -194,7 +194,6 @@ void utbThread::thread_test(std::string option_alg)
         outfile << "res = " << res_d << std::endl;
     }
 
-    print_time(std::cout);
 #if 0
     start = times(&tmsstart);
 
@@ -376,6 +375,7 @@ void utbThread::utb_generate_task_control(int task_num)
 }
 void utbThread::utb_print_extral_info(int task_num)
 {
+    print_time(std::cout);
 }
 int utbThread::utb_check_program(int test_num) const
 {
@@ -438,7 +438,7 @@ void utbThread::print_time(std::ostream &out) const
 {
     std::cout.setf(std::ios::fixed);
 
-    out << "FYI the correct runtime is from unixTaskbook" << std::endl;
+    out << "\nFYI the correct runtime is from unixTaskbook" << std::endl;
     out << std::setprecision(2) << "realtime - " << get_time()[0] << " , usertime - " << get_time()[1] << " , sys time - " << get_time()[2] << std::endl
         << std::endl;
 }
