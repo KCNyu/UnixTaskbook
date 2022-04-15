@@ -373,7 +373,7 @@ void utbThread::utb_generate_task_control(int task_num)
     }
     output = open(test_files[0].c_str(), O_CREAT | O_RDWR | O_TRUNC, 0644);
 }
-void utbThread::utb_print_extral_info(int task_num)
+void utbThread::utb_print_extra_info(int task_num)
 {
     print_time(std::cout);
 }

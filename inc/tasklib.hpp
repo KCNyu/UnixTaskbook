@@ -38,7 +38,7 @@ public:
 	// Implemented by each tasklib itself
 	virtual void utb_generate_task_test(int task_num) = 0;
 	virtual void utb_generate_task_control(int task_num) = 0;
-	virtual void utb_print_extral_info(int task_num) = 0;
+	virtual void utb_print_extra_info(int task_num) = 0;
 	virtual int utb_check_program(int test_num) const = 0;
 	virtual ~TaskLib() {}
 

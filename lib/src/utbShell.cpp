@@ -263,7 +263,7 @@ void utbShell::utb_generate_task_control(int task_num)
 
     close(f_control);
 }
-void utbShell::utb_print_extral_info(int task_num)
+void utbShell::utb_print_extra_info(int task_num)
 {
 }
 int utbShell::utb_check_program(int test_num) const

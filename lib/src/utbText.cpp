@@ -461,7 +461,7 @@ void utbText::utb_generate_task_control(int task_num)
         close(f2);
     }
 }
-void utbText::utb_print_extral_info(int task_num)
+void utbText::utb_print_extra_info(int task_num)
 {
     if (use_flag)
     {

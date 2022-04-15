@@ -354,7 +354,7 @@ void UnixTaskbook::check_program_result(std::string program, int test_num, bool 
 	case 0:
 		if (print_option || test_num == tasklib->total_test_count - 1)
 		{
-			tasklib->utb_print_extral_info(task_num);
+			tasklib->utb_print_extra_info(task_num);
 			utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
 		}
 		if (print_option)
@@ -369,7 +369,7 @@ void UnixTaskbook::check_program_result(std::string program, int test_num, bool 
 		}
 		break;
 	default:
-		tasklib->utb_print_extral_info(task_num);
+		tasklib->utb_print_extra_info(task_num);
 		utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
 		if (print_option)
 		{

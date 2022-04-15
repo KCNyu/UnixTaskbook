@@ -364,7 +364,7 @@ void utbFile::utb_generate_task_control(int task_num)
 	}
 	close(f_control);
 }
-void utbFile::utb_print_extral_info(int task_num)
+void utbFile::utb_print_extra_info(int task_num)
 {
 	utilities::show_file(test_files[0], "Input file: ", 0);
 }

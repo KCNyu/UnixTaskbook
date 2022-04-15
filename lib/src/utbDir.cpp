@@ -215,7 +215,7 @@ void utbDir::utb_generate_task_control(int task_num)
 
     close(f_control);
 }
-void utbDir::utb_print_extral_info(int task_num)
+void utbDir::utb_print_extra_info(int task_num)
 {
 }
 int utbDir::utb_check_program(int test_num) const
