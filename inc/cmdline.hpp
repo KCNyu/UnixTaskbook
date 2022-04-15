@@ -654,7 +654,7 @@ namespace cmdline
       {
         if (ordered[i]->short_name())
         {
-          oss << "  -" << ordered[i]->short_name() << ", ";
+          oss << BLAK <<"  -" << ordered[i]->short_name() << ", ";
         }
         else
         {
@@ -664,7 +664,7 @@ namespace cmdline
         oss << "--" << ordered[i]->name();
         for (size_t j = ordered[i]->name().length(); j < max_width + 4; j++)
           oss << ' ';
-        oss << ordered[i]->description() << std::endl;
+        oss << ordered[i]->description() << RESET << std::endl;
       }
       return oss.str();
     }
@@ -809,7 +809,8 @@ namespace cmdline
                         const std::string &desc)
           : nam(name), snam(short_name), need(need), has(false), def(def), actual(def)
       {
-        this->desc = full_description(desc);
+        //this->desc = full_description(desc);
+        this->desc = desc;
       }
       ~option_with_value() {}
 

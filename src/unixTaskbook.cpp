@@ -105,14 +105,14 @@ void UnixTaskbook::parse_task_name(std::string program)
 }
 void UnixTaskbook::parse_command(int argc, char *argv[])
 {
-	command_parser.add<std::string>("taskname", 't', "display the taskInfo", false, "");
-	command_parser.add<std::string>("language", 'l', "language be displayed <support [ru] [ch]>", false, "ru");
-	command_parser.add<std::string>("program", 'p', "check single program", false, "");
-	command_parser.add<std::string>("directory", 'd', "check all programs in the directory", false, "");
+	command_parser.add<std::string>("taskname", 't', "tasks to view/check", false, "");
+	command_parser.add<std::string>("language", 'l', "language to describe the task info", false, "ru");
+	command_parser.add<std::string>("program", 'p', "checked program(TaskGroupNumber.c), when specifying this parameter, you can not specify the -t parameter", false, "");
+	command_parser.add<std::string>("directory", 'd', "check all programs in the directory, -p -t parameters are invalid after using this parameter", false, "");
 	command_parser.add("showtest", 's', "show all test when checking");
 	command_parser.add("help", 'h', "display this help and exit");
 
-	command_parser.footer("Development of a system for automatic verification of educational tasks in Linux.\nMandatory arguments to long options are mandatory for short options too.");
+	command_parser.footer("Development of a system for automatic verification of educational tasks in Linux.");
 
 	if (argc == 1)
 	{
