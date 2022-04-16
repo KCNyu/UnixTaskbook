@@ -475,5 +475,5 @@ void utbText::utb_print_extra_info(int task_num)
 }
 int utbText::utb_check_program(int test_num) const
 {
-    return utilities::compare_file(test_files[0], control_file);;
+    return utilities::compare_file(test_files[0], control_file);
 }

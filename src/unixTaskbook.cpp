@@ -77,11 +77,11 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 	if (language_option == "ru" || language_option == "russian")
 	{
 		// std::cout << tasklib->get_task_info(task_num, 0) << std::endl;
-		utilities::normalized_output_text(tasklib->get_task_info(task_num, 0), 130);
+		utilities::normalized_output_text(tasklib->get_task_info(task_num, 0), 120);
 	}
 	else if (language_option == "ch" || language_option == "chinese")
 	{
-		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 102);
+		utilities::normalized_output_text(tasklib->get_task_info(task_num, 1), 85);
 	}
 
 	LOG_MESSAGE("%s", utilities::divider.c_str());
@@ -355,7 +355,7 @@ void UnixTaskbook::check_program_result(std::string program, int test_num, bool 
 		if (print_option || test_num == tasklib->total_test_count - 1)
 		{
 			tasklib->utb_print_extra_info(task_num);
-			utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
+			utilities::show_file(tasklib->test_files[0], "Output results from the file: ", 2);
 		}
 		if (print_option)
 		{
@@ -370,7 +370,7 @@ void UnixTaskbook::check_program_result(std::string program, int test_num, bool 
 		break;
 	default:
 		tasklib->utb_print_extra_info(task_num);
-		utilities::show_file(tasklib->test_files[0], "Result file: ", 2);
+		utilities::show_file(tasklib->test_files[0], "Output results from the file: ", 2);
 		if (print_option)
 		{
 			LOG_INFO("\n                             --------------")

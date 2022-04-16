@@ -167,30 +167,6 @@ namespace utilities
 		}
 		closedir(dp);
 	}
-	size_t normalized_output(std::string s, size_t start, size_t length)
-	{
-		const char *chs = s.c_str();
-		size_t end = start;
-		while (end < strlen(chs) && (end - start) < length)
-		{
-			end += GetUtf8charByteNum(chs[end]);
-		}
-		if (end > s.length())
-		{
-			end = s.length();
-		}
-		std::cout << std::setw(end - start) << s.substr(start, end - start) << std::endl;
-		return end;
-	}
-	void normalized_output_text(std::string text, size_t row_size)
-	{
-		size_t text_size = text.size();
-		size_t end = normalized_output(text, 0, row_size);
-		while (end < text_size)
-		{
-			end = normalized_output(text, end, row_size);
-		}
-	}
 	//根据utf8字符的首字节,获取utf8字符所占字节数
 	uint8_t GetUtf8charByteNum(unsigned char ch)
 	{
@@ -205,8 +181,62 @@ namespace utilities
 			byteNum = 3;
 		else if (ch >= 0xC0)
 			byteNum = 2;
-		else if (0 == (ch & 0x80))
+		else
 			byteNum = 1;
 		return byteNum;
+	}
+	size_t get_next_word_size(std::string str, size_t start, size_t length)
+	{
+		const char *chs = str.c_str();
+		size_t i = start;
+		while (chs[i] != ' ' && chs[i] != '\t' && chs[i] != '\n' && i < strlen(chs) && (i - start) < length)
+		{
+			i += GetUtf8charByteNum(chs[i]);
+		}
+		// std::cout << str.substr(start, i - start) << std::endl;
+		return i - start;
+	}
+	size_t normalized_output(std::string s, size_t start, size_t length)
+	{
+		const char *chs = s.c_str();
+
+		while (chs[start] == '\n' || chs[start] == ' ')
+		{
+			start++;
+		}
+		size_t end = start;
+		while (end < strlen(chs) && (end - start) < length)
+		{
+			end += get_next_word_size(s, end, length);
+			if (end < strlen(chs) && (end - start) < length && chs[end] == '\n')
+			{
+				end++;
+				break;
+			}
+			if ((end + 1 - start) < length)
+			{
+				end++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		if (end > s.length())
+		{
+			end = s.length();
+		}
+
+		std::cout << std::setw(end - start) << s.substr(start, end - start) << std::endl;
+		return end;
+	}
+	void normalized_output_text(std::string text, size_t row_size)
+	{
+		size_t text_size = text.size();
+		size_t end = normalized_output(text, 0, row_size);
+		while (end < text_size)
+		{
+			end = normalized_output(text, end, row_size);
+		}
 	}
 }
