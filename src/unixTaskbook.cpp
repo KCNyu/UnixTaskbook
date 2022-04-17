@@ -57,10 +57,10 @@ void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 	}
 	if (print_option)
 	{
-		LOG_MESSAGE("                              ------------------")
+		LOG_MESSAGE("                           ---------------------")
 		std::cout << BLAK << "==========================| "
 				  << "TASK INFO" << std::setw(10) << task_name << " |=========================" << RESET << std::endl;
-		LOG_MESSAGE("                              ------------------\n");
+		LOG_MESSAGE("                           ---------------------\n");
 	}
 	else
 	{
