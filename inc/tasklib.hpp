@@ -10,7 +10,7 @@ protected:
 	std::vector<std::string> task_text_chinese;
 	std::vector<std::string> task_text_english;
 
-	std::vector<std::string> complie_argv;
+	std::vector<std::string> compile_argv;
 
 	std::vector<std::string> execute_argv;
 
@@ -18,7 +18,7 @@ protected:
 	std::string control_file = "_control.tst";
 	std::string result_file;
 
-	std::string complier;
+	std::string compiler;
 
 	std::string library_name;
 

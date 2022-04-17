@@ -7,9 +7,9 @@ utbShell::utbShell()
 #elif defined __APPLE__
     library_name = "libutbShell.dylib";
 #endif
-    complier = "gcc";
+    compiler = "gcc";
 
-    complie_argv = {complier, "-Wall", "", "-o"};
+    compile_argv = {compiler, "-Wall", "", "-o"};
 
     task_count = 9;
 

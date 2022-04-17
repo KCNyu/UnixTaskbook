@@ -7,9 +7,9 @@ utbThread::utbThread()
 #elif defined __APPLE__
     library_name = "libutbThread.dylib";
 #endif
-    complier = "gcc";
+    compiler = "gcc";
 
-    complie_argv = {complier, "-Wall", "-pthread", "", "-o"};
+    compile_argv = {compiler, "-Wall", "-pthread", "", "-o"};
 
     task_count = 16;
 

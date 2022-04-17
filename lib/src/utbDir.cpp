@@ -8,9 +8,9 @@ utbDir::utbDir()
     library_name = "libutbDir.dylib";
 #endif
 
-    complier = "gcc";
+    compiler = "gcc";
 
-    complie_argv = {complier, "-Wall", "", "-o"};
+    compile_argv = {compiler, "-Wall", "", "-o"};
 
     task_count = 9;
 

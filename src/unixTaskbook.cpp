@@ -46,8 +46,8 @@ void UnixTaskbook::check_task_lib()
 	// check tasklib name
 	assert(tasklib->library_name == tasklib_name);
 
-	// check complier
-	assert(std::find(supported_complier.begin(), supported_complier.end(), tasklib->complier) != supported_complier.end());
+	// check compiler
+	assert(std::find(supported_compiler.begin(), supported_compiler.end(), tasklib->compiler) != supported_compiler.end());
 }
 void UnixTaskbook::print_task_info(int task_num, std::string language_option)
 {
@@ -150,29 +150,29 @@ void UnixTaskbook::parse_command(int argc, char *argv[])
 		}
 	}
 }
-void UnixTaskbook::parse_complie_argv(std::string program, char **&complie_argv)
+void UnixTaskbook::parse_compile_argv(std::string program, char **&compile_argv)
 {
-	size_t complie_argc = tasklib->complie_argv.size();
+	size_t compile_argc = tasklib->compile_argv.size();
 
-	complie_argv = new char *[complie_argc + 2];
+	compile_argv = new char *[compile_argc + 2];
 
-	for (size_t i = 0; i < complie_argc; i++)
+	for (size_t i = 0; i < compile_argc; i++)
 	{
-		complie_argv[i] = new char[100];
-		if (tasklib->complie_argv[i].size() == 0)
+		compile_argv[i] = new char[100];
+		if (tasklib->compile_argv[i].size() == 0)
 		{
-			strcpy(complie_argv[i], program.c_str());
+			strcpy(compile_argv[i], program.c_str());
 			continue;
 		}
-		strcpy(complie_argv[i], tasklib->complie_argv[i].c_str());
+		strcpy(compile_argv[i], tasklib->compile_argv[i].c_str());
 	}
 
-	complie_argv[complie_argc] = new char[100];
-	strcpy(complie_argv[complie_argc], complie_out.c_str());
+	compile_argv[compile_argc] = new char[100];
+	strcpy(compile_argv[compile_argc], compile_out.c_str());
 
-	complie_argv[complie_argc + 1] = NULL;
+	compile_argv[compile_argc + 1] = NULL;
 }
-void UnixTaskbook::complie_program(std::string program)
+void UnixTaskbook::compile_program(std::string program)
 {
 	if (!utilities::exists_file(program))
 	{
@@ -183,32 +183,32 @@ void UnixTaskbook::complie_program(std::string program)
 	// return if the program is already compiled
 	if (program.find(".out") != std::string::npos)
 	{
-		complie_out = program;
+		compile_out = program;
 		return;
 	}
 
-	complie_log = std::string(program.substr(0, strrchr(program.c_str(), '.') - program.c_str()));
-	complie_out = complie_log;
-	complie_log += "." + tasklib->complier + "log";
-	complie_out += ".out";
+	compile_log = std::string(program.substr(0, strrchr(program.c_str(), '.') - program.c_str()));
+	compile_out = compile_log;
+	compile_log += "." + tasklib->compiler + "log";
+	compile_out += ".out";
 
-	int file_log = open(complie_log.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int file_log = open(compile_log.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (!file_log)
 	{
 		LOG_ERROR("Error during creation log-file: ");
 	}
 	if (print_option)
 	{
-		LOG_PROCESS("                            ------------------");
-		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		LOG_PROCESS("                            ------------------\n");
+		LOG_PROCESS("                            -------------------");
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compiling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		LOG_PROCESS("                            -------------------\n");
 	}
 	else
 	{
-		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Compiling program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 	}
 
-	unlink(complie_out.c_str());
+	unlink(compile_out.c_str());
 
 	pid_t pid = fork();
 	if (pid == 0)
@@ -216,19 +216,19 @@ void UnixTaskbook::complie_program(std::string program)
 		dup2(file_log, STDERR_FILENO);
 		close(file_log);
 
-		char **complie_argv;
-		parse_complie_argv(program, complie_argv);
+		char **compile_argv;
+		parse_compile_argv(program, compile_argv);
 
-		execvp(tasklib->complier.c_str(), complie_argv);
+		execvp(tasklib->compiler.c_str(), compile_argv);
 		if (print_option)
 		{
 			LOG_INFO("                              ----------------------------------")
-			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while Compiling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 			LOG_ERROR("                              ----------------------------------\n");
 		}
 		else
 		{
-			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while Compiling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		}
 	}
 	close(file_log);
@@ -240,18 +240,18 @@ void UnixTaskbook::complie_program(std::string program)
 		if (print_option)
 		{
 			LOG_INFO("                              ----------------------------------")
-			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_INFO("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while Compiling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 			LOG_ERROR("                              ----------------------------------\n");
 		}
 		else
 		{
-			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while compling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			LOG_ERROR("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<| An error occurred while Compiling |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		}
 	}
 
-	if (!utilities::exists_file(complie_out))
+	if (!utilities::exists_file(compile_out))
 	{
-		utilities::show_file(complie_log, "", 0);
+		utilities::show_file(compile_log, "", 0);
 		if (print_option)
 		{
 			LOG_INFO("                             ---------------")
@@ -265,10 +265,10 @@ void UnixTaskbook::complie_program(std::string program)
 	}
 
 	struct stat statbuf;
-	stat(complie_log.c_str(), &statbuf);
+	stat(compile_log.c_str(), &statbuf);
 	if (statbuf.st_size > 0)
 	{
-		utilities::show_file(complie_log, "", 0);
+		utilities::show_file(compile_log, "", 0);
 		if (print_option)
 		{
 			LOG_WARN("  			     -----------------");
@@ -282,7 +282,7 @@ void UnixTaskbook::complie_program(std::string program)
 	}
 	else
 	{
-		unlink(complie_log.c_str());
+		unlink(compile_log.c_str());
 		if (print_option)
 		{
 			LOG_SUCCESS(" 		        ---------------------------");
@@ -306,7 +306,7 @@ void UnixTaskbook::parse_execute_argv(char **&execute_argv)
 	execute_argv = new char *[execute_argc + 2];
 
 	execute_argv[0] = new char[100];
-	strcpy(execute_argv[0], complie_out.c_str());
+	strcpy(execute_argv[0], compile_out.c_str());
 
 	for (size_t i = 1; i < execute_argc + 1; i++)
 	{
@@ -333,8 +333,8 @@ void UnixTaskbook::execute_program(std::string program)
 		std::cout << std::endl;
 #endif
 		dup2(tasklib->output, STDOUT_FILENO);
-		execvp(complie_out.c_str(), execute_argv);
-		LOG_ERROR("Error when running program %s", complie_out.c_str());
+		execvp(compile_out.c_str(), execute_argv);
+		LOG_ERROR("Error when running program %s", compile_out.c_str());
 	}
 	int status;
 	pid = waitpid(pid, &status, 0);
@@ -342,7 +342,7 @@ void UnixTaskbook::execute_program(std::string program)
 	// std::cout << "\n-------------------------------------------" << std::endl;
 	if (pid < 0)
 	{
-		LOG_ERROR("Error during running: %s", complie_out.c_str());
+		LOG_ERROR("Error during running: %s", compile_out.c_str());
 	}
 }
 void UnixTaskbook::check_program_result(std::string program, int test_num, bool print_option)
@@ -473,7 +473,7 @@ void UnixTaskbook::execute_run(std::string program)
 			LOG_ERROR("Need to be checked program name or directory");
 		}
 	*/
-	complie_program(program);
+	compile_program(program);
 
 	for (int i = 0; i < tasklib->total_test_count; i++)
 	{

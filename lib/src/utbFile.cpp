@@ -7,9 +7,9 @@ utbFile::utbFile()
 #elif defined __APPLE__
 	library_name = "libutbFile.dylib";
 #endif
-	complier = "gcc";
+	compiler = "gcc";
 
-	complie_argv = {complier, "-Wall", "", "-o"};
+	compile_argv = {compiler, "-Wall", "", "-o"};
 
 	task_count = 17;
 
