@@ -16,6 +16,8 @@ std::string TaskLib::get_task_info(int task_num, int language_option) const
 		return task_text_russian[task_num - 1];
 	case 1:
 		return task_text_chinese[task_num - 1];
+	case 2:
+		return task_text_english[task_num - 1];
 	default:
 		return task_text_russian[task_num - 1];
 	}

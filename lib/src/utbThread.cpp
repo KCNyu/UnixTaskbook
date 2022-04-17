@@ -50,6 +50,23 @@ utbThread::utbThread()
         "实现算法的变体，用于查找具有偶数（0、2、-2、4、-4、...、100、-100）的原始数组的所有元素的数量。\n使用线程的算法的线程数为 4。",
         "实现算法的变体，用于查找具有偶数（0、2、-2、4、-4、...、100、-100）的原始数组的所有元素的索引总和。\n使用线程的算法的线程数为 2。为避免溢出，请使用双精度变量来存储索引的总和。",
         "实现算法的变体，用于查找具有偶数（0、2、-2、4、-4、...、100、-100）的原始数组的所有元素的索引总和。\n使用线程的算法的线程数为 4。为避免溢出，请使用双精度变量来存储索引的总和。"};
+
+    task_text_english = {"Implement variants of the algorithm for finding the sum of all elements of the original array. The number of threads for algorithms that use threads is 2.",
+                         "Implement variants of the algorithm for finding the sum of all elements of the original array. The number of threads for algorithms that use threads is 4.",
+                         "Implement variants of the algorithm for finding the sum of all positive elements of the original array. The number of threads for algorithms that use threads is 2.",
+                         "Implement variants of the algorithm for finding the sum of all positive elements of the original array. The number of threads for algorithms that use threads is 4.",
+                         "Implement variants of the algorithm for finding the arithmetic mean of all positive elements of the original array. The number of threads for algorithms that use threads is 2. The result must be a real number (double type).",
+                         "Implement variants of the algorithm for finding the arithmetic mean of all positive elements of the original array. The number of threads for algorithms that use threads is 4. The result must be a real number (double type).",
+                         "Implement variants of the algorithm for finding the number of all positive elements of the original array. The number of threads for algorithms that use threads is 2.",
+                         "Implement variants of the algorithm for finding the number of all positive elements of the original array. The number of threads for algorithms that use threads is 4.",
+                         "Implement variants of the algorithm for finding the sum of indices of all positive elements of the original array. The number of threads for algorithms using threads is 2. To avoid overflow, use a variable of type double to store the sum of indices.",
+                         "Implement variants of the algorithm for finding the sum of indices of all positive elements of the original array. The number of threads for algorithms using threads is 4. To avoid overflow, use a variable of type double to store the sum of indices.",
+                         "Implement variants of the algorithm for finding the arithmetic mean of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 2. The result should be a real number (of type double).",
+                         "Implement variants of the algorithm for finding the arithmetic mean of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 4. The result should be a real number (of type double).",
+                         "Implement variants of the algorithm for finding the number of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 2.",
+                         "Implement variants of the algorithm for finding the number of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 4.",
+                         "Implement variants of the algorithm for finding the sum of indices of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 2. To avoid overflow, use a variable of type double to store the sum of indices.",
+                         "Implement variants of the algorithm for finding the sum of indices of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 4. To avoid overflow, use a variable of type double to store the sum of indices."};
 }
 
 void utbThread::utb_generate_task_test(int task_num)

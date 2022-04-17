@@ -50,6 +50,24 @@ utbText::utbText()
         "给定一个整数和一个文本文件。 从文件的每一行中删除最后 K 个字符（如果该行的长度小于 K，则从中删除所有字符）。",
         "给定一个文本文件。 将其中的所有大写字母替换为小写字母，并将所有小写字母替换为大写字母。 不要改变其余的字符。"};
 
+    task_text_english = {
+        "Given a string S (no spaces) and a text file. Append string S to the end of the file.",
+        "Given two text files. Add the contents of the second file to the end of the first file.",
+        "Given a string S (no spaces) and a text file. Add string S to the beginning of the file.",
+        "Given two text files. Add the contents of the second file to the beginning of the first file.",
+        "Given an integer K and a text file. Insert an empty line before the file line with number K (lines are numbered from 1). If there is no line with this number, then leave the file unchanged.",
+        "Given an integer K and a text file. Insert an empty line after the file line with number K (lines are numbered from 1). If there is no line with this number, then leave the file unchanged.",
+        "Given a text file. Duplicate all empty lines in it.",
+        "Given a string S (no spaces) and a text file. Replace all empty lines in the file with string S.",
+        "Given a non-empty text file. Delete the first line from it.",
+        "Given a non-empty text file. Remove the last line from it.",
+        "Given an integer K and a text file. Delete the line with the number K from the file (the lines are numbered from 1). If there is no line with this number, then leave the file unchanged.",
+        "Given a text file. Remove all empty lines from it.",
+        "Given two text files. Add the corresponding line of the second file to the end of each line of the first file. If the second file is shorter than the first, then do not change the remaining lines of the first file.",
+        "Given an integer K and a text file. Delete the first K characters from each line of the file (if the length of the string is less than K, then delete all characters from it).",
+        "Given an integer K and a text file. Delete the last K characters from each line of the file (if the length of the string is less than K, then delete all characters from it).",
+        "Given a text file. Change all uppercase letters to lowercase and all lowercase letters to uppercase. Do not change other characters."};
+
     text_data = {"Winnie-the-Pooh sat down at the foot of the tree,\nput his head between his paws and began to think.\n\nFirst of all he said to himself: \"That\nbuzzing-noise means something. You don't get a\nbuzzing-noise like that, just buzzing and buzzing,\nwithout its meaning something. If there's a\nbuzzing-noise, somebody's making a buzzing-noise,\nand the only reason for making a buzzing-noise\nthat I know of is because you're a bee.\"\n\nThen he thought another long time, and said: \"And\nthe only reason for being a bee that I know of is\nmaking honey.\"\n\nAnd then he got up, and said: \"And the only reason\nfor making honey is so as I can eat it.\" So he\nbegan to climb the tree.\n",
                  "\"Oh, help!\" said Pooh, as he dropped ten feet on\nthe branch below him.\n\n\"If only I hadn't -\" he said, as he bounced twenty\nfeet on to the next branch.\n\n\"You see, what I meant to do,\" he explained, as he\nturned head-over-heels, and crashed on to another\nbranch thirty feet below, \"what I meant to do -\"\n\n\"Of course, it was rather -\" he admitted, as he\nslithered very quickly through the next six\nbranches.\n\n\"It all comes, I suppose,\" he decided, as he said\ngood-bye to the last branch, spun round three\ntimes, and flew gracefully into a gorse-bush, \"it\nall comes of liking honey so much. Oh, help!\"\n",
                  "\"Christopher Robin, you must shoot the balloon\nwith your gun. Have you got your gun?\"\n\n\"Of course I have,\" you said. \"But if I do that,\nit will spoil the balloon,\" you said.\n\n\"But if you don't,\" said Pooh, \"I shall have to\nlet go, and that would spoil me.\"\n\nWhen he put it like this, you saw how it was, and\nyou aimed very carefully at the balloon, and\nfired.\n\n\"Ow!\" said Pooh.\n\n\"Did I miss?\" you asked.\n\n\"You didn't exactly miss,\" said Pooh, \"but you\nmissed the balloon.\"\n",

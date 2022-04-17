@@ -51,6 +51,17 @@ utbShell::utbShell()
         "编写一个模拟shell结构的shellD7程序：\ncmdA A1 A2 ... AN >> file\n这个结构保证cmdA命令执行时带有参数A1，A2，...，AN，以及这个命令的输出重定向到名为 file 的文件。如果指定的文件不存在，则创建它，如果存在，则将新内容附加到其末尾。\nshellD7 程序的调用格式：\nshellD7 file cmdA N A1 A2 。 .. AN",
         "编写一个模拟shell结构的shellD8程序：\n(cmdA A1 A2 ... AN; cmdB B1 B2 ... BM)> file \n这个结构保证了cmdA和cmdB命令的顺序执行：首先, cmdA 命令以参数 A1, A2, ..., AN 运行，然后 cmdB 命令以参数 B1, B2, ..., BM 运行。在这种情况下，每个命令的输出都被重定向到一个文件名为file。如果指定的文件不存在，则创建，如果存在，则删除其先前的内容。\nshellD8程序调用格式：\nshellD8 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM",
         "编写一个模拟shell结构的shellD9程序：\n(cmdA A1 A2 ... AN || cmdB B1 B2 ... BM) | cmdC C1 C2 ... CP >> file\n此构造执行以下操作。命令带有参数 A1, A2, ..., AN 的 cmdA；如果此程序因错误而终止（退出代码不为 0），则使用参数 B1, B2, ..., BM 运行 cmdB 命令。处理成功的命令重定向到cmdC命令的标准输入，参数为C1,C2,...,CP，cmdC命令的标准输出重定向到文件file，如果文件不存在，则\nshellD9 程序调用格式：\nshellD9 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM cmdC P C1 C2 ... CP"};
+
+    task_text_english = {
+        "Write a shellD1 program that simulates the command interpreter construct:\ncmdA A1 A2 ... AN ; cmdB B1 B2 ... BM\nThis construct ensures that the cmdA and cmdB commands are executed sequentially: first, the cmdA command is launched with the parameters A1, A2, ..., AN, then the command cmdB with parameters B1, B2, ..., BM Each command uses the standard output to the screen.\nFormat of the shellD1 program call:\nshellD1 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM",
+        "Write a shellD2 program that simulates a shell construct:\ncmdA A1 A2 ... AN && cmdB B1 B2 ... BM This construct does the following. First, the cmdA command is run with the parameters A1, A2, ..., AN; if this command succeeds (the exit code is 0), then the cmdB command is run with the parameters B1, B2, ..., BM. Each command uses the standard output to the screen.\nThe format of the shellD2 program call is:\nshellD2 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM",
+        "Write a shellD3 program that simulates a shell construct:\ncmdA A1 A2 ... AN || cmdB B1 B2 ... BM\nThis construct does the following. First, the cmdA command is run with the parameters A1, A2, ..., AN; if this command ends with an error (exit code is not equal to 0), then the cmdB command is run with the parameters B1, B2, ..., BM. Each command uses the standard output to the screen.\nThe format of the shellD3 program call is: shellD3 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM",
+        "Write a shellD4 program that simulates the shell construct:\ncmdA A1 A2 ... AN | cmdB B1 B2 ... BM\nThis construct does the following. First, the cmdA command is run with parameters A1, A2, ..., AN; the output of this command is redirected to the command input cmdB command with parameters B1, B2, …, BM (i.e., pipeline is organized.) The cmdB command uses the standard output to the screen.\nThe format of the shellD4 program call is:\nshellD4 cmdA N A1 A2 … AN cmdB M B1 B2 … BM",
+        "Write a shellD5 program that simulates the shell construct:\ncmdA A1 A2 ... AN < file\nThis construct executes the cmdA command with parameters A1, A2, ..., AN, with the command's input redirected from a file named file (which must exist) .The cmdA command uses the standard output to the screen.\nThe format for calling the shellD5 program is:\nshellD5 file cmdA N A1 A2 ... AN",
+        "Write a shellD6 program that simulates the shell construct:\ncmdA A1 A2 ... AN > file\nThis construct executes the cmdA command with the parameters A1, A2, ..., AN, and the output of this command is redirected to a file named file. If the specified file does not exist , then it is created, if it exists, then its previous contents are deleted.\nThe shellD6 program call format is:\nshellD6 file cmdA N A1 A2 ... AN",
+        "Write a shellD7 program that simulates the shell construct:\ncmdA A1 A2 ... AN >> file\nThis construct executes the cmdA command with parameters A1, A2, ..., AN, and redirects the output of this command to a file named file If the specified file does not exist, then it is created, if it exists, then new content is added to its end.\nFormat of calling the shellD7 program:\nshellD7 file cmdA N A1 A2 ... AN",
+        "Write a shellD8 program that simulates the shell construct:\n( cmdA A1 A2 ... AN ; cmdB B1 B2 ... BM ) > file\nThis construct ensures that the cmdA and cmdB commands are executed sequentially: first, the cmdA command is run with the parameters A1, A2, ..., AN, then the cmdB command is run with the parameters B1, B2, ..., BM. This redirects the output of each command to a file named file. If the specified file does not exist, then it is created, if it exists, then its previous content is deleted.\nThe shellD8 program call format is:\nshellD8 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM",
+        "Write a shellD9 program that simulates a shell construct:\n( cmdA A1 A2 ... AN || cmdB B1 B2 ... BM ) | cmdC C1 C2 ... CP >> file\nThis construct does the following. Runs first cmdA command with parameters A1, A2, ..., AN, if this program terminated with an error (exit code not equal to 0), then the cmdB command with parameters B1, B2, ..., BM is run. The standard output of a successful command is redirected to the standard input of the cmdC command with the parameters C1, C2, ..., CP. The standard output of the cmdC command is redirected to the file file, and if the file does not exist, then it is created, and if it exists, it is supplemented with new data.\nFormat of calling the shellD9 program :\nshellD9 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM cmdC P C1 C2 ... CP"};
 }
 bool utbShell::foo_judge(std::string cmd)
 {
@@ -155,7 +166,6 @@ void utbShell::test5()
 
     puts(sys_cmd.c_str());
     system(sys_cmd.c_str());
-
 }
 void utbShell::test6()
 {
@@ -179,7 +189,7 @@ void utbShell::test7()
     sys_cmd = sys_cmd.substr(test_files[0].size() + 1);
     sys_cmd += " > " + control_file;
 
-    system(sys_cmd.c_str());    
+    system(sys_cmd.c_str());
 }
 void utbShell::test8()
 {
@@ -258,7 +268,7 @@ void utbShell::utb_generate_task_control(int task_num)
         test9();
         break;
     }
-    
+
     output = open(test_files[0].c_str(), O_WRONLY | O_TRUNC, 0644);
 
     close(f_control);

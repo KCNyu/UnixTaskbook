@@ -8,6 +8,7 @@ class TaskLib
 protected:
 	std::vector<std::string> task_text_russian;
 	std::vector<std::string> task_text_chinese;
+	std::vector<std::string> task_text_english;
 
 	std::vector<std::string> complie_argv;
 

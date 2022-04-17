@@ -52,6 +52,25 @@ utbFile::utbFile()
 		"给定一个字符文件。 用三个“A”字符替换其中的每个数字字符。\n例如，字符文件 A1B2C34 应更改为 AAAABAAACAAAAAA。",
 		"给定一个字符文件，其中包含元素 A1、A2、...、AN（N 是文件中的元素数）。 用以下内容替换其元素的原始布局：\nA1, AN, A2, AN − 1, A3, ....\n例如，带有符号 ABCDEFGHI 的文件应更改为 AIBHCGDFE。",
 	};
+
+	task_text_english = {
+		"Given a character file. Reverse the order of its elements.\nFor example, a file with ABCDE characters should be changed to EDCBA.",
+		"Given a character file. Replace all capital English letters in it with small letters and reverse the order of its elements.\nFor example, a file with A12BmnCD9E characters should change to e9dcnmb21a",
+		"Given a character file containing more than 10 elements.\nReduce its size to 10 elements by removing the required number of trailing elements from the file.",
+		"Given a character file containing an even number of elements.\nRemove the second half of the elements from this file.",
+		"Given a character file containing more than 10 elements.\nReduce its size to 10 elements by removing the required number of initial elements from the file.",
+		"Given a character file containing an even number of elements.\nRemove the first half of the elements from this file.",
+		"Given a character file. Remove all even-numbered elements from it (elements are numbered from 1).\nFor example, a file with ABCDEFG characters should change to ACEG.",
+		"Given a character file. Remove all numeric characters from it.\nFor example, a file with characters A11B2CD43F should change to ABCDF",
+		"Given a character file. Remove all uppercase Latin letters from it and reverse the order of its elements.\nFor example, a file with A11b2Cd43F characters should change to 34d2b11.",
+		"Given a character file containing less than 20 elements. Increase its size to 20 elements by writing the required number of A characters at the beginning of the file.",
+		"Given a character file. Double its size by writing all its original elements to the end of the file (in the same order).\nFor example, a file with ABCD characters should change to ABCDABCD.",
+		"Given a character file. Double its size by writing all its original elements to the end of the file (in reverse order).\nFor example, a file with ABCD characters should change to ABCDDCBA.",
+		"Given a character file. Duplicate all odd-numbered elements in it (elements are numbered from 1).\nFor example, a file with ABCDEF characters should change to AABCCDEEF.",
+		"Given a character file. Duplicate all numeric characters in it.\nFor example, a file with A23EF4S characters should change to A2233EF44S",
+		"Given a character file. Replace every even-numbered element in it with two X characters (elements are numbered from 1).\nFor example, a file with ABCDEF characters should change to AXXCXXEXX.",
+		"Given a character file. Replace each numeric character in it with three A characters.\nFor example, a file with characters A1B2C34 should change to AAAABAAACAAAAAA.",
+		"Given a character file with elements A1, A2, …, AN (N is the number of elements in the file). Replace the original location of its elements with the following:\nA1, AN, A2, AN−1, A3, …\nFor example, a file with symbols ABCDEFGHI should change to AIBHCGDFE."};
 }
 void utbFile::test1()
 {
@@ -305,7 +324,8 @@ void utbFile::utb_generate_task_test(int task_num)
 	write(f_test, c, sz);
 	close(f_test);
 
-	std::string cmd = "cp " + test_files[0] + " " + test_files[0] + ".bk";
+	std::string origin_file = test_files[0].substr(0, test_files[0].find(".")) + "_origin.tst";
+	std::string cmd = "cp " + test_files[0] + " " + origin_file;
 	system(cmd.c_str());
 }
 void utbFile::utb_generate_task_control(int task_num)
@@ -369,9 +389,8 @@ void utbFile::utb_generate_task_control(int task_num)
 }
 void utbFile::utb_print_extra_info(int task_num)
 {
-	std::string test_file_bk = test_files[0] + ".bk";
-	utilities::show_file(test_file_bk, "Input file: ", 0);
-	system("rm *.bk");
+	std::string origin_file = test_files[0].substr(0, test_files[0].find(".")) + "_origin.tst";
+	utilities::show_file(origin_file, "Input file: ", 0);
 }
 int utbFile::utb_check_program(int test_num) const
 {
