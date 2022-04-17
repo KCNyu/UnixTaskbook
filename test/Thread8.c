@@ -24,13 +24,19 @@ double sec(long ticks)
 }
 void printtime(const char *info)
 {
-	printf("%s: realtime - %.2f, usertime - %.2f, sys time - %.2f\n",
-	       info, sec(end - start),
-	       sec(tmsend.tms_utime - tmsstart.tms_utime),
-	       sec(tmsend.tms_stime - tmsstart.tms_stime));
+	/*printf("%s: realtime - %.2f, usertime - %.2f, sys time - %.2f\n",
+		   info, sec(end - start),
+		   sec(tmsend.tms_utime - tmsstart.tms_utime),
+		   sec(tmsend.tms_stime - tmsstart.tms_stime));
+	*/
+	printf("%s: realtime - %.2f\n",
+		   info, sec(end - start));
 }
-void alg1()
+void alg1(char const *argv[])
 {
+	srand(atoi(argv[1]));
+	for (int j = 0; j < ARRSIZE; j++)
+		x[j] = rand() % 201 - 100;
 	start = times(&tmsstart);
 	// реализация алгоритма 1...
 	for (int i = 0; i < ARRSIZE; i++)
@@ -51,7 +57,7 @@ void *thr_sum_no_mutex(void *arg)
 		if (x[i] > 0)
 			res2 += 1;
 	}
-	return (void*)0;
+	return (void *)0;
 }
 void alg2()
 {
@@ -96,10 +102,13 @@ void *thr_sum_mutex_inside(void *arg)
 			}
 		}
 	}
-	return (void*)0;
+	return (void *)0;
 }
-void alg3()
+void alg3(char const *argv[])
 {
+	srand(atoi(argv[2]));
+	for (int j = 0; j < ARRSIZE; j++)
+		x[j] = rand() % 201 - 100;
 	start = times(&tmsstart);
 	// реализация алгоритма 4...
 	int err = pthread_mutex_init(&m, 0);
@@ -146,10 +155,13 @@ void *thr_sum_mutex_outside(void *arg)
 		res4 += res0;
 		pthread_mutex_unlock(&m);
 	}
-	return (void*)0;
+	return (void *)0;
 }
-void alg4()
+void alg4(char const *argv[])
 {
+	srand(atoi(argv[3]));
+	for (int j = 0; j < ARRSIZE; j++)
+		x[j] = rand() % 201 - 100;
 	start = times(&tmsstart);
 	// реализация алгоритма 1...
 	int err = pthread_mutex_init(&m, 0);
@@ -181,12 +193,9 @@ void alg4()
 }
 int main(int argc, char const *argv[])
 {
-	srand(atoi(argv[1]));
-	for (int j = 0; j < ARRSIZE; j++)
-		x[j] = rand() % 201 - 100;
-	alg1();
-	alg2();
-	alg3();
-	alg4();
+	alg1(argv);
+	// alg2();
+	alg3(argv);
+	alg4(argv);
 	return 0;
 }

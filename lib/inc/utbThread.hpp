@@ -15,15 +15,18 @@ class utbThread : public TaskLib
 {
 private:
     const size_t arrsize = 80000000;
-    std::vector<int> arr;
-    unsigned int seed;
-    struct tms tmsstart, tmsend;
-    clock_t start, end;
-    std::atomic<long> res_l;
-    std::atomic<double> res_d;
+    std::vector<std::vector<int>> array;
+    std::vector<unsigned int> seed;
+    //std::atomic<long> res_l[3];
+    //std::atomic<double> res_d[3];
+    long res_l[3];
+    double res_d[3];
+    std::vector<struct tms> tmsstart, tmsend;
+    std::vector<clock_t> start, end;
 
 protected:
     void thread_test(std::string option_alg);
+    void init_array(unsigned int seed, std::vector<int> &array);
 
 public:
     utbThread();
@@ -37,8 +40,8 @@ public:
 
     // Helper functions are optional
     // In order to implement the above interface, it is assisted by providing
-    std::vector<double> get_time() const;
-    void print_time(std::ostream &out) const;
+    std::vector<double> get_time(int i) const;
+    void print_time(std::ostream &out, int i) const;
 };
 
 extern "C" TaskLib *create()

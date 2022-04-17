@@ -68,147 +68,240 @@ utbThread::utbThread()
                          "Implement variants of the algorithm for finding the sum of indices of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 2. To avoid overflow, use a variable of type double to store the sum of indices.",
                          "Implement variants of the algorithm for finding the sum of indices of all elements of the original array with even values ​​(0, 2, -2, 4, -4, ..., 100, -100). The number of threads for algorithms using threads is 4. To avoid overflow, use a variable of type double to store the sum of indices."};
 }
-
+void utbThread::init_array(unsigned int seed, std::vector<int> &array)
+{
+    srand(seed);
+    array.resize(arrsize);
+    for (auto &num : array)
+    {
+        num = rand() % 201 - 100;
+    }
+}
 void utbThread::utb_generate_task_test(int task_num)
 {
     utilities::init_random_test_files_name(test_files, 1);
 
-    res_l = 0;
-    res_d = 0;
-
-    seed = time(nullptr);
-    srand(seed);
-
-    arr.resize(arrsize);
-    for (auto &num : arr)
-    {
-        num = rand() % 201 - 100;
-    }
+    array.resize(3);
+    start.resize(3);
+    end.resize(3);
+    tmsstart.resize(3);
+    tmsend.resize(3);
+    seed.resize(3);
 
     execute_argv.clear();
-    execute_argv.push_back(std::to_string(seed));
+
+    for (int i = 0; i < 3; i++)
+    {
+        res_l[i] = 0;
+        res_d[i] = 0;
+        seed[i] = time(nullptr);
+        init_array(seed[i], array[i]);
+        execute_argv.push_back(std::to_string(seed[i]));
+    }
 }
 void utbThread::thread_test(std::string option_alg)
 {
-    start = times(&tmsstart);
+
 #if defined __x86_64__ && defined __linux__
     if (option_alg == "sum")
     {
-        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
-                      { res_l = res_l + num; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(std::execution::par_unseq, array[i].begin(), array[i].end(), [&](auto num)
+                          { res_l[i] = res_l[i] + num; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "sum_positive")
     {
-        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
-                      { if(num>0) res_l = res_l + num; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(std::execution::par_unseq, array[i].begin(), array[i].end(), [&](auto num)
+                          { if(num>0) res_l[i] = res_l[i] + num; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "avg_positive")
     {
-        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
-                      { if(num>0) res_d = res_d + num; });
-        res_d = res_d / arr.size();
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(std::execution::par_unseq, array[i].begin(), array[i].end(), [&](auto num)
+                          { if(num>0) res_d[i] = res_d[i] + num; });
+            res_d[i] = res_d[i] / array[i].size();
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "count_positive")
     {
-        res_l = std::count_if(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
-                              { return num > 0; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            res_l[i] = std::count_if(std::execution::par_unseq, array[i].begin(), array[i].end(), [&](auto num)
+                                     { return num > 0; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "sum_positive_index")
     {
-        for (size_t i = 0; i < arr.size(); i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (arr[i] > 0)
+            start[i] = times(&tmsstart[i]);
+            for (size_t j = 0; j < array[i].size(); j++)
             {
-                res_d = res_d + i;
+                if (array[i][j] > 0)
+                {
+                    res_d[i] = res_d[i] + j;
+                }
             }
+            end[i] = times(&tmsend[i]);
         }
     }
     else if (option_alg == "avg_even")
     {
-        std::for_each(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
-                      { if(num%2==0) res_d = res_d + num; });
-        res_d = res_d / arr.size();
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(std::execution::par_unseq, array[i].begin(), array[i].end(), [&](auto num)
+                          { if(num%2==0) res_d[i] = res_d[i] + num; });
+            res_d[i] = res_d[i] / array.size();
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "count_even")
     {
-        res_l = std::count_if(std::execution::par_unseq, arr.begin(), arr.end(), [&](auto num)
-                              { return num % 2 == 0; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            res_l[i] = std::count_if(std::execution::par_unseq, array[i].begin(), array[i].end(), [&](auto num)
+                                     { return num % 2 == 0; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "sum_even_index")
     {
-        for (size_t i = 0; i < arr.size(); i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (arr[i] % 2 == 0)
+            start[i] = times(&tmsstart[i]);
+            for (size_t j = 0; j < array[i].size(); j++)
             {
-                res_d = res_d + i;
+                if (array[i][j] % 2 == 0)
+                {
+                    res_d[i] = res_d[i] + j;
+                }
             }
+            end[i] = times(&tmsend[i]);
         }
     }
 #elif defined __aarch64__ || defined __arm__ || defined __APPLE__
     if (option_alg == "sum")
     {
-        std::for_each(arr.begin(), arr.end(), [&](auto num)
-                      { res_l = res_l + num; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(array[i].begin(), array[i].end(), [&](auto num)
+                          { res_l[i] = res_l[i] + num; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "sum_positive")
     {
-        std::for_each(arr.begin(), arr.end(), [&](auto num)
-                      { if(num>0) res_l = res_l + num; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(array[i].begin(), array[i].end(), [&](auto num)
+                          { if(num>0) res_l[i] = res_l[i] + num; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "avg_positive")
     {
-        std::for_each(arr.begin(), arr.end(), [&](auto num)
-                      { if(num>0) res_d = res_d + num; });
-        res_d = res_d / arr.size();
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(array[i].begin(), array[i].end(), [&](auto num)
+                          { if(num>0) res_d[i] = res_d[i] + num; });
+            res_d[i] = res_d[i] / array[i].size();
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "count_positive")
     {
-        res_l = std::count_if(arr.begin(), arr.end(), [&](auto num)
-                              { return num > 0; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            res_l[i] = std::count_if(array[i].begin(), array[i].end(), [&](auto num)
+                                     { return num > 0; });
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "sum_positive_index")
     {
-        for (size_t i = 0; i < arr.size(); i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (arr[i] > 0)
+            start[i] = times(&tmsstart[i]);
+            for (size_t j = 0; j < array[i].size(); j++)
             {
-                res_d = res_d + i;
+                if (array[i][j] > 0)
+                {
+                    res_d[i] = res_d[i] + j;
+                }
             }
+            end[i] = times(&tmsend[i]);
         }
     }
     else if (option_alg == "avg_even")
     {
-        std::for_each(arr.begin(), arr.end(), [&](auto num)
-                      { if(num%2==0) res_d = res_d + num; });
-        res_d = res_d / arr.size();
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            std::for_each(array[i].begin(), array[i].end(), [&](auto num)
+                          { if(num%2==0) res_d[i] = res_d[i] + num; });
+            res_d[i] = res_d[i] / array.size();
+            end[i] = times(&tmsend[i]);
+        }
     }
     else if (option_alg == "count_even")
     {
-        res_l = std::count_if(arr.begin(), arr.end(), [&](auto num)
-                              { return num % 2 == 0; });
+        for (int i = 0; i < 3; i++)
+        {
+            start[i] = times(&tmsstart[i]);
+            res_l[i] = std::count_if(array[i].begin(), array[i].end(), [&](auto num)
+                                     { return num % 2 == 0; });
+        }
     }
     else if (option_alg == "sum_even_index")
     {
-        for (size_t i = 0; i < arr.size(); i++)
+        for (int i = 0; i < 3; i++)
         {
-            if (arr[i] % 2 == 0)
+            start[i] = times(&tmsstart[i]);
+            for (size_t j = 0; j < array[i].size(); j++)
             {
-                res_d = res_d + i;
+                if (array[i][j] % 2 == 0)
+                {
+                    res_d[i] = res_d[i] + j;
+                }
             }
+            end[i] = times(&tmsend[i]);
         }
     }
 #endif
-    end = times(&tmsend);
 
     std::ofstream outfile(control_file);
-
-    if (res_l != 0)
+    outfile << "Run data from UnixTaskbook" << std::endl;
+    for (int i = 0; i < 3; i++)
     {
-        outfile << "res = " << res_l << std::endl;
-    }
-    else
-    {
-        outfile << "res = " << res_d << std::endl;
+        if (res_l[i] != 0)
+        {
+            outfile << "res = " << res_l[i] << std::endl;
+        }
+        else
+        {
+            outfile << "res = " << res_d[i] << std::endl;
+        }
+        print_time(outfile, i);
     }
 
 #if 0
@@ -392,43 +485,45 @@ void utbThread::utb_generate_task_control(int task_num)
 }
 void utbThread::utb_print_extra_info(int task_num)
 {
-    print_time(std::cout);
+    std::string cmd = "cat " + control_file;
+    std::cout << std::endl;
+    system(cmd.c_str());
 }
 int utbThread::utb_check_program(int test_num) const
 {
     std::ifstream in(test_files[0]);
     std::string line;
-    if (res_l != 0)
+    if (res_l[0] != 0)
     {
         long res = 0;
-        int flag = 0;
+        int i = 0;
         while (std::getline(in, line))
         {
             if (line.find("res") != std::string::npos)
             {
                 res = std::stol(line.substr(line.find("=") + 1));
-                if ((res_l != res) && flag != 1)
+                if ((res_l[i] != res))
                 {
                     return 1;
                 }
-                flag++;
+                i++;
             }
         }
     }
     else
     {
         double res = 0;
-        int flag = 0;
+        int i = 0;
         while (std::getline(in, line))
         {
             if (line.find("res") != std::string::npos)
             {
                 res = std::stod(line.substr(line.find("=") + 1));
-                if ((fabs(res_d - res) > 1E-10) && flag != 1)
+                if ((fabs(res_d[i] - res) > 1E-10))
                 {
                     return 1;
                 }
-                flag++;
+                i++;
             }
         }
     }
@@ -444,20 +539,31 @@ int utbThread::utb_check_program(int test_num) const
     }
     return 0;
 }
-std::vector<double> utbThread::get_time() const
+std::vector<double> utbThread::get_time(int i) const
 {
     auto sec = [](long ticks) -> double
     {
         return (double)ticks / sysconf(_SC_CLK_TCK);
     };
 
-    return {sec(end - start), sec(tmsend.tms_utime - tmsstart.tms_utime), sec(tmsend.tms_stime - tmsstart.tms_stime)};
+    return {sec(end[i] - start[i]), sec(tmsend[i].tms_utime - tmsstart[i].tms_utime), sec(tmsend[i].tms_stime - tmsstart[i].tms_stime)};
 }
-void utbThread::print_time(std::ostream &out) const
+void utbThread::print_time(std::ostream &out, int i) const
 {
     std::cout.setf(std::ios::fixed);
 
-    out << "\nFYI the correct runtime is from unixTaskbook" << std::endl;
-    out << std::setprecision(2) << "realtime - " << get_time()[0] << " , usertime - " << get_time()[1] << " , sys time - " << get_time()[2] << std::endl
-        << std::endl;
+    // out << "\nRunning time for reference from UnixTaskbook" << std::endl;
+    // out << std::setprecision(2) << "realtime - " << get_time()[0] << " , usertime - " << get_time()[1] << " , sys time - " << get_time()[2] << std::endl
+    switch (i)
+    {
+    case 0:
+        out << std::setprecision(2) << "No threads: realtime - " << get_time(i)[0] << " (don't check)" << std::endl;
+        break;
+    case 1:
+        out << std::setprecision(2) << "Mutex inside loop: realtime - " << get_time(i)[0] * 3.0 << " (don't check)" << std::endl;
+        break;
+    case 2:
+        out << std::setprecision(2) << "Mutex outside loop: realtime - " << get_time(i)[0] * 0.5 << " (don't check)" << std::endl;
+        break;
+    }
 }
