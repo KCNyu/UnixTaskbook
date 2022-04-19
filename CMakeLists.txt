@@ -44,10 +44,35 @@ install(CODE "EXECUTE_PROCESS(COMMAND ldconfig)")
 # set up the test
 enable_testing()
 
-macro(test_execute TASK FILE)
-    ADD_TEST(NAME test_${TASK}_execute COMMAND unixTaskbook -t ${TASK} -p ../test/${FILE})
-    SET_TESTS_PROPERTIES(test_${TASK}_execute
+macro(test_execute_with_all TASK)
+    ADD_TEST(NAME test_${TASK}_execute_with_all COMMAND unixTaskbook -t ./${TASK}.c WORKING_DIRECTORY ../test/)
+    SET_TESTS_PROPERTIES(test_${TASK}_execute_with_all
         PROPERTIES PASS_REGULAR_EXPRESSION "Testing successfully finished")
+endmacro(test_execute_with_all)
+
+macro(test_execute_without_path TASK)
+    ADD_TEST(NAME test_${TASK}_execute_without_path COMMAND unixTaskbook -t ${TASK}.c WORKING_DIRECTORY ../test/)
+    SET_TESTS_PROPERTIES(test_${TASK}_execute_without_path
+        PROPERTIES PASS_REGULAR_EXPRESSION "Testing successfully finished")
+endmacro(test_execute_without_path)
+
+macro(test_execute_without_extension TASK)
+    ADD_TEST(NAME test_${TASK}_execute_without_extension COMMAND unixTaskbook  -t ./${TASK} WORKING_DIRECTORY ../test/)
+    SET_TESTS_PROPERTIES(test_${TASK}_execute_without_extension
+        PROPERTIES PASS_REGULAR_EXPRESSION "Testing successfully finished")
+endmacro(test_execute_without_extension)
+
+macro(test_execute_without_path_extension TASK)
+    ADD_TEST(NAME test_${TASK}_execute_without_path_extension COMMAND unixTaskbook  -t ${TASK} WORKING_DIRECTORY ../test/)
+    SET_TESTS_PROPERTIES(test_${TASK}_execute_without_extension
+        PROPERTIES PASS_REGULAR_EXPRESSION "Testing successfully finished")
+endmacro(test_execute_without_path_extension)
+
+macro(test_execute TASK)
+test_execute_with_all(${TASK})
+test_execute_without_extension(${TASK})
+test_execute_without_path(${TASK})
+test_execute_without_path_extension(${TASK})
 endmacro(test_execute)
 
 macro(test_info TASK LANGUAGE)
@@ -92,13 +117,12 @@ foreach(i RANGE 1 16)
     test_info(Thread${i} en)
 endforeach()
 
-test_execute(File14 File14.c)
-test_execute(Shell1 Shell1.c)
-test_execute(Shell6 Shell6.c)
-test_execute(Text11 Text11.c)
-test_execute(Text14 Text14.c)
-test_execute(Shell4 Shell4.c)
-test_execute(Dir9 Dir9.c)
-test_execute(Thread8 Thread8.c)
-test_execute(Thread10 Thread10.c)
+test_execute(Dir9)
+test_execute(Shell1)
+test_execute(Shell6)
+test_execute(Text11)
+test_execute(Text14)
+test_execute(Shell4)
+test_execute(Thread8)
+test_execute(Thread10)
 test_execute_dir(../test)
