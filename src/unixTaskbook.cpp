@@ -470,12 +470,12 @@ void UnixTaskbook::check_program_dir(const std::string &dir)
 		if (print_option)
 		{
 			LOG_PROCESS("\n                           --------------------");
-			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %ld |>>>>>>>>>>>>>>>>>>>>>>>>>>", count + 1);
+			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %d |>>>>>>>>>>>>>>>>>>>>>>>>>>", count + 1);
 			LOG_PROCESS("                           --------------------\n");
 		}
 		else
 		{
-			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %ld |>>>>>>>>>>>>>>>>>>>>>>>>>>", count + 1);
+			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %d |>>>>>>>>>>>>>>>>>>>>>>>>>>", count + 1);
 		}
 
 		execute_run(program);
