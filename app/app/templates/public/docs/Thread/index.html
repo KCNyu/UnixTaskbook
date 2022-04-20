@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)https://kcnyu.github.io/UnixTaskbook/docs/Thread/ -->
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>Thread: работа с потоками POSIX thread, их синхронизация | UnixTaskbook</title>
+  <meta name="generator" content="Jekyll v3.9.0">
+  <meta property="og:title" content="Thread: работа с потоками POSIX thread, их синхронизация">
+  <meta property="og:locale" content="en_US">
+  <meta name="description" content="Development of a system for automatic verification of educational tasks in Linux">
+  <meta property="og:description"
+    content="Development of a system for automatic verification of educational tasks in Linux">
+  <link rel="canonical" href="https://kcnyu.github.io/UnixTaskbook/docs/Thread/">
+  <meta property="og:url" content="https://kcnyu.github.io/UnixTaskbook/docs/Thread/">
+  <meta property="og:site_name" content="UnixTaskbook">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="twitter:title" content="Thread: работа с потоками POSIX thread, их синхронизация">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Development of a system for automatic verification of educational tasks in Linux","headline":"Thread: работа с потоками POSIX thread, их синхронизация","url":"https://kcnyu.github.io/UnixTaskbook/docs/Thread/"}</script>
+  <!-- End Jekyll SEO tag -->
+
+  <link rel="preconnect" href="https://fonts.gstatic.com/">
+  <link rel="preload" href="{{ url_for('static', filename='css/css') }}" as="style" type="text/css" crossorigin="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+  <!-- Setup Google Analytics -->
+
+
+
+  <!-- You can set your favicon here -->
+  <link rel="shortcut icon" type="image/png" href="../../favicon.png">
+  <!-- link rel="shortcut icon" type="image/x-icon" href="/UnixTaskbook/favicon.ico" -->
+
+  <!-- end custom head snippets -->
+
+</head>
+
+<body>
+<div class="nav">
+    <ul class="firstul">
+      <li><a href="/">Main</a></li>
+      <li><a href="/docs/Download">Download</a></li>
+      <li><a href="/docs/Tasks">Tasks</a>
+        <ul class="secondul">
+          <li><a href="/docs/Dir/">Dir</a></li>
+          <li><a href="/docs/File/">File</a></li>
+          <li><a href="/docs/Text/">Text</a></li>
+          <li><a href="/docs/Shell/">Shell</a></li>
+          <li><a href="/docs/Thread/">Thread</a></li>
+        </ul>
+      </li>
+      <li><a href="/check">Check</a></li>
+    </ul>
+  </div>
+  <a id="skip-to-content" href="https://kcnyu.github.io/UnixTaskbook/docs/Thread/#content">Skip to the content.</a>
+
+  <header class="page-header" role="banner">
+    <h1 class="project-name">Thread: работа с потоками POSIX thread, их синхронизация</h1>
+    <h2 class="project-tagline">Development of a system for automatic verification of educational tasks in Linux</h2>
+
+    <!--a href="https://github.com/KCNyu/UnixTaskbook" class="btn">View on GitHub</a-->
+
+
+  </header>
+
+  <main id="content" class="main-content" role="main">
+    <h1 id="thread-работа-с-потоками-posix-thread-их-синхронизация">Thread: работа с потоками POSIX thread, их
+      синхронизация</h1>
+
+    <h2 id="формулировки-задач"><strong><em>Формулировки задач</em></strong></h2>
+
+    <p><strong>Thread1:</strong> Реализовать варианты алгоритма нахождения суммы всех элементов исходного массива.
+      Количество потоков для алгоритмов, использующих потоки, равно 2.</p>
+
+    <hr>
+
+    <p><strong>Thread2:</strong> Реализовать варианты алгоритма нахождения суммы всех элементов исходного массива.
+      Количество потоков для алгоритмов, использующих потоки, равно 4.</p>
+
+    <hr>
+
+    <p><strong>Thread3:</strong> Реализовать варианты алгоритма нахождения суммы всех положительных элементов исходного
+      массива. Количество потоков для алгоритмов, использующих потоки, равно 2.</p>
+
+    <hr>
+
+    <p><strong>Thread4:</strong> Реализовать варианты алгоритма нахождения суммы всех положительных элементов исходного
+      массива. Количество потоков для алгоритмов, использующих потоки, равно 4.</p>
+
+    <hr>
+
+    <p><strong>Thread5:</strong> Реализовать варианты алгоритма нахождения среднего арифметического всех положительных
+      элементов исходного массива. Количество потоков для алгоритмов, использующих потоки, равно 2. Результат должен
+      быть вещественным числом (типа double).</p>
+
+    <hr>
+
+    <p><strong>Thread6:</strong> Реализовать варианты алгоритма нахождения среднего арифметического всех положительных
+      элементов исходного массива. Количество потоков для алгоритмов, использующих потоки, равно 4. Результат должен
+      быть вещественным числом (типа double).</p>
+
+    <hr>
+
+    <p><strong>Thread7:</strong> Реализовать варианты алгоритма нахождения количества всех положительных элементов
+      исходного массива. Количество потоков для алгоритмов, использующих потоки, равно 2.</p>
+
+    <hr>
+
+    <p><strong>Thread8:</strong> Реализовать варианты алгоритма нахождения количества всех положительных элементов
+      исходного массива. Количество потоков для алгоритмов, использующих потоки, равно 4.</p>
+
+    <hr>
+
+    <p><strong>Thread9:</strong> Реализовать варианты алгоритма нахождения суммы индексов всех положительных элементов
+      исходного массива. Количество потоков для алгоритмов, использующих потоки, равно 2. Чтобы избежать переполнения,
+      использовать для хранения суммы индексов переменную типа doubl* **Thread.</p>
+
+    <hr>
+
+    <p><strong>Thread10:</strong> Реализовать варианты алгоритма нахождения суммы индексов всех положительных элементов
+      исходного массива. Количество потоков для алгоритмов, использующих потоки, равно 4. Чтобы избежать переполнения,
+      использовать для хранения суммы индексов переменную типа double.</p>
+
+    <hr>
+
+    <p><strong>Thread11:</strong> Реализовать варианты алгоритма нахождения среднего арифметического всех элементов
+      исходного массива с четными значениями (0, 2, -2, 4, -4, …, 100, -100). Количество потоков для алгоритмов,
+      использующих потоки, равно 2. Результат должен быть вещественным числом (типа double).</p>
+
+    <hr>
+
+    <p><strong>Thread12:</strong> Реализовать варианты алгоритма нахождения среднего арифметического всех элементов
+      исходного массива с четными значениями (0, 2, -2, 4, -4, …, 100, -100). Количество потоков для алгоритмов,
+      использующих потоки, равно 4. Результат должен быть вещественным числом (типа double).</p>
+
+    <hr>
+
+    <p><strong>Thread13:</strong> Реализовать варианты алгоритма нахождения количества всех элементов исходного массива
+      с четными значениями (0, 2, -2, 4, -4, …, 100, -100). Количество потоков для алгоритмов, использующих потоки,
+      равно 2.</p>
+
+    <hr>
+
+    <p><strong>Thread14:</strong> Реализовать варианты алгоритма нахождения количества всех элементов исходного массива
+      с четными значениями (0, 2, -2, 4, -4, …, 100, -100). Количество потоков для алгоритмов, использующих потоки,
+      равно 4.</p>
+
+    <hr>
+
+    <p><strong>Thread15:</strong> Реализовать варианты алгоритма нахождения суммы индексов всех элементов исходного
+      массива с четными значениями (0, 2, -2, 4, -4, …, 100, -100). Количество потоков для алгоритмов, использующих
+      потоки, равно 2. Чтобы избежать переполнения, использовать для хранения суммы индексов переменную типа double.</p>
+
+    <hr>
+
+    <p><strong>Thread16:</strong> Реализовать варианты алгоритма нахождения суммы индексов всех элементов исходного
+      массива с четными значениями (0, 2, -2, 4, -4, …, 100, -100). Количество потоков для алгоритмов, использующих
+      потоки, равно 4. Чтобы избежать переполнения, использовать для хранения суммы индексов переменную типа double.</p>
+
+
+
+  </main>
+
+
+</body>
+
+</html>

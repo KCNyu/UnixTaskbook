@@ -59,4 +59,7 @@ settings.json
 c_cpp_properties.json
 
 #cmake
-/build
+cpp/build
+
+__pycache__
+app/env

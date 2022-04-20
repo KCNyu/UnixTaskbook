@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://kcnyu.github.io/UnixTaskbook/docs/Shell/ -->
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+  <title>Shell: порождение процессов и их взаимодействие | UnixTaskbook</title>
+  <meta name="generator" content="Jekyll v3.9.0">
+  <meta property="og:title" content="Shell: порождение процессов и их взаимодействие">
+  <meta property="og:locale" content="en_US">
+  <meta name="description" content="Development of a system for automatic verification of educational tasks in Linux">
+  <meta property="og:description"
+    content="Development of a system for automatic verification of educational tasks in Linux">
+  <link rel="canonical" href="https://kcnyu.github.io/UnixTaskbook/docs/Shell/">
+  <meta property="og:url" content="https://kcnyu.github.io/UnixTaskbook/docs/Shell/">
+  <meta property="og:site_name" content="UnixTaskbook">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta property="twitter:title" content="Shell: порождение процессов и их взаимодействие">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"Development of a system for automatic verification of educational tasks in Linux","headline":"Shell: порождение процессов и их взаимодействие","url":"https://kcnyu.github.io/UnixTaskbook/docs/Shell/"}</script>
+  <!-- End Jekyll SEO tag -->
+
+  <link rel="preconnect" href="https://fonts.gstatic.com/">
+  <link rel="preload" href="{{ url_for('static', filename='css/css') }}" as="style" type="text/css" crossorigin="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#157878">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+  <!-- Setup Google Analytics -->
+
+
+
+  <!-- You can set your favicon here -->
+  <link rel="shortcut icon" type="image/png" href="../../favicon.png">
+  <!-- link rel="shortcut icon" type="image/x-icon" href="/UnixTaskbook/favicon.ico" -->
+
+  <!-- end custom head snippets -->
+
+</head>
+
+<body>
+<div class="nav">
+    <ul class="firstul">
+      <li><a href="/">Main</a></li>
+      <li><a href="/docs/Download">Download</a></li>
+      <li><a href="/docs/Tasks">Tasks</a>
+        <ul class="secondul">
+          <li><a href="/docs/Dir/">Dir</a></li>
+          <li><a href="/docs/File/">File</a></li>
+          <li><a href="/docs/Text/">Text</a></li>
+          <li><a href="/docs/Shell/">Shell</a></li>
+          <li><a href="/docs/Thread/">Thread</a></li>
+        </ul>
+      </li>
+      <li><a href="/check">Check</a></li>
+    </ul>
+  </div>
+  <a id="skip-to-content" href="https://kcnyu.github.io/UnixTaskbook/docs/Shell/#content">Skip to the content.</a>
+
+  <header class="page-header" role="banner">
+    <h1 class="project-name">Shell: порождение процессов и их взаимодействие</h1>
+    <h2 class="project-tagline">Development of a system for automatic verification of educational tasks in Linux</h2>
+
+    <!--a href="https://github.com/KCNyu/UnixTaskbook" class="btn">View on GitHub</a-->
+
+
+  </header>
+
+  <main id="content" class="main-content" role="main">
+    <h1 id="shell-порождение-процессов-и-их-взаимодействие">Shell: порождение процессов и их взаимодействие</h1>
+
+    <h2 id="формулировки-задач"><strong><em>Формулировки задач</em></strong></h2>
+
+    <p><strong>Shell1:</strong> Написать программу shellD1, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN ; cmdB B1 B2 ... BM  
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция обеспечивает последовательное выполнение команд cmdA и cmdB: вначале запускается команда cmdA с
+      параметрами A1, A2, …, AN, затем запускается команда cmdB с параметрами B1, B2, …, BM. Каждая команда использует
+      стандартный вывод на экран.</p>
+
+    <p>Формат вызова программы shellD1:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD1 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell2:</strong> Написать программу shellD2, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN &amp;&amp; cmdB B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция выполняет следующие действия. Вначале запускается команда cmdA с параметрами A1, A2, …, AN; если
+      эта команда завершилась успешно (код выхода равен 0), то запускается команда cmdB с параметрами B1, B2, …, BM.
+      Каждая команда использует стандартный вывод на экран.
+      Формат вызова программы shellD2:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD2 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell3:</strong> Написать программу shellD3, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN || cmdB B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция выполняет следующие действия. Вначале запускается команда cmdA с параметрами A1, A2, …, AN; если
+      эта команда завершилась с ошибкой (код выхода не равен 0), то запускается команда cmdB с параметрами B1, B2, …,
+      BM. Каждая команда использует стандартный вывод на экран.
+      Формат вызова программы shellD3:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD3 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell4:</strong> Написать программу shellD4, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN | cmdB B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция выполняет следующие действия. Вначале запускается команда cmdA с параметрами A1, A2, …, AN; вывод
+      этой команды перенаправляется на вход команды команда cmdB с параметрами B1, B2, …, BM (т. е. организуется
+      конвейер). Команда cmdB использует стандартный вывод на экран.
+      Формат вызова программы shellD4:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD4 cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell5:</strong> Написать программу shellD5, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN &lt; file
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция обеспечивает выполнение команды cmdA с параметрами A1, A2, …, AN, причем ввод этой команды
+      перенаправляется из файла с именем file (который должен существовать). Команда cmdA использует стандартный вывод
+      на экран.
+      Формат вызова программы shellD5:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD5 file cmdA N A1 A2 ... AN
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell6:</strong> Написать программу shellD6, моделирующую конструкцию командного интерпретатора:
+      19</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN &gt; file
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция обеспечивает выполнение команды cmdA с параметрами A1, A2, …, AN, причем вывод этой команды
+      перенаправляется в файл с именем file. Если указанный файл отсутствует, то он создается, если он существует, то
+      его прежнее содержимое удаляется.
+      Формат вызова программы shellD6:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD6 file cmdA N A1 A2 ... AN
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell7:</strong> Написать программу shellD7, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>cmdA A1 A2 ... AN &gt;&gt; file
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция обеспечивает выполнение команды cmdA с параметрами A1, A2, …, AN, причем вывод этой команды
+      перенаправляется в файл с именем file. Если указанный файл отсутствует, то он создается, если он существует, то
+      новое содержимое добавляется в его конец.
+      Формат вызова программы shellD7:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD7 file cmdA N A1 A2 ... AN
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell8:</strong> Написать программу shellD8, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>( cmdA A1 A2 ... AN ; cmdB B1 B2 ... BM ) &gt; file
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция обеспечивает последовательное выполнение команд cmdA и cmdB: вначале запускается команда cmdA с
+      параметрами A1, A2, …, AN, затем запускается команда cmdB с параметрами B1, B2, …, BM. При этом вывод каждой
+      команды перенаправляется в файл с именем file. Если указанный файл отсутствует, то он создается, если он
+      существует, то его прежнее содержимое удаляется.
+      Формат вызова программы shellD8:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD8 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM
+</code></pre>
+      </div>
+    </div>
+
+    <hr>
+
+    <p><strong>Shell9:</strong> Написать программу shellD9, моделирующую конструкцию командного интерпретатора:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>(cmdA A1 A2 ... AN || cmdB B1 B2 ... BM ) | cmdC C1 C2 ... CP &gt;&gt; file
+</code></pre>
+      </div>
+    </div>
+
+    <p>Эта конструкция выполняет следующие действия. Вначале запускается команда cmdA с параметрами A1, A2, …, AN; если
+      эта программа завершилась с ошибкой (код выхода не равен 0), то запускается команда cmdB с параметрами B1, B2, …,
+      BM. Стандартный вывод успешно проработавшей команды перенаправляется на стандартный ввод команды cmdC с
+      параметрами C1, C2, …, CP. Стандартный вывод команды cmdC перенаправляется в файл file, причем если файл не
+      существует, то он создается, а если существует, то дополняется новыми данными.
+      Формат вызова программы shellD9:</p>
+
+    <div class="language-plaintext highlighter-rouge">
+      <div class="highlight">
+        <pre class="highlight"><code>shellD9 file cmdA N A1 A2 ... AN cmdB M B1 B2 ... BM cmdC P C1 C2 ... CP
+</code></pre>
+      </div>
+    </div>
+
+
+
+  </main>
+
+
+</body>
+
+</html>
