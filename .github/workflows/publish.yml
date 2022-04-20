@@ -53,7 +53,7 @@ jobs:
         tag: ${{ github.ref }}
 
     - name: Upload install script to release
-      working-directory: ${{github.workspace}}
+      working-directory: ${{github.workspace}}/cpp
       if: matrix.os == 'ubuntu-latest'
       uses: svenstaro/upload-release-action@v2
       with:
@@ -63,7 +63,7 @@ jobs:
         tag: ${{ github.ref }}
         
     - name: Upload uninstall script to release
-      working-directory: ${{github.workspace}}
+      working-directory: ${{github.workspace}}/cpp
       if: matrix.os == 'ubuntu-latest'
       uses: svenstaro/upload-release-action@v2
       with:
