@@ -44,30 +44,30 @@ jobs:
       run: cmake --build ./build --config ${{env.BUILD_TYPE}} && ./publish.sh
 
     - name: Upload pakage to release
-      working-directory: ${{github.workspace}}/cpp
+      #working-directory: ${{github.workspace}}/cpp
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ matrix.artifact_name }}.tar.gz
+        file: cpp/${{ matrix.artifact_name }}.tar.gz
         asset_name: ${{ matrix.artifact_name }}.tar.gz
         tag: ${{ github.ref }}
 
     - name: Upload install script to release
-      working-directory: ${{github.workspace}}/cpp
+      #working-directory: ${{github.workspace}}/cpp
       if: matrix.os == 'ubuntu-latest'
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: install.sh
+        file: cpp/install.sh
         asset_name: install.sh
         tag: ${{ github.ref }}
         
     - name: Upload uninstall script to release
-      working-directory: ${{github.workspace}}/cpp
+      #working-directory: ${{github.workspace}}/cpp
       if: matrix.os == 'ubuntu-latest'
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: uninstall.sh
+        file: cpp/uninstall.sh
         asset_name: uninstall.sh
         tag: ${{ github.ref }}
