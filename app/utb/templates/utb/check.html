@@ -1,0 +1,16 @@
+{% extends "utb/layout.html" %}
+{% block title %}
+Check: Отправьте свою программу | UnixTaskbook
+{% endblock %}
+{% block project-name %}
+Check: Отправьте свою программу
+{% endblock %}
+{% block content %}
+<h1 id="Check">Check for UnixTaskbook</h1>
+
+<form method=post enctype=multipart/form-data>
+  {% csrf_token %}
+    <input type=file name=file onchange="form.submit()">
+
+</form>
+{% endblock %}

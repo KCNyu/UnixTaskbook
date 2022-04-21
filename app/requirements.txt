@@ -1,9 +1,9 @@
 ansi2html==1.7.0
-click==8.1.2
-Flask==2.1.1
-importlib-metadata==4.11.3
-itsdangerous==2.1.2
-Jinja2==3.1.1
-MarkupSafe==2.1.1
-Werkzeug==2.1.1
-zipp==3.8.0
+asgiref==3.5.0
+autopep8==1.6.0
+backports.zoneinfo==0.2.1
+Django==4.0.4
+pkg_resources==0.0.0
+pycodestyle==2.8.0
+sqlparse==0.4.2
+toml==0.10.2

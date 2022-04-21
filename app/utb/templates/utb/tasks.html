@@ -1,0 +1,26 @@
+{% extends "utb/layout.html" %}
+{% block title %}
+Tasks | UnixTaskbook
+{% endblock %}
+{% block project-name %}
+Tasks
+{% endblock %}
+{% block content %}
+<h1 id="task">Tasks</h1>
+    <h3
+      id="текущая-версия-задачника-включает-динамические-библиотеки-с-задачами-по-следующим-темам-в-скобках-указывается-количество-задач">
+      <strong>Текущая версия задачника включает динамические библиотеки с задачами по следующим темам (в скобках
+        указывается количество задач):</strong></h3>
+    <ul>
+      <li><strong><em><a href="{% url 'tasks' "dir" %}">Dir: работа с файловой системой Unix
+              (9)</a></em></strong></li>
+      <li><strong><em><a href="{% url 'tasks' "file" %}">File: обработка однострочных символьных
+              файлов (17)</a></em></strong></li>
+      <li><strong><em><a href="{% url 'tasks' "text" %}">Text: обработка многострочных текстовых
+              файлов (16)</a></em></strong></li>
+      <li><strong><em><a href="{% url 'tasks' "shell" %}">Shell: порождение процессов и их
+              взаимодействие (9)</a></em></strong></li>
+      <li><strong><em><a href="{% url 'tasks' "thread" %}">Thread: работа с потоками POSIX
+              thread, их синхронизация (16)</a></em></strong></li>
+    </ul>
+{% endblock %}

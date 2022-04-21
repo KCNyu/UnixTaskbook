@@ -1,0 +1,23 @@
+{% extends "utb/layout.html" %}
+{% block title %}
+FileList | UnixTaskbook
+{% endblock %}
+{% block project-name %}
+FileList
+{% endblock %}
+{% block content %}
+<table class="table table-striped">
+    <tbody>
+    <tr>
+        <td>Filename & URL</td>
+        <td>Filesize</td>
+    </tr>
+    {% for file in files %}
+    <tr>
+        <td><a href="{{ file.file.url }}" rel="external nofollow" >{{ file.file.url }}</a></td>
+        <td>{{ file.file.size | filesizeformat }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "utb/layout.html" %}
+{% block title %}
+Upload: Отправьте свою программу | UnixTaskbook
+{% endblock %}
+{% block project-name %}
+Upload: Отправьте свою программу
+{% endblock %}
+{% block content %}
+<h1 id="Upload">Upload for UnixTaskbook</h1>
+
+<form method=post enctype=multipart/form-data>
+  {% csrf_token %}
+    <input type=file name=file onchange="form.submit()">
+
+</form>
+{% endblock %}

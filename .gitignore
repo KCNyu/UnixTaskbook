@@ -63,3 +63,4 @@ cpp/build
 
 __pycache__
 app/env
+db.sqlite3

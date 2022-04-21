@@ -1,0 +1,14 @@
+{% extends "utb/layout.html" %}
+{% block title %}
+UnixTaskbook | Development of a system for automatic verification of educational tasks in Linux
+{% endblock %}
+{% block project-name %}
+UnixTaskbook
+{% endblock %}
+{% block content %}
+<h1 id="unixtaskbook">UnixTaskbook</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Задачник реализован на языке C++ для Unix и включает ядро, обеспечивающее основную функциональность задачника, и
+расширяемый набор динамических библиотек, каждая из которых содержит набор задач по определенной теме.</p>
+{% load static %} <img src="{% static "utb/images/diagram.png" %}" alt="Hi!" />
+{% endblock %}
