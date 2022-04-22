@@ -427,11 +427,16 @@ void UnixTaskbook::upload_program(const std::string &program)
 		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Uploading program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 	}
 
+	/*
 	initService(is_online);
 	if (is_online)
 	{
 		sendFile(program.c_str());
 	}
+	*/
+	std::string command_csrf = "csrf=`curl -s -o /dev/null -c - '114.132.220.211:8000/upload/' | grep 'csrf' | awk '{print $NF}'` && ";
+	std::string command = command_csrf + R"(curl --request 'POST' --url '114.132.220.211:8000/upload/' --cookie "csrftoken=${csrf}" --form "csrfmiddlewaretoken=${csrf}" --form "file=@)" + task_program_path + "\"";
+	system(command.c_str());
 }
 // check all program files in the directory
 void UnixTaskbook::check_program_dir(const std::string &dir)
