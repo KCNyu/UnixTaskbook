@@ -65,3 +65,4 @@ __pycache__
 app/env
 db.sqlite3
 build/
+app/static
