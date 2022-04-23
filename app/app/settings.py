@@ -25,9 +25,9 @@ MEDIA_URL = '/media/'
 SECRET_KEY = 'django-insecure-(bo(%ap919j$zt*5!8=$8==c)2^0-^^s)k-&48cmol-(i&b$54'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['114.132.220.211']
 
 
 # Application definition
@@ -108,11 +108,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -5,15 +5,18 @@ from .models import File
 from .forms import FileUploadModelForm
 from django.http import HttpResponse
 from ansi2html import Ansi2HTMLConverter
+from django.views.decorators.csrf import csrf_protect
+
  
 # Create your views here.
 # Upload File with ModelForm
- 
+@csrf_protect
 def model_form_upload(request):
     if request.method == "POST":
         form = FileUploadModelForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            file = File(file=request.FILES['file'])
+            file.save()
             return redirect("/file/")
     else:
         form = FileUploadModelForm()
@@ -26,6 +29,7 @@ def file_list(request):
     files = File.objects.all().order_by("-id")
     return render(request, 'utb/file_list.html', {'files': files})
 
+@csrf_protect
 def check(request):
     if request.method == "POST":
         form = FileUploadModelForm(request.POST, request.FILES)
