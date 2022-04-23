@@ -29,9 +29,7 @@ DEBUG = False
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-  os.path.join(BASE_DIR, '/static/'), ##修改地方
-]
+
 
 ALLOWED_HOSTS = ['114.132.220.211']
 
