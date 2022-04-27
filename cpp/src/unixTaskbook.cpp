@@ -426,7 +426,8 @@ void UnixTaskbook::upload_program(const std::string &program)
 	{
 		LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>>| Uploading program |>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 	}
-
+	std::string username = getenv("UTB_USERNAME");
+	std::string password = getenv("UTB_PASSWORD");
 	/*
 	initService(is_online);
 	if (is_online)
@@ -434,9 +435,41 @@ void UnixTaskbook::upload_program(const std::string &program)
 		sendFile(program.c_str());
 	}
 	*/
-	std::string command_csrf = "csrf=`curl -s -o /dev/null -c - '114.132.220.211:8000/upload/' | grep 'csrf' | awk '{print $NF}'` && ";
-	std::string command = command_csrf + R"(curl --request 'POST' --url '114.132.220.211:8000/upload/' --cookie "csrftoken=${csrf}" --form "csrfmiddlewaretoken=${csrf}" --form "file=@)" + task_program_path + "\"";
+	std::string command = R"(LOGIN_URL=114.132.220.211:8000/accounts/login/
+YOUR_USER=)";
+	command += username + "\n" + R"(YOUR_PASS=)";
+	command += password + "\n" + R"(COOKIES=cookies.txt
+CURL_BIN="curl -s -c $COOKIES -b $COOKIES -e $LOGIN_URL"
+
+$CURL_BIN $LOGIN_URL > /dev/null
+CSRF=$(grep 'csrf' $COOKIES | awk '{print $NF}')
+DJANGO_TOKEN="csrfmiddlewaretoken=$CSRF"
+
+$CURL_BIN \
+    -d "$DJANGO_TOKEN&username=$YOUR_USER&password=$YOUR_PASS" \
+    -X POST $LOGIN_URL
+
+$CURL_BIN \
+    --cookie "csrftoken=${CSRF}" \
+    -F "csrfmiddlewaretoken=${CSRF}" \)";
+	command += "\n    ";
+	command += R"(-F "file=@)" + task_program_path + R"(" \
+    -F "username=${YOUR_USER}" \
+    --url '114.132.220.211:8000/upload/'
+	rm -f $COOKIES
+	)";
+	// printf("%s\n", command.c_str());
 	system(command.c_str());
+	if (print_option)
+	{
+		LOG_SUCCESS("\n                            -------------------");
+		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Uploaded program |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		LOG_SUCCESS("                            -------------------\n");
+	}
+	else
+	{
+		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<<<<<<<<| Uploaded program |<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	}
 }
 // check all program files in the directory
 void UnixTaskbook::check_program_dir(const std::string &dir)
