@@ -7,7 +7,8 @@ import uuid
 def user_directory_path(instance, filename):
     #ext = filename.split('.')[-1]
     #filename = '{}.{}'.format(uuid.uuid4().hex[:10], ext)
-    return os.path.join("files", filename)
+    return os.path.join('files', instance.username, filename)
  
 class File(models.Model):
     file = models.FileField(upload_to=user_directory_path, null=True)
+    username = models.CharField(max_length=100, null=True)

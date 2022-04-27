@@ -9,8 +9,8 @@ Upload: Отправьте свою программу
 <h1 id="Upload">Upload for UnixTaskbook</h1>
 
 <form method=post enctype=multipart/form-data>
-  {% csrf_token %}
+    {% csrf_token %}
     <input type=file name=file onchange="form.submit()">
-
+    <input type="hidden" name="username" value={{ user.get_username }}>
 </form>
 {% endblock %}

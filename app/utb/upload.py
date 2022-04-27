@@ -18,6 +18,7 @@ def model_form_upload(request):
         form = FileUploadModelForm(request.POST, request.FILES)
         if form.is_valid():
             file = File(file=request.FILES['file'])
+            file.username = request.user.username
             file.save()
             return redirect("/file/")
     else:
@@ -38,10 +39,13 @@ def check(request):
     if request.method == "POST":
         form = FileUploadModelForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            file = File(file=request.FILES['file'])
+            file.username = request.user.username
+            file.save()
             name = request.FILES['file'].name
             #return HttpResponse(Ansi2HTMLConverter(dark_bg = False).convert(subprocess.run(['unixTaskbook', '-t', './media/files/'+ name], stdout=subprocess.PIPE).stdout.decode('utf-8')).replace('background-color: #AAAAAA', 'background-color: #FFFFFF'), content_type="text/html")
-            return HttpResponse(Ansi2HTMLConverter(dark_bg = False).convert(subprocess.run(['firejail', 'unixTaskbook', '-t', './utb/media/files/'+ name], stdout=subprocess.PIPE).stdout.decode('utf-8')).replace('background-color: #AAAAAA', 'background-color: #FFFFFF'), content_type="text/html")
+            print('./utb/media/files/'+ file.username + '/'+ name)
+            return HttpResponse(Ansi2HTMLConverter(dark_bg = False).convert(subprocess.run(['firejail', 'unixTaskbook', '-t', './utb/media/files/'+ file.username + '/'+ name], stdout=subprocess.PIPE).stdout.decode('utf-8')).replace('background-color: #AAAAAA', 'background-color: #FFFFFF'), content_type="text/html")
     else:
         form = FileUploadModelForm()
  

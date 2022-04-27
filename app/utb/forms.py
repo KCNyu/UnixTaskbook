@@ -5,7 +5,7 @@ from .models import File
 class FileUploadModelForm(forms.ModelForm):
     class Meta:
         model = File
-        fields = ('file',)
+        fields = ('file', 'username')
         widgets = {
             'file': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
