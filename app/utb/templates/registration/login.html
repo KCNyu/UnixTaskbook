@@ -1,5 +1,13 @@
 {% extends "utb/layout.html" %}
 
+{% block title %}
+Login: Войдите, чтобы использовать | UnixTaskbook
+{% endblock %}
+
+{% block project-name %}
+Login: Войдите, чтобы использовать
+{% endblock %}
+
 {% block content %}
 
 {% if form.errors %}
@@ -34,5 +42,7 @@
 
 {# Assumes you set up the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+<p><a href="{% url 'signup' %}">Register</a></p>
+
 
 {% endblock %}

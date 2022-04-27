@@ -12,4 +12,5 @@ urlpatterns = [
     path("upload/", upload.model_form_upload, name="upload"),
     path("check/", upload.check, name="check"),
     path("accounts/", include("django.contrib.auth.urls")),
+    path("signup/", views.SignUpView.as_view(), name="signup"),
 ]

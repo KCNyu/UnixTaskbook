@@ -1,0 +1,18 @@
+{% extends "utb/layout.html" %}
+{% block title %}
+SignUp: Зарегистрируйте наших пользователей | UnixTaskbook
+{% endblock %}
+
+{% block project-name %}
+SignUp: Зарегистрируйте наших пользователей
+{% endblock %}
+
+
+{% block content %}
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+  </form>
+{% endblock %}
