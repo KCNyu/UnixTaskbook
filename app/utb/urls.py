@@ -1,6 +1,7 @@
-from django.urls import path
+from django.urls import include, path
 from utb import views
 from utb import upload
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path("", views.main, name="main"),
@@ -10,4 +11,5 @@ urlpatterns = [
     path("file/", upload.file_list, name="file"),
     path("upload/", upload.model_form_upload, name="upload"),
     path("check/", upload.check, name="check"),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
