@@ -914,14 +914,13 @@ nav {
 }
 
 .firstul li {
-    display: inline-block;
+    float: left;
     list-style: none;
     width: 150px;
     height: 50px;   
     line-height: 25px;
     padding: 12.5px;
     text-align: center;
-    float: left;
     transition: background-color 0.5s linear;
 }
 
@@ -944,19 +943,21 @@ nav {
 
 .secondul {
     /*background-color: #159957;*/
+    visibility: hidden;
     position: relative;
     height: 100px;
     width: 200px;
     margin-left: -50px;
     margin-top: 10px;
-    opacity: 0;
+    opacity: 1;
     transform: translateY(0px);
     transition: transform 0.5s linear, opacity 0.5s ease-in-out;
 }
 
 .firstul li:hover .secondul {
     opacity: 0.8;
-    transform: translateY(10px);
+    transform: translateY(3px);
+    visibility:visible;
 }
 
 .secondul li {
@@ -977,6 +978,6 @@ nav {
     border-color: transparent transparent #159957 transparent;
     position: relative;
     bottom: 100%;
-    left: 0%;
+    left: auto;
     border-style: solid;
 }
