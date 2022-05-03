@@ -42,10 +42,10 @@ public:
 	void compile_program(const std::string &program);
 	void create_test();
 	void execute_program();
-	void check_program_result(int test_num, bool print_option);
+	int check_program_result(int test_num, bool print_option);
 	void upload_program(const std::string &program);
 	void check_program_dir(const std::string &dir);
-	void execute_run(const std::string pre_task_name);
+	int execute_run(const std::string pre_task_name);
 	void parse_task_name(const std::string pre_task_name);
 	void run();
 	~UnixTaskbook();

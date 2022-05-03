@@ -369,15 +369,16 @@ void UnixTaskbook::execute_program()
 		LOG_ERROR("Error during running: %s", compile_out.c_str());
 	}
 }
-void UnixTaskbook::check_program_result(int test_num, bool print_option)
+int UnixTaskbook::check_program_result(int test_num, bool print_option)
 {
 	/*
 	LOG_PROCESS(" ------------------");
 	LOG_PROCESS("| Checking results |");
 	LOG_PROCESS(" ------------------\n");
 	*/
+	int status = tasklib->utb_check_program(test_num);
 
-	switch (tasklib->utb_check_program(test_num))
+	switch (status)
 	{
 	case 0:
 		if (print_option || test_num == tasklib->total_test_count - 1)
@@ -411,8 +412,8 @@ void UnixTaskbook::check_program_result(int test_num, bool print_option)
 		}
 
 		utilities::show_file(tasklib->control_file, "Correct results must be as follows:", 1);
-		exit(EXIT_FAILURE);
 	}
+	return status;
 }
 void UnixTaskbook::upload_program(const std::string &program)
 {
@@ -474,6 +475,19 @@ $CURL_BIN \
 // check all program files in the directory
 void UnixTaskbook::check_program_dir(const std::string &dir)
 {
+	// get directory pure name
+	std::string dir_pure_name = dir;
+	std::string::size_type pos_slash = dir_pure_name.find_last_of("/");
+	if (pos_slash != std::string::npos)
+	{
+		dir_pure_name = dir_pure_name.substr(pos_slash + 1);
+	}
+	std::string dir_result_file = dir_pure_name + "_result.txt";
+	std::vector<std::string> dir_tasks_passed;
+	std::vector<std::string> dir_tasks_failed;
+	std::ofstream result_file(dir_result_file, std::ios::out);
+	auto start = std::chrono::system_clock::now();
+
 	if (print_option)
 	{
 		LOG_PROCESS("                   -------------------------------------");
@@ -516,10 +530,45 @@ void UnixTaskbook::check_program_dir(const std::string &dir)
 			LOG_PROCESS(">>>>>>>>>>>>>>>>>>>>>>>>>>| Checking program %d |>>>>>>>>>>>>>>>>>>>>>>>>>>", count + 1);
 		}
 
-		execute_run(program);
+		int status = execute_run(program);
+		if (status == 0)
+		{
+			dir_tasks_passed.push_back(task_name);
+		}
+		else
+		{
+			dir_tasks_failed.push_back(task_name);
+		}
 		count++;
 	}
+	auto end = std::chrono::system_clock::now();
 
+	std::chrono::duration<double> elapsed_seconds = end - start;
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+	result_file << "=======================Checking program files in " << dir_pure_name << "=====================\n";
+	// total passed tasks
+	result_file << "TOTAL PASSED TASKS：" << dir_tasks_passed.size() << std::endl;
+	// list all passed tasks
+	result_file << "PASSED TASKS：" << std::endl;
+	for (size_t i = 0; i < dir_tasks_passed.size(); i++)
+	{
+		result_file << dir_tasks_passed[i] << std::endl;
+	}
+	result_file << utilities::divider << std::endl;
+	// total failed tasks
+	result_file << "TOTAL FAILED TASKS：" << dir_tasks_failed.size() << std::endl;
+	// list all failed tasks
+	result_file << "FAILED TASKS：" << std::endl;
+	for (size_t i = 0; i < dir_tasks_failed.size(); i++)
+	{
+		result_file << dir_tasks_failed[i] << std::endl;
+	}
+	result_file << utilities::divider << std::endl;
+	// total time
+	result_file << "TOTAL TIME：" << elapsed_seconds.count() << " s" << std::endl;
+	// end time
+	result_file << "END TIME：" << std::ctime(&end_time);
+	result_file.close();
 	if (print_option)
 	{
 		LOG_SUCCESS("\n                      ===============================");
@@ -531,8 +580,10 @@ void UnixTaskbook::check_program_dir(const std::string &dir)
 		LOG_SUCCESS("<<<<<<<<<<<<<<<<<<<<<| Finish checking the directory |<<<<<<<<<<<<<<<<<<<<<");
 	}
 }
-void UnixTaskbook::execute_run(const std::string pre_task_name)
+int UnixTaskbook::execute_run(const std::string pre_task_name)
 {
+	int status = 0;
+
 	srand(time(nullptr));
 
 	parse_task_name(pre_task_name);
@@ -563,7 +614,11 @@ void UnixTaskbook::execute_run(const std::string pre_task_name)
 
 		create_test();
 		execute_program();
-		check_program_result(i, print_option);
+		status = check_program_result(i, print_option);
+		if (status != 0)
+		{
+			return status;
+		}
 
 		// remove test files and control file
 		system("rm *.tst");
@@ -593,6 +648,7 @@ void UnixTaskbook::execute_run(const std::string pre_task_name)
 			upload_program(task_program_path);
 		}
 	}
+	return status;
 }
 void UnixTaskbook::run()
 {

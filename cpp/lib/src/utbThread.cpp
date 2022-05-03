@@ -71,6 +71,7 @@ utbThread::utbThread()
 void utbThread::init_array(unsigned int seed, std::vector<int> &array)
 {
     srand(seed);
+    array.clear();
     array.resize(arrsize);
     for (auto &num : array)
     {
