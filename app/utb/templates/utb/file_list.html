@@ -9,13 +9,19 @@ FileList
 <table class="table table-striped">
     <tbody>
     <tr>
-        <td>Filename & URL</td>
+        <td>Filename</td>
         <td>Filesize</td>
+        <td>Commit count</td>
+        <td>Last modified</td>
+        <td>Success</td>
     </tr>
     {% for file in files %}
     <tr>
-        <td><a href="{{ file.file.url }}" rel="external nofollow" >{{ file.file.url }}</a></td>
+        <td><a href="{{ file.file.url }}" rel="external nofollow" >{{ file.filename }}</a></td>
         <td>{{ file.file.size | filesizeformat }}</td>
+        <td>{{ file.commitcount }}</td>
+        <td>{{ file.modified }}</td>
+        <td>{{ file.success }}</td>
     </tr>
     {% endfor %}
     </tbody>

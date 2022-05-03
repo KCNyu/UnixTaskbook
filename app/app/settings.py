@@ -31,7 +31,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-ALLOWED_HOSTS = ['114.132.220.211']
+ALLOWED_HOSTS = ['114.132.220.211', '127.0.0.1', 'localhost']
 
 
 # Application definition
