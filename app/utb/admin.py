@@ -26,6 +26,6 @@ class FileAdmin(admin.ModelAdmin):
             updated,
         ) % updated, messages.SUCCESS)
     actions = [make_success, make_unsuccess]
-    list_filter = ('username',)
+    list_filter = ('username', 'success')
 
 admin.site.register(File, FileAdmin)

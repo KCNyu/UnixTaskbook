@@ -61,8 +61,10 @@
         </ul>
       </li>
       <li><a href="{% url 'upload' %}">Upload</a>
+        <ul class="secondul">
+          <li><a href="{% url 'check' %}">Check</a></li>
+        </ul>
       <li><a href="{% url 'file' %}">FileList</a>
-      <li><a href="{% url 'check' %}">Check</a>
       {% if user.is_authenticated %}
      <li>User: {{ user.get_username }}</li>
      <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
