@@ -1,7 +1,7 @@
 from django.urls import include, path
 from utb import views
 from utb import upload
-from django.views.generic.base import TemplateView
+from django.views.generic.base import RedirectView
 
 urlpatterns = [
     path("", views.main, name="main"),
@@ -13,4 +13,5 @@ urlpatterns = [
     path("check/", upload.check, name="check"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("signup/", views.SignUpView.as_view(), name="signup"),
+    path('favicon.ico', RedirectView.as_view(url=r'static/utb/favicon.ico')),
 ]
