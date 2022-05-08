@@ -10,6 +10,7 @@ Upload: Отправьте свою программу
 
 <form method=post enctype=multipart/form-data>
     {% csrf_token %}
+    {{ form.file.errors }}
     <input type="file" name="file" onchange="form.submit()">
     <input type="hidden" name="username" value={{ user.get_username }}>
 </form>

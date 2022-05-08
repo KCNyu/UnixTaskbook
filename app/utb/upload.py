@@ -1,7 +1,3 @@
-
-from dataclasses import fields
-from fileinput import filename
-from mimetypes import init
 import subprocess
 from django.shortcuts import render, redirect
 from .models import File
@@ -11,6 +7,7 @@ from ansi2html import Ansi2HTMLConverter
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
+from django.contrib import messages
 
 
 # Create your views here.
@@ -33,6 +30,8 @@ def model_form_upload(request):
             file_instance.modified = timezone.now()
             file_instance.save()
             return redirect("/file/")
+        else:
+            messages.error(request, "Error")
     else:
         form = FileUploadModelForm()
 
