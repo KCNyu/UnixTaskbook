@@ -436,7 +436,7 @@ void UnixTaskbook::upload_program(const std::string &program)
 		sendFile(program.c_str());
 	}
 	*/
-	std::string command = R"(LOGIN_URL=114.132.220.211:8000/accounts/login/
+	std::string command = R"(LOGIN_URL=https://unixtaskbook.com/accounts/login/
 YOUR_USER=)";
 	command += username + "\n" + R"(YOUR_PASS=)";
 	command += password + "\n" + R"(COOKIES=cookies.txt
@@ -456,7 +456,7 @@ $CURL_BIN \
 	command += "\n    ";
 	command += R"(-F "file=@)" + task_program_path + R"(" \
     -F "username=${YOUR_USER}" \
-    --url '114.132.220.211:8000/upload/'
+    --url 'https://unixtaskbook.com/upload/'
 	rm -f $COOKIES
 	)";
 	// printf("%s\n", command.c_str());

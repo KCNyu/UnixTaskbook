@@ -7,8 +7,6 @@
             "args": [
                 "-t",
                 "${fileBasenameNoExtension}",
-                "-p",
-                "${file}"
             ],
             "options": {
                 "cwd": "${fileDirname}"
