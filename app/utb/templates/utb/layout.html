@@ -60,17 +60,21 @@
           <li><a href="{% url 'tasks' "thread" %}">Thread</a></li>
         </ul>
       </li>
-      <li><a href="{% url 'upload' %}">Upload</a>
+      {% if user.is_authenticated %}
+      <li style="float:right"><a>User: {{ user.get_username }}</a>
+        <ul class="secondul">
+          <li><a href="{% url 'file' %}">FileList</a></li>
+          <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+        </ul>
+      </li>
+      {% else %}
+     <li style="float:right"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+      {% endif %}
+      <li style="float:right"><a href="{% url 'upload' %}">Upload</a>
         <ul class="secondul">
           <li><a href="{% url 'check' %}">Check</a></li>
         </ul>
-      <li><a href="{% url 'file' %}">FileList</a>
-      {% if user.is_authenticated %}
-     <li>User: {{ user.get_username }}</li>
-     <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-      {% else %}
-     <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-      {% endif %}
+      </li>
     </ul>
 </div>
   <!-- a id="skip-to-content" href="https://kcnyu.github.io/UnixTaskbook/docs/Dir/#content">Skip to the content.</a -->
