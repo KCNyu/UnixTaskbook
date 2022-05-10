@@ -119,6 +119,10 @@ void UnixTaskbook::parse_task_name(const std::string pre_task_name)
 
 	std::string numerics("0123456789");
 	std::string::size_type pos = this->task_name.find_first_of(numerics);
+	if (pos == std::string::npos)
+	{
+		LOG_ERROR("Task name should be in the format of <task_name><task_num>");
+	}
 #if defined __linux__
 	task_lib_name = std::string("libutb") + this->task_name.substr(0, pos) + ".so";
 #elif defined __APPLE__
@@ -503,16 +507,20 @@ void UnixTaskbook::check_program_dir(const std::string &dir)
 
 	// check all files by using execute_run
 	int count = 0;
+
+	std::string origin_task_name = task_name;
+
 	for (size_t i = 0; i < files.size(); i++)
 	{
 		if (files[i].find(".c") == std::string::npos)
 		{
 			continue;
 		}
-		std::string numerics("0123456789");
-		std::string::size_type pos = task_name.find_first_of(numerics);
+		
+		// std::string numerics("0123456789");
+		// std::string::size_type pos = task_name.find_first_of(numerics);
 
-		if (command_parser.exist("task") && files[i].find(task_name.substr(0, pos)) == std::string::npos && task_name != "*")
+		if (command_parser.exist("task") && files[i].find(origin_task_name) == std::string::npos && task_name != "*")
 		{
 			// std::cout << "Skipping file: " << files[i] << std::endl;
 			// std::cout << "It is not a program for task: " << task_name.substr(0, pos) << std::endl;
