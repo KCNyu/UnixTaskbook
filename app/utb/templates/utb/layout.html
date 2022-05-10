@@ -1,98 +1,111 @@
 <!DOCTYPE html>
-
 <html lang="en-US">
-
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-    <!-- Begin Jekyll SEO tag v2.8.0 -->
-
-    <title>{% block title %}{% endblock %}</title>
-
-    <meta name="generator" content="Jekyll v3.9.0">
-    <meta property="og:title" content="UnixTaskbook">
-    <meta property="og:locale" content="en_US">
-    <meta name="description" content="Development of a system for automatic verification of educational tasks in Linux">
-    <meta property="og:description"
-      content="Development of a system for automatic verification of educational tasks in Linux">
-    <link rel="canonical" href="https://unixTaskbook.com">
-    <meta property="og:url" content="https://unixTaskbook.com">
-    <meta property="og:site_name" content="UnixTaskbook">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
-    <meta property="twitter:title" content="UnixTaskbook">
-    <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","description":"Development of a system for automatic verification of educational tasks in Linux","headline":"UnixTaskbook","name":"UnixTaskbook","url":"https://unixTaskbook.com"}</script>
-    <!-- End Jekyll SEO tag -->
-
-  <link rel="preconnect" href="https://fonts.gstatic.com/">
-  {% load static %}
-  <link rel="preload" type="text/css" href="{% static 'utb/css/font.css' %}"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#157878">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="stylesheet" type="text/css" href="{% static 'utb/css/style.css' %}"/>
-  <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
-
-  <!-- Setup Google Analytics -->
-
-
-
-  <!-- You can set your favicon here -->
-  <!-- link rel="shortcut icon" type="image/png" href="../../favicon.png" -->
-  <!-- link rel="shortcut icon" type="image/x-icon" href="/UnixTaskbook/favicon.ico" -->
-
-  <!-- end custom head snippets -->
-
-</head>
-
-<body>
-<div class="nav">
-    <ul class="firstul">
-      <li><a href="{% url 'main' %}">Main</a></li>
-      <li><a href="{% url 'download' %}">Download</a></li>
-      <li><a href="{% url 'tasks' %}">Tasks</a>
-        <ul class="secondul">
-          <li><a href="{% url 'tasks' "dir" %}">Dir</a></li>
-          <li><a href="{% url 'tasks' "file" %}">File</a></li>
-          <li><a href="{% url 'tasks' "text" %}">Text</a></li>
-          <li><a href="{% url 'tasks' "shell" %}">Shell</a></li>
-          <li><a href="{% url 'tasks' "thread" %}">Thread</a></li>
-        </ul>
-      </li>
-      {% if user.is_authenticated %}
-      <li style="float:right"><a>User: {{ user.get_username }}</a>
-        <ul class="secondul">
-          <li><a href="{% url 'file' %}">FileList</a></li>
-          <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
-        </ul>
-      </li>
-      {% else %}
-     <li style="float:right"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
-      {% endif %}
-      <li style="float:right"><a href="{% url 'upload' %}">Upload</a>
-        <ul class="secondul">
-          <li><a href="{% url 'check' %}">Check</a></li>
-        </ul>
-      </li>
-    </ul>
-</div>
-  <!-- a id="skip-to-content" href="https://kcnyu.github.io/UnixTaskbook/docs/Dir/#content">Skip to the content.</a -->
-
-  <header class="page-header" role="banner">
-    <h1 class="project-name">{% block project-name %}{% endblock %}</h1>
-    <!--h2 class="project-tagline">Development of a system for automatic verification of educational tasks in Linux</h2-->
-
-    <!--a href="https://github.com/KCNyu/UnixTaskbook" class="btn">View on GitHub</a-->
-
-
-  </header>
-
-  <main id="content" class="main-content" role="main">
-    {% block content %}{% endblock %}
-  </main>
-
-
-</body>
-
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Begin Jekyll SEO tag v2.8.0 -->
+        <title>
+            {% block title %}{% endblock %}
+        </title>
+        <meta name="generator" content="Jekyll v3.9.0">
+        <meta property="og:title" content="UnixTaskbook">
+        <meta property="og:locale" content="en_US">
+        <meta name="description"
+              content="Development of a system for automatic verification of educational tasks in Linux">
+        <meta property="og:description"
+              content="Development of a system for automatic verification of educational tasks in Linux">
+        <link rel="canonical" href="https://unixTaskbook.com">
+        <meta property="og:url" content="https://unixTaskbook.com">
+        <meta property="og:site_name" content="UnixTaskbook">
+        <meta property="og:type" content="website">
+        <meta name="twitter:card" content="summary">
+        <meta property="twitter:title" content="UnixTaskbook">
+        <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","description":"Development of a system for automatic verification of educational tasks in Linux","headline":"UnixTaskbook","name":"UnixTaskbook","url":"https://unixTaskbook.com"}
+        </script>
+        <!-- End Jekyll SEO tag -->
+        <link rel="preconnect" href="https://fonts.gstatic.com/">
+        {% load static %}
+        <link rel="preload" type="text/css" href="{% static 'utb/css/font.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=0.55">
+        <meta name="theme-color" content="#157878">
+        <meta name="apple-mobile-web-app-status-bar-style"
+              content="black-translucent">
+        <link rel="stylesheet"
+              type="text/css"
+              href="{% static 'utb/css/style.css' %}"/>
+        <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+        <!-- Setup Google Analytics -->
+        <!-- You can set your favicon here -->
+        <!-- link rel="shortcut icon" type="image/png" href="../../favicon.png" -->
+        <!-- link rel="shortcut icon" type="image/x-icon" href="/UnixTaskbook/favicon.ico" -->
+        <!-- end custom head snippets -->
+    </head>
+    <body>
+        <div class="nav">
+            <ul class="firstul">
+                <li>
+                    <a href="{% url 'main' %}">Main</a>
+                </li>
+                <li>
+                    <a href="{% url 'download' %}">Download</a>
+                </li>
+                <li>
+                    <a href="{% url 'tasks' %}">Tasks</a>
+                    <ul class="secondul">
+                        <li>
+                            <a href="{% url 'tasks' "dir" %}">Dir</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'tasks' "file" %}">File</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'tasks' "text" %}">Text</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'tasks' "shell" %}">Shell</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'tasks' "thread" %}">Thread</a>
+                        </li>
+                    </ul>
+                </li>
+                {% if user.is_authenticated %}
+                    <li style="float:right">
+                        <a>User: {{ user.get_username }}</a>
+                        <ul class="secondul">
+                            <li>
+                                <a href="{% url 'file' %}">FileList</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li style="float:right">
+                        <a href="{% url 'login' %}?next={{ request.path }}">Login</a>
+                    </li>
+                {% endif %}
+                <li style="float:right">
+                    <a href="{% url 'upload' %}">Upload</a>
+                    <ul class="secondul">
+                        <li>
+                            <a href="{% url 'check' %}">Check</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- a id="skip-to-content" href="https://kcnyu.github.io/UnixTaskbook/docs/Dir/#content">Skip to the content.</a -->
+        <header class="page-header" role="banner">
+            <h1 class="project-name">
+                {% block project-name %}{% endblock %}
+            </h1>
+            <!--h2 class="project-tagline">Development of a system for automatic verification of educational tasks in Linux</h2-->
+            <!--a href="https://github.com/KCNyu/UnixTaskbook" class="btn">View on GitHub</a-->
+        </header>
+        <main id="content" class="main-content" role="main">
+            {% block content %}{% endblock %}
+        </main>
+    </body>
 </html>

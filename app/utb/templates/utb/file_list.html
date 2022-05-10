@@ -1,29 +1,27 @@
 {% extends "utb/layout.html" %}
-{% block title %}
-FileList | UnixTaskbook
-{% endblock %}
-{% block project-name %}
-FileList
-{% endblock %}
+{% block title %}FileList | UnixTaskbook{% endblock %}
+{% block project-name %}FileList{% endblock %}
 {% block content %}
-<table class="table table-striped">
-    <tbody>
-    <tr>
-        <td>Filename</td>
-        <td>Filesize</td>
-        <td>Commit count</td>
-        <td>Last modified</td>
-        <td>Success</td>
-    </tr>
-    {% for file in files %}
-    <tr>
-        <td><a href="{{ file.file.url }}" rel="external nofollow" >{{ file.filename }}</a></td>
-        <td>{{ file.file.size | filesizeformat }}</td>
-        <td>{{ file.commitcount }}</td>
-        <td>{{ file.modified }}</td>
-        <td>{{ file.success }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>Filename</td>
+                <td>Filesize</td>
+                <td>Commit count</td>
+                <td>Last modified</td>
+                <td>Success</td>
+            </tr>
+            {% for file in files %}
+                <tr>
+                    <td>
+                        <a href="{{ file.file.url }}" rel="external nofollow">{{ file.filename }}</a>
+                    </td>
+                    <td>{{ file.file.size | filesizeformat }}</td>
+                    <td>{{ file.commitcount }}</td>
+                    <td>{{ file.modified }}</td>
+                    <td>{{ file.success }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
