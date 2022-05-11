@@ -81,4 +81,21 @@ cd ../utbWork/
 mkdir .vscode
 mv * .vscode/
 
+# ask for input username
+echo -n "Please input your username: "
+UTB_USERNAME=$(
+	read -r UTB_USERNAME
+	echo $UTB_USERNAME
+)
+# ask for input password
+echo -n "Please input your password: "
+UTB_PASSWORD=$(
+	read -r UTB_PASSWORD
+	echo $UTB_PASSWORD
+)
+
+# export UTB_SERVICE UTB_USERNAME UTB_PASSWORD to .bashrc
+echo "export UTB_SERVICE=true" >> ~/.bashrc
+echo "export UTB_USERNAME=$UTB_USERNAME" >> ~/.bashrc
+echo "export UTB_PASSWORD=$UTB_PASSWORD" >> ~/.bashrc
 green "Install success!"
