@@ -34,4 +34,11 @@ if [ -a /usr/local/bin/unixTaskbook ]; then
 	sudo rm /usr/local/bin/unixTaskbook
 fi
 
+# delete UTB_SERVICE UTB_USERNAME UTB_PASSWORD in .bashrc
+if [ -a ~/.bashrc ]; then
+	sed -i '/UTB_SERVICE/d' ~/.bashrc
+	sed -i '/UTB_USERNAME/d' ~/.bashrc
+	sed -i '/UTB_PASSWORD/d' ~/.bashrc
+fi
+
 green "Uninstall completed!"

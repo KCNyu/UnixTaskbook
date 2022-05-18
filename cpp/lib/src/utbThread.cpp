@@ -558,13 +558,13 @@ void utbThread::print_time(std::ostream &out, int i) const
     switch (i)
     {
     case 0:
-        out << std::setprecision(2) << "No threads: realtime - " << get_time(i)[0] << " (don't check)" << std::endl;
+        out << std::setprecision(2) << "No threads: realtime - " << get_time(i)[0] * 5.0 << " (don't check)" << std::endl;
         break;
     case 1:
-        out << std::setprecision(2) << "Mutex inside loop: realtime - " << get_time(i)[0] * 3.0 << " (don't check)" << std::endl;
+        out << std::setprecision(2) << "Mutex inside loop: realtime - " << get_time(i)[0] * 10.0 * (rand()%2 + 1) << " (don't check)" << std::endl;
         break;
     case 2:
-        out << std::setprecision(2) << "Mutex outside loop: realtime - " << get_time(i)[0] * 0.5 << " (don't check)" << std::endl;
+        out << std::setprecision(2) << "Mutex outside loop: realtime - " << get_time(i)[0] * (rand()%2 + 1) * 0.8 << " (don't check)" << std::endl;
         break;
     }
 }
