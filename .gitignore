@@ -67,3 +67,5 @@ db.sqlite3
 build/
 app/static
 app/utb/media/files
+uwsgi.pid
+migrations/
