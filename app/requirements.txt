@@ -2,7 +2,7 @@ ansi2html==1.7.0
 asgiref==3.5.0
 autopep8==1.6.0
 backports.zoneinfo==0.2.1
-Django==4.1.7
+Django==4.1.9
 pkg_resources==0.0.0
 pycodestyle==2.8.0
 sqlparse==0.4.4
