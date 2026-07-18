@@ -1,7 +1,7 @@
 ansi2html==1.9.2
 asgiref==3.12.1
 autopep8==2.3.2
-Django==5.2.16
+Django==6.0.7
 pycodestyle==2.14.0
 sqlparse==0.5.5
 toml==0.10.2
