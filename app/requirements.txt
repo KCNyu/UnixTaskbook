@@ -1,8 +1,7 @@
-ansi2html==1.7.0
-asgiref==3.7.2
-autopep8==1.6.0
-backports.zoneinfo==0.2.1
-Django==4.2.30
-pycodestyle==2.8.0
-sqlparse==0.5.4
+ansi2html==1.9.2
+asgiref==3.12.1
+autopep8==2.3.2
+Django==5.2.16
+pycodestyle==2.14.0
+sqlparse==0.5.5
 toml==0.10.2

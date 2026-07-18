@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # Python dependencies for the Django app
+  - package-ecosystem: "pip"
+    directory: "/app"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    # Batch low-risk bumps into a single PR to cut noise. Major bumps are left
+    # out of the group so they arrive as individual PRs and are NOT auto-merged.
+    groups:
+      python-patch-minor:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Keep GitHub Actions (checkout, setup-python, ...) current too
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      actions-patch-minor:
+        update-types:
+          - "minor"
+          - "patch"
