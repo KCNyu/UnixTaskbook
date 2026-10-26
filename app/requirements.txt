@@ -1,5 +1,5 @@
 ansi2html==1.9.5
-asgiref==3.12.1
+asgiref==3.13.0
 autopep8==2.3.2
 Django==5.2.16
 pycodestyle==2.15.0
