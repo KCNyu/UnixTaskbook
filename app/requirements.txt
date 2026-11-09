@@ -3,5 +3,5 @@ asgiref==3.13.0
 autopep8==2.3.2
 Django==5.2.16
 pycodestyle==2.15.0
-sqlparse==0.6.0
+sqlparse==0.6.1
 toml==0.10.2
